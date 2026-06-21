@@ -87,9 +87,4 @@ Set `"autoUpdate": false` to disable startup checks (manual `update` still
 works).
 
 ## Rollback
-
-Each update creates `minecline.js.bak`. To revert:
-
-```bash
-copy minecline.js.bak minecline.js
-```
+Sadly i cant offord cloud backup :(. so no roll backs
