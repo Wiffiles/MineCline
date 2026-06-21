@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.5'
+const VERSION = '2.1.6'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -329,7 +329,7 @@ function createBot(name, host, port) {
   b.on('message', (msg) => {
     if (msg.fromMob) return
     const from = msg.to?.username || 'SERVER'
-    const text = msg.toString().replace(/Â§[0-9a-fk-or]/gi, '').trim()
+    const text = msg.toString().replace(/\xA7[0-9a-fk-or]/gi, '').trim()
     logMsg(name, `<${from}> ${text}`)
     if (discordBridge && discordBridge.botName === name && discordBridge.connected) {
       discordBridge.sendMessage(`**${from}**: ${text}`)
@@ -516,10 +516,10 @@ function addLog(botName, text) {
   redrawPrompt()
 }
 
-function logInfo(botName, msg) { addLog(botName, `${C.g}â—†${C.reset} ${msg}`) }
-function logWarn(botName, msg) { addLog(botName, `${C.y}âš ${C.reset} ${msg}`) }
-function logErr(botName, msg) { addLog(botName, `${C.r}âœ–${C.reset} ${msg}`) }
-function logChat(botName, msg) { addLog(botName, `${C.gry}ðŸ’¬${C.reset} ${msg}`) }
+function logInfo(botName, msg) { addLog(botName, `${C.g}>>${C.reset} ${msg}`) }
+function logWarn(botName, msg) { addLog(botName, `${C.y}!!${C.reset} ${msg}`) }
+function logErr(botName, msg) { addLog(botName, `${C.r}xx${C.reset} ${msg}`) }
+function logChat(botName, msg) { addLog(botName, `${C.gry}>>${C.reset} ${msg}`) }
 function logMsg(botName, msg) { addLog(botName, `${C.c}${msg}${C.reset}`) }
 function logRaw(botName, msg) { addLog(botName, msg) }
 
@@ -577,35 +577,35 @@ function setConfig(cfg, key, val) {
 }
 
 function showConfig(cfg) {
-  logRaw('', `${C.bold}${cfg.name}${C.reset} â€” ${cfg.host}:${cfg.port}  ${cfg.connected ? C.g + 'â—' : C.r + 'â—Œ'}${C.reset}`)
+  logRaw('', `${C.bold}${cfg.name}${C.reset} - ${cfg.host}:${cfg.port}  ${cfg.connected ? C.g + 'O' : C.r + 'o'}${C.reset}`)
   logRaw('', `  autoAfk: ${cfg.autoAfk}  autoJump: ${cfg.autoJump}  autoShift: ${cfg.autoShift}  autoEat: ${cfg.autoEat}  respack: ${cfg.resourcePack}`)
   logRaw('', `  onJoin: [${(cfg.onJoin?.commands || []).join(', ')}] [${(cfg.onJoin?.chat || []).join(', ')}]`)
 }
 
 function printHelp() {
-  logRaw('', `${C.bold}â”€â”€ ${C.c}MineCline v${VERSION}${C.reset} Commands â”€â”€${C.reset}`)
-  logRaw('', `  ${C.g}connect${C.reset} <name,names...> <host> [port] â€” Connect bot(s) (8s delay)`)
-  logRaw('', `  ${C.g}disconnect${C.reset} [name | all]          â€” Disconnect bot(s)`)
-  logRaw('', `  ${C.g}select${C.reset} <name>                  â€” Select single bot`)
-  logRaw('', `  ${C.g}control${C.reset} <name1,name2|all>        â€” Multi-select bots`)
-  logRaw('', `  ${C.g}global${C.reset}                         â€” Clear selection`)
-  logRaw('', `  ${C.g}bots${C.reset}                           â€” List all bots`)
+  logRaw('', `${C.bold}-- ${C.c}MineCline v${VERSION}${C.reset} Commands --${C.reset}`)
+  logRaw('', `  ${C.g}connect${C.reset} <name,names...> <host> [port] - Connect bot(s) (8s delay)`)
+  logRaw('', `  ${C.g}disconnect${C.reset} [name | all]          - Disconnect bot(s)`)
+  logRaw('', `  ${C.g}select${C.reset} <name>                  - Select single bot`)
+  logRaw('', `  ${C.g}control${C.reset} <name1,name2|all>        - Multi-select bots`)
+  logRaw('', `  ${C.g}global${C.reset}                         - Clear selection`)
+  logRaw('', `  ${C.g}bots${C.reset}                           - List all bots`)
   logRaw('', `  ${C.y}Toggles:${C.reset} ${C.g}afk${C.reset}, ${C.g}jump${C.reset}, ${C.g}shift${C.reset}, ${C.g}eat${C.reset}, ${C.g}respack${C.reset}`)
-  logRaw('', `  ${C.g}reconnect${C.reset} â€” Reconnect all saved bots (8s delay)`)
-  logRaw('', `  ${C.g}chat/msg${C.reset} <text>                â€” Send chat`)
-  logRaw('', `  ${C.g}/<cmd>${C.reset}                         â€” Server command`)
-  logRaw('', `  ${C.g}inv${C.reset} [name]                     â€” Show inventory`)
-  logRaw('', `  ${C.g}mcbridge${C.reset} <bot> <token> <chan> â€” MCâ†”Discord bridge`)
-  logRaw('', `  ${C.g}bridge stop${C.reset}                    â€” Stop bridge`)
-  logRaw('', `  ${C.g}config${C.reset} [name] [set k v]        â€” View/change config`)
-  logRaw('', `  ${C.g}onjoin${C.reset} <name> add cmd|chat     â€” Join actions`)
-  logRaw('', `  ${C.g}clear${C.reset}, ${C.g}save${C.reset}, ${C.g}quit${C.reset} â€” Utility`)
-  logRaw('', `  ${C.g}update${C.reset} â€” Check for updates`)
-  logRaw('', `  ${C.g}group${C.reset} list|create|delete|rename|add|remove â€” Bot groups`)
-  logRaw('', `  ${C.g}savecmd${C.reset} list|add|remove|run â€” Saved commands`)
-  logRaw('', `  ${C.g}script${C.reset} list|create|delete|addstep|run â€” Script runner`)
-  logRaw('', `  ${C.g}players${C.reset} [name] â€” List players seen by a bot`)
-  logRaw('', `  ${C.g}save${C.reset} â€” Save config to disk`)
+  logRaw('', `  ${C.g}reconnect${C.reset} - Reconnect all saved bots (8s delay)`)
+  logRaw('', `  ${C.g}chat/msg${C.reset} <text>                - Send chat`)
+  logRaw('', `  ${C.g}/<cmd>${C.reset}                         - Server command`)
+  logRaw('', `  ${C.g}inv${C.reset} [name]                     - Show inventory`)
+  logRaw('', `  ${C.g}mcbridge${C.reset} <bot> <token> <chan> - MC-Discord bridge`)
+  logRaw('', `  ${C.g}bridge stop${C.reset}                    - Stop bridge`)
+  logRaw('', `  ${C.g}config${C.reset} [name] [set k v]        - View/change config`)
+  logRaw('', `  ${C.g}onjoin${C.reset} <name> add cmd|chat     - Join actions`)
+  logRaw('', `  ${C.g}clear${C.reset}, ${C.g}save${C.reset}, ${C.g}quit${C.reset} - Utility`)
+  logRaw('', `  ${C.g}update${C.reset} - Check for updates`)
+  logRaw('', `  ${C.g}group${C.reset} list|create|delete|rename|add|remove - Bot groups`)
+  logRaw('', `  ${C.g}savecmd${C.reset} list|add|remove|run - Saved commands`)
+  logRaw('', `  ${C.g}script${C.reset} list|create|delete|addstep|run - Script runner`)
+  logRaw('', `  ${C.g}players${C.reset} [name] - List players seen by a bot`)
+  logRaw('', `  ${C.g}save${C.reset} - Save config to disk`)
 }
 
 function execCmd(raw) {
@@ -620,7 +620,7 @@ function execCmd(raw) {
   const cmd = parts[0].toLowerCase()
   const args = parts.slice(1)
 
-  //  quit / exit â•â•
+  //  quit / exit ----
   if (cmd === 'quit' || cmd === 'exit') {
     exitFlag = true
     if (discordBridge) discordBridge.stop()
@@ -629,7 +629,7 @@ function execCmd(raw) {
     return
   }
 
-  //  help / clear â•â•
+  //  help / clear ----
   if (cmd === 'help') {
     if (args[0]) {
       const details = {
@@ -669,7 +669,7 @@ function execCmd(raw) {
   }
   if (cmd === 'clear') { logLines = []; logInfo('', 'Log cleared'); return }
 
-  //  connect â•â•
+  //  connect ----
   if (cmd === 'connect') {
     if (args.length < 2) { logErr('', 'Usage: connect <name,names...> <host> [port]'); return }
     const rawNames = args[0]
@@ -686,7 +686,7 @@ function execCmd(raw) {
     return
   }
 
-  //  disconnect â•â•
+  //  disconnect ----
   if (cmd === 'disconnect') {
     if (args[0] === 'all') { for (const n of Object.keys(bots)) disconnectBot(n); return }
     const name = args[0] || activeBot
@@ -695,18 +695,18 @@ function execCmd(raw) {
     return
   }
 
-  //  bots â•â•
+  //  bots ----
   if (cmd === 'bots') {
     const names = Object.keys(bots)
     if (names.length === 0) { logInfo('', 'No bots configured'); return }
     for (const n of names) {
       const b = bots[n]
-      logRaw('', `${C.bold}${n}${C.reset} â€” ${b.connected ? C.g + 'â—' : C.r + 'â—Œ'}${C.reset} ${b.host}:${b.port} ${C.dim}AFK:${b.afkEnabled ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Eat:${b.autoEat ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Jump:${b.autoJump ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Shift:${b.autoShift ? C.g + 'ON' : 'OFF'}${C.reset}`)
+      logRaw('', `${C.bold}${n}${C.reset} - ${b.connected ? C.g + 'O' : C.r + 'o'}${C.reset} ${b.host}:${b.port} ${C.dim}AFK:${b.afkEnabled ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Eat:${b.autoEat ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Jump:${b.autoJump ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Shift:${b.autoShift ? C.g + 'ON' : 'OFF'}${C.reset}`)
     }
     return
   }
 
-  //  select â•â•
+  //  select ----
   if (cmd === 'select') {
     if (!args[0]) { logErr('', 'Usage: select <name>'); return }
     if (!bots[args[0]]) { logErr('', `No bot "${args[0]}"`); return }
@@ -715,7 +715,7 @@ function execCmd(raw) {
     return
   }
 
-  //  control â•â•
+  //  control ----
   if (cmd === 'control') {
     if (args.length === 0) {
       if (selMode === 'multi' && activeBots.size > 0) logInfo('', `Multi: ${C.m}${[...activeBots].join(', ')}${C.reset}`)
@@ -743,7 +743,7 @@ function execCmd(raw) {
     return
   }
 
-  //  global â•â•
+  //  global ----
   if (cmd === 'global' || cmd === 'gloval') {
     const all = Object.keys(bots)
     if (all.length === 0) { logErr('', 'No bots'); return }
@@ -795,7 +795,7 @@ function execCmd(raw) {
     scheduleSave(); return
   }
 
-  //  reconnect (reconnect all saved bots) â•â•
+  //  reconnect ----
   if (cmd === 'reconnect') {
     const all = Object.keys(bots).filter(n => bots[n].host)
     if (all.length === 0) { logErr('', 'No saved bots'); return }
@@ -812,7 +812,7 @@ function execCmd(raw) {
     scheduleSave(); return
   }
 
-  //  chat / msg â•â•
+  //  chat / msg ----
   if (cmd === 'chat' || cmd === 'msg') {
     const text = args.join(' ')
     if (!text) { logErr('', 'Usage: chat <text>'); return }
@@ -823,7 +823,7 @@ function execCmd(raw) {
     return
   }
 
-  //  players â•â•
+  //  players ----
   if (cmd === 'players') {
     const targets = getTargets(args[0] || null)
     if (targets.length === 0) return
@@ -835,7 +835,7 @@ function execCmd(raw) {
     return
   }
 
-  //  /command â•â•
+  //  /command ----
   if (cmd.startsWith('/')) {
     if (!forTargets(null, (t) => {
       if (!t.bot || !t.connected) { logErr(t.name, 'Not connected'); return }
@@ -844,27 +844,27 @@ function execCmd(raw) {
     return
   }
 
-  //  inv (inventory viewer) â•â•
+  //  inv ----
   if (cmd === 'inv') {
     const targets = getTargets(args[0] || null)
     if (targets.length === 0) return
     for (const cfg of targets) {
       if (!cfg.bot || !cfg.connected) { logErr(cfg.name, 'Not connected'); continue }
       logRaw(cfg.name, `${C.bold}Inventory:${C.reset}`)
-      if (cfg.heldItem) logRaw(cfg.name, `  ${C.gry}âœŠ${C.reset} Held: ${C.bold}${cfg.heldItem.name}${C.reset} x${cfg.heldItem.count} (slot ${cfg.heldItem.slot})`)
+      if (cfg.heldItem) logRaw(cfg.name, `  ${C.gry}[*]${C.reset} Held: ${C.bold}${cfg.heldItem.name}${C.reset} x${cfg.heldItem.count} (slot ${cfg.heldItem.slot})`)
       if (cfg.armor.length > 0) {
         const armorStr = cfg.armor.map(a => `${C.c}${a.name}${C.reset}`).join(', ')
-        logRaw(cfg.name, `  ${C.gry}ðŸª–${C.reset} Armor: ${armorStr}`)
+        logRaw(cfg.name, `  ${C.gry}[A]${C.reset} Armor: ${armorStr}`)
       }
       if (cfg.inventoryItems.length === 0) { logRaw(cfg.name, `  ${C.dim}(empty)${C.reset}`); continue }
       const hotbar = cfg.inventoryItems.filter(i => i.slot < 9)
       const rest = cfg.inventoryItems.filter(i => i.slot >= 9)
-      logRaw(cfg.name, `  ${C.gry}ðŸ“¦${C.reset} ${C.bold}Hotbar:${C.reset}`)
+      logRaw(cfg.name, `  ${C.gry}[i]${C.reset} ${C.bold}Hotbar:${C.reset}`)
       for (const item of hotbar) {
         logRaw(cfg.name, `    [${item.slot}] ${item.name} x${item.count}`)
       }
       if (rest.length > 0) {
-        logRaw(cfg.name, `  ${C.gry}ðŸ“¦${C.reset} ${C.bold}Inventory:${C.reset}`)
+        logRaw(cfg.name, `  ${C.gry}[i]${C.reset} ${C.bold}Inventory:${C.reset}`)
         for (const item of rest) {
           logRaw(cfg.name, `    [${item.slot}] ${item.name} x${item.count}`)
         }
@@ -874,7 +874,7 @@ function execCmd(raw) {
     return
   }
 
-  //  mcbridge / bridge â•â•
+  //  mcbridge / bridge ----
   if (cmd === 'mcbridge' || cmd === 'bridge') {
     if (args[0] === 'stop') {
       if (discordBridge) { discordBridge.stop(); logInfo('', 'Discord bridge stopped') }
@@ -899,11 +899,11 @@ function execCmd(raw) {
       const clean = content.replace(/@/g, '@\u200b')
       try { bots[botName].bot.chat(clean); logChat(botName, `[Discord] ${username}: ${clean}`) } catch {}
     }
-    logInfo(botName, `Bridge started â†’ channel ${channelId}`)
+    logInfo(botName, `Bridge started -> channel ${channelId}`)
     return
   }
 
-  //  config â•â•
+  //  config ----
   if (cmd === 'config') {
     // config <bot> set <key> <val>
     if (args.length >= 4 && bots[args[0]] && args[1] === 'set') {
@@ -929,7 +929,7 @@ function execCmd(raw) {
     return
   }
 
-  //  onjoin â•â•
+  //  onjoin ----
   if (cmd === 'onjoin') {
     if (args.length < 2) { logErr('', 'Usage: onjoin <name> add command|chat <text> | list | remove <idx>'); return }
     const name = args[0]
@@ -965,10 +965,10 @@ function execCmd(raw) {
     return
   }
 
-  //  update â•â•
+  //  update ----
   if (cmd === 'update') { checkAutoUpdate(); return }
 
-  //  group â•â•
+  //  group ----
   if (cmd === 'group') {
     if (args[0] === 'list') {
       const entries = Object.entries(botGroups)
@@ -1005,7 +1005,7 @@ function execCmd(raw) {
     return
   }
 
-  //  savecmd â•â•
+  //  savecmd ----
   if (cmd === 'savecmd') {
     if (args[0] === 'list') {
       if (savedCommands.length === 0) logInfo('', 'No saved commands')
@@ -1035,7 +1035,7 @@ function execCmd(raw) {
     return
   }
 
-  //  script â•â•
+  //  script ----
   if (cmd === 'script') {
     if (args[0] === 'list') {
       const entries = Object.entries(savedScripts)
@@ -1076,7 +1076,7 @@ function execCmd(raw) {
     return
   }
 
-  //  save â•â•
+  //  save ----
   if (cmd === 'save') { saveConfig(); logInfo('', 'Config saved'); return }
 
   logErr('', `Unknown: "${cmd}". Type ${C.bold}help${C.reset}.`)
@@ -1087,7 +1087,7 @@ function execCmd(raw) {
 function onKeypress(str, key) {
   if (!key) return
   if (key.ctrl && key.name === 'c') { cleanup(); process.exit(0) }
-  if (key.ctrl && key.name === 'l') { logInfo('', 'â€”'.repeat(20)); return }
+  if (key.ctrl && key.name === 'l') { logInfo('', '-'.repeat(20)); return }
 
   if (key.name === 'return' || key.name === 'enter') {
     const cmd = input; input = ''; cursor = 0
@@ -1176,7 +1176,7 @@ function doUpdate(remoteVer) {
   let dlDone = false
 
   const startTime = Date.now()
-  const animFrames = ['â£¾', 'â£½', 'â£»', 'â¢¿', 'â¡¿', 'â£Ÿ', 'â£¯', 'â£·']
+  const animFrames = ['|', '/', '-', '\\']
   let frame = 0
   let lastProgress = 0
 
@@ -1185,9 +1185,9 @@ function doUpdate(remoteVer) {
     const overallPct = Math.min(100, Math.round((pct * 0.5 + (elapsed / 8000) * 0.5) * 100))
     const w = 30
     const filled = Math.round(w * overallPct / 100)
-    const bar = `${C.g}${'â–ˆ'.repeat(filled)}${C.dim}${'â–‘'.repeat(w - filled)}${C.reset}`
+    const bar = `${C.g}${'#'.repeat(filled)}${C.dim}${'.'.repeat(w - filled)}${C.reset}`
     const spinner = animFrames[frame % animFrames.length]
-    const prefix = overallPct < 100 ? `${C.bold}${C.c}${spinner}${C.reset} ${C.bold}UPDATE${C.reset}` : `${C.g}${C.bold}âœ”${C.reset} ${C.bold}UPDATE${C.reset}`
+    const prefix = overallPct < 100 ? `${C.bold}${C.c}${spinner}${C.reset} ${C.bold}UPDATE${C.reset}` : `${C.g}${C.bold}OK${C.reset} ${C.bold}UPDATE${C.reset}`
     process.stdout.write(`\r${prefix} ${bar} ${C.bold}${overallPct}%${C.reset} ${C.dim}${status || ''}${C.reset}\x1b[K`)
     if (overallPct < 100) frame++
   }
@@ -1198,7 +1198,7 @@ function doUpdate(remoteVer) {
     if (dlDone && Date.now() - startTime >= 8000) {
       clearInterval(animInterval)
       const color = hadError ? C.r : C.g
-      const icon = hadError ? 'âœ–' : 'âœ”'
+      const icon = hadError ? 'x' : '+'
       process.stdout.write(`\r${color}${C.bold}${icon}${C.reset} ${C.bold}UPDATE${C.reset} ${hadError ? `${C.r}completed with errors${C.reset}` : `${C.g}to v${remoteVer}${C.reset}`} ${C.dim}(8.0s)${C.reset}\x1b[K\n`)
       if (hadError) { redrawPrompt(); return }
       logInfo('', `${C.g}Updated to v${remoteVer}! Restarting...${C.reset}`)
@@ -1269,7 +1269,7 @@ function checkAutoUpdate() {
         } else if (appConfig.autoUpdate) {
           promptUpdate(VERSION, remoteVer)
         } else {
-          logInfo('', `Update available: v${VERSION} â†’ ${C.c}v${remoteVer}${C.reset} (use "update" to install)`)
+          logInfo('', `Update available: v${VERSION} -> ${C.c}v${remoteVer}${C.reset} (use "update" to install)`)
           redrawPrompt()
         }
       }, 500)
@@ -1286,7 +1286,7 @@ function cleanup() {
 }
 
 function init() {
-  try { fs.writeFileSync(LOG_PATH, '', 'utf8') } catch {} // Â¯\_(ãƒ„)_/Â¯
+  try { fs.writeFileSync(LOG_PATH, '', 'utf8') } catch {} // clear log
   process.stdout.write('\x1b[?25l')
   loadConfig()
   registerLifecycle()
@@ -1295,17 +1295,16 @@ function init() {
 
 function showLogo() {
   const logo = [
-    `${C.m}  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${C.reset}`,
-    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ–ˆâ•—   â–ˆâ–ˆâ–ˆâ•—${C.reset}${C.g}â–ˆâ–ˆâ•—${C.reset}${C.y}â–ˆâ–ˆâ–ˆâ•—${C.reset}   ${C.b}â–ˆâ–ˆâ•—${C.reset}  ${C.m}â•‘${C.reset}`,
-    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ•‘${C.reset}${C.g}â–ˆâ–ˆâ•‘${C.reset}${C.y}â–ˆâ–ˆâ–ˆâ–ˆâ•—${C.reset}  ${C.b}â–ˆâ–ˆâ•‘${C.reset}  ${C.m}â•‘${C.reset}`,
-    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ•”â–ˆâ–ˆâ–ˆâ–ˆâ•”â–ˆâ–ˆâ•‘${C.reset}${C.g}â–ˆâ–ˆâ•‘${C.reset}${C.y}â–ˆâ–ˆâ•”â–ˆâ–ˆâ•—${C.reset} ${C.b}â–ˆâ–ˆâ•‘${C.reset}  ${C.m}â•‘${C.reset}`,
-    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ•‘â•šâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘${C.reset}${C.g}â–ˆâ–ˆâ•‘${C.reset}${C.y}â–ˆâ–ˆâ•‘â•šâ–ˆâ–ˆâ•—${C.reset}${C.b}â–ˆâ–ˆâ•‘${C.reset}  ${C.m}â•‘${C.reset}`,
-    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ•‘ â•šâ•â• â–ˆâ–ˆâ•‘${C.reset}${C.g}â–ˆâ–ˆâ•‘${C.reset}${C.y}â–ˆâ–ˆâ•‘ â•šâ–ˆâ–ˆâ–ˆâ–ˆâ•‘${C.reset}  ${C.m}â•‘${C.reset}`,
-    `${C.m}  â•‘${C.reset}  ${C.c}â•šâ•â•     â•šâ•â•${C.reset}${C.g}â•šâ•â•${C.reset}${C.y}â•šâ•â•  â•šâ•â•â•â•${C.reset}  ${C.m}â•‘${C.reset}`,
-    `${C.m}  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${C.reset}`,
+    `${C.g}  ██▄  ▄██ ▄▄ ▄▄  ▄▄ ▄▄▄▄▄ ▄█████ ▄▄    ▄▄ ▄▄  ▄▄ ▄▄▄▄▄ ${C.reset}`,
+    `${C.c}  ██ ▀▀ ██ ██ ███▄██ ██▄▄  ██     ██    ██ ███▄██ ██▄▄  ${C.reset}`,
+    `${C.b}  ██    ██ ██ ██ ▀██ ██▄▄▄ ▀█████ ██▄▄▄ ██ ██ ▀██ ██▄▄▄ ${C.reset}`,
   ]
 
-  const bars = ['â–â–‚â–ƒâ–„â–…â–†â–‡â–ˆâ–‡â–†â–…â–„â–ƒâ–‚â–', 'â–ˆâ–‡â–†â–…â–„â–ƒâ–‚â–â–‚â–ƒâ–„â–…â–†â–‡â–ˆ', 'â–â–ƒâ–…â–‡â–ˆâ–‡â–…â–ƒâ–', 'â–ˆâ–†â–„â–‚â–„â–†â–ˆ']
+  const bar1 = '█' + '▓'.repeat(10) + '▒'.repeat(4) + '░'
+  const bar2 = '░' + '█' + '▓'.repeat(9) + '▒'.repeat(4)
+  const bar3 = '░' + '▒' + '█' + '▓'.repeat(8) + '▒'.repeat(3)
+  const bar4 = '░' + '▒'.repeat(3) + '▓'.repeat(8) + '█'
+  const bars = [bar1, bar2, bar3, bar4]
   const msgs = ['  firing up mineflayer...', '  loading your bots...', '  almost there...', '  ready!']
 
   let step = 0, frame = 0
@@ -1334,8 +1333,8 @@ function showLogo() {
     const titleBare = stripAnsi(title)
     const dash = Math.max(0, w - titleBare.length - 2)
     const left = Math.floor(dash / 2); const right = dash - left
-    process.stdout.write(`â”Œ${'â”€'.repeat(left)}${title}${'â”€'.repeat(right)}â”\n`)
-    logInfo('', `${C.dim}ready â€” type ${C.c}help${C.dim} for commands${C.reset}`)
+    process.stdout.write(` ${'='.repeat(Math.max(0, left - 1))}${title}${'='.repeat(Math.max(0, right - 1))} \n`)
+    logInfo('', `${C.dim}ready - type ${C.c}help${C.dim} for commands${C.reset}`)
 
     setTimeout(checkAutoUpdate, 2000)
 
