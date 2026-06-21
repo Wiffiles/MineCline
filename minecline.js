@@ -21,7 +21,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.3'
+const VERSION = '2.1.4'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const REPO_BASE_REF = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
