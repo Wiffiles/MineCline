@@ -7,15 +7,21 @@ const express = require('express')
 const http = require('http')
 const { WebSocketServer } = require('ws')
 
-//  suppress noisy minecraft-protocol partial-read warnings on stderr
+//  suppress noisy minecraft-protocol partial-read warnings
 const _stderrWrite = process.stderr.write.bind(process.stderr)
-process.stderr.write = (buf, enc, cb) => {
+const _stdoutWrite = process.stdout.write.bind(process.stdout)
+const _consoleWarn = console.warn
+const _consoleError = console.error
+function _isJunk(buf) {
   const s = Buffer.isBuffer(buf) ? buf.toString() : String(buf)
-  if (s.includes('chunk size') || s.includes('partial packet') || s.includes('but only')) return true
-  return _stderrWrite(buf, enc, cb)
+  return s.includes('chunk size') || s.includes('partial packet') || s.includes('but only') || s.includes('PartialReadError') || s.includes('Read error for undefined')
 }
+process.stderr.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return _stderrWrite(buf, enc, cb) }
+process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return _stdoutWrite(buf, enc, cb) }
+console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
+console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.1'
+const VERSION = '2.1.2'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const REPO_BASE_REF = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
