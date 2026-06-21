@@ -24,3 +24,50 @@
 5:32:59 PM []   group list|create|delete|add|remove — Bot groups
 5:32:59 PM []   savecmd list|add|remove|run — Saved commands
 5:32:59 PM []   script list|create|delete|addstep|run — Script runner
+5:55:26 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+5:55:27 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
+5:55:29 PM [syzdark] ✖ Kicked: {"text":"DDoS Mitigation: ","color":"red","extra":[{"text":"Please Reconnect to the server.","color":"white"}]}
+5:55:29 PM [syzdark] ⚠ Disconnected: socketClosed
+5:56:30 PM [] Web dashboard: enabled on port 3000
+5:56:32 PM [] Web dashboard: enabled on port 3000
+5:56:34 PM [] ◆ Web server disabled
+5:56:47 PM [] ◆ Web server disabled
+5:56:49 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+5:56:49 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
+5:56:54 PM [syzdark] ✖ Kicked: {"text":"DDoS Mitigation: ","color":"red","extra":[{"text":"Please Reconnect to the server.","color":"white"}]}
+5:56:54 PM [syzdark] ⚠ Disconnected: socketClosed
+5:56:55 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+5:56:55 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
+5:58:01 PM [syzdark] ✖ read ECONNRESET
+5:58:01 PM [syzdark] ⚠ Disconnected: socketClosed
+6:02:17 PM [] ── MineCline v2.1.0 Commands ──
+6:02:17 PM []   connect <name,names...> <host> [port] — Connect bot(s) (8s delay)
+6:02:17 PM []   disconnect [name | all]          — Disconnect bot(s)
+6:02:17 PM []   select <name>                  — Select single bot
+6:02:17 PM []   control <name1,name2|all>        — Multi-select bots
+6:02:17 PM []   global                         — Clear selection
+6:02:17 PM []   bots                           — List all bots
+6:02:17 PM []   Toggles: afk, jump, shift, eat, respack
+6:02:17 PM []   reconnect — Reconnect all saved bots (8s delay)
+6:02:17 PM []   chat <text>                    — Send chat
+6:02:17 PM []   /<cmd>                         — Server command
+6:02:17 PM []   inv [name]                     — Show inventory
+6:02:17 PM []   mcbridge <bot> <token> <chan> — MC↔Discord bridge
+6:02:17 PM []   bridge stop                    — Stop bridge
+6:02:17 PM []   config [name] [set k v]        — View/change config
+6:02:17 PM []   onjoin <name> add cmd|chat     — Join actions
+6:02:17 PM []   clear, save, quit — Utility
+6:02:17 PM []   update — Check for updates
+6:02:17 PM []   web [port|on|off] — Web dashboard config
+6:02:17 PM []   group list|create|delete|add|remove — Bot groups
+6:02:17 PM []   savecmd list|add|remove|run — Saved commands
+6:02:17 PM []   script list|create|delete|addstep|run — Script runner
+6:02:20 PM [] ✖ Usage: group list | create <name> | delete <name> | add <group> <bot> | remove <group> <bot>
+6:07:11 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+6:07:11 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
+6:07:13 PM [syzdark] ✖ Kicked: {"text":"DDoS Mitigation: ","color":"red","extra":[{"text":"Please Reconnect to the server.","color":"white"}]}
+6:07:13 PM [syzdark] ⚠ Disconnected: socketClosed
+6:07:15 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+6:07:15 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
+6:07:46 PM [syzdark] ⚠ Disconnected: socketClosed
+6:08:05 PM [syzdark] ✖ read ECONNRESET

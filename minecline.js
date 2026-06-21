@@ -7,6 +7,14 @@ const express = require('express')
 const http = require('http')
 const { WebSocketServer } = require('ws')
 
+//  suppress noisy minecraft-protocol partial-read warnings on stderr
+const _stderrWrite = process.stderr.write.bind(process.stderr)
+process.stderr.write = (buf, enc, cb) => {
+  const s = Buffer.isBuffer(buf) ? buf.toString() : String(buf)
+  if (s.includes('chunk size') || s.includes('partial packet') || s.includes('but only')) return true
+  return _stderrWrite(buf, enc, cb)
+}
+
 const VERSION = '2.1.0'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const REPO_BASE_REF = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main'
@@ -544,9 +552,9 @@ function getTargets(name) {
 const CMD_LIST = [
   'connect', 'disconnect', 'bots', 'select', 'global', 'control',
   'afk', 'jump', 'shift', 'eat', 'reconnect', 'respack',
-  'chat', 'inv', 'mcbridge', 'bridge',
+  'chat', 'msg', 'inv', 'mcbridge', 'bridge',
   'config', 'onjoin', 'clear', 'help', 'quit', 'exit',
-  'update', 'web', 'group', 'savecmd', 'script',
+  'update', 'web', 'group', 'savecmd', 'script', 'players', 'save',
 ]
 
 function forTargets(name, fn) {
@@ -585,7 +593,7 @@ function printHelp() {
   logRaw('', `  ${C.g}bots${C.reset}                           — List all bots`)
   logRaw('', `  ${C.y}Toggles:${C.reset} ${C.g}afk${C.reset}, ${C.g}jump${C.reset}, ${C.g}shift${C.reset}, ${C.g}eat${C.reset}, ${C.g}respack${C.reset}`)
   logRaw('', `  ${C.g}reconnect${C.reset} — Reconnect all saved bots (8s delay)`)
-  logRaw('', `  ${C.g}chat${C.reset} <text>                    — Send chat`)
+  logRaw('', `  ${C.g}chat/msg${C.reset} <text>                — Send chat`)
   logRaw('', `  ${C.g}/<cmd>${C.reset}                         — Server command`)
   logRaw('', `  ${C.g}inv${C.reset} [name]                     — Show inventory`)
   logRaw('', `  ${C.g}mcbridge${C.reset} <bot> <token> <chan> — MC↔Discord bridge`)
@@ -595,9 +603,11 @@ function printHelp() {
   logRaw('', `  ${C.g}clear${C.reset}, ${C.g}save${C.reset}, ${C.g}quit${C.reset} — Utility`)
   logRaw('', `  ${C.g}update${C.reset} — Check for updates`)
   logRaw('', `  ${C.g}web${C.reset} [port|on|off] — Web dashboard config`)
-  logRaw('', `  ${C.g}group${C.reset} list|create|delete|add|remove — Bot groups`)
+  logRaw('', `  ${C.g}group${C.reset} list|create|delete|rename|add|remove — Bot groups`)
   logRaw('', `  ${C.g}savecmd${C.reset} list|add|remove|run — Saved commands`)
   logRaw('', `  ${C.g}script${C.reset} list|create|delete|addstep|run — Script runner`)
+  logRaw('', `  ${C.g}players${C.reset} [name] — List players seen by a bot`)
+  logRaw('', `  ${C.g}save${C.reset} — Save config to disk`)
 }
 
 function execCmd(raw) {
@@ -622,7 +632,44 @@ function execCmd(raw) {
   }
 
   //  help / clear ══
-  if (cmd === 'help') { printHelp(); return }
+  if (cmd === 'help') {
+    if (args[0]) {
+      const details = {
+        connect:    'connect <name,names...> <host> [port]\n  Connect one or more bots (comma-separated names) to a server. 8s delay between each.',
+        disconnect: 'disconnect [name | all]\n  Disconnect a bot, the selected bot, or all bots.',
+        select:     'select <name>\n  Select a single bot as the active target for commands.',
+        control:    'control <name1,name2|all|global>\n  Multi-select bots. "all" selects every bot. "global" clears.',
+        global:     'global\n  Clear current bot selection (same as "control global").',
+        bots:       'bots\n  List all configured bots with status and toggles.',
+        afk:        'afk [name]\n  Toggle AFK mode (walks in circles). Targets selected or named bot.',
+        jump:       'jump [name]\n  Toggle auto-jump. Bot jumps every 1.5s.',
+        shift:      'shift [name]\n  Toggle auto-shift (sneak).',
+        eat:        'eat [name]\n  Toggle auto-eat when hungry.',
+        respack:    'respack [name]\n  Toggle resource-pack auto-accept on/off.',
+        reconnect:  'reconnect\n  Reconnect all saved bots with 8s delay between each.',
+        chat:       'chat/msg <text>\n  Send a chat message as the selected bot(s).',
+        inv:        'inv [name]\n  Show a bot\'s inventory (held item, armor, hotbar).',
+        mcbridge:   'mcbridge <bot> <token> <channel>\n  Bridge Minecraft chat to a Discord channel.',
+        'bridge stop': 'bridge stop\n  Stop the active Discord bridge.',
+        config:     'config [name] [set <key> <val>]\n  View or change bot config (host, port, autoAfk, etc.).',
+        onjoin:     'onjoin <name> add command|chat <text> | list | remove <idx>\n  Manage commands that run when a bot joins a server.',
+        players:    'players [name]\n  List online players seen by the selected or named bot.',
+        update:     'update\n  Check GitHub for a new version and update if available.',
+        web:        'web [port <n> | on | off]\n  View or change web dashboard settings. Restart required for port change.',
+        group:      'group list | create <name> | delete <name> | rename <old> <new> | add <group> <bot> | remove <group> <bot>\n  Manage bot groups.',
+        savecmd:    'savecmd list | add <label> <cmd> | remove <idx> | run <idx>\n  Manage saved commands (quick-run from web/CLI).',
+        script:     'script list | create <name> | delete <name> | addstep <name> <delay> <cmd> | run <name>\n  Run multi-step scripts with delays.',
+        clear:      'clear\n  Clear the on-screen log.',
+        save:       'save\n  Force-save config to disk immediately.',
+        quit:       'quit\n  Disconnect all bots and exit.',
+      }
+      const d = details[args[0]] || details[`${args[0]} ${args[1] || ''}`.trim()]
+      if (d) logRaw('', `${C.bold}${args[0]}${C.reset}\n  ${d}`)
+      else logErr('', `No help for "${args[0]}"`)
+      return
+    }
+    printHelp(); return
+  }
   if (cmd === 'clear') { logLines = []; logInfo('', 'Log cleared'); return }
 
   //  connect ══
@@ -766,14 +813,26 @@ function execCmd(raw) {
     scheduleSave(); return
   }
 
-  //  chat ══
-  if (cmd === 'chat') {
+  //  chat / msg ══
+  if (cmd === 'chat' || cmd === 'msg') {
     const text = args.join(' ')
     if (!text) { logErr('', 'Usage: chat <text>'); return }
     if (!forTargets(null, (t) => {
       if (!t.bot || !t.connected) { logErr(t.name, 'Not connected'); return }
       t.bot.chat(text); logChat(t.name, `> ${text}`)
     })) return
+    return
+  }
+
+  //  players ══
+  if (cmd === 'players') {
+    const targets = getTargets(args[0] || null)
+    if (targets.length === 0) return
+    for (const t of targets) {
+      if (!t.bot || !t.connected) { logErr(t.name, 'Not connected'); continue }
+      const list = t.players ? Object.keys(t.players) : []
+      logRaw(t.name, `${C.bold}Players online${C.reset} (${list.length}): ${list.length ? list.join(', ') : C.dim + 'none' + C.reset}`)
+    }
     return
   }
 
@@ -941,6 +1000,11 @@ function execCmd(raw) {
       if (!botGroups[args[1]]) { logErr('', 'No such group'); return }
       delete botGroups[args[1]]; logInfo('', `Group "${args[1]}" deleted`); scheduleSave(); return
     }
+    if (args[0] === 'rename' && args[1] && args[2]) {
+      if (!botGroups[args[1]]) { logErr('', 'No such group'); return }
+      if (botGroups[args[2]]) { logErr('', 'Name already taken'); return }
+      botGroups[args[2]] = botGroups[args[1]]; delete botGroups[args[1]]; logInfo('', `Renamed to "${args[2]}"`); scheduleSave(); return
+    }
     if (args[0] === 'add' && args[1] && args[2]) {
       if (!botGroups[args[1]]) { logErr('', 'No such group'); return }
       if (!bots[args[2]]) { logErr('', 'No such bot'); return }
@@ -1082,7 +1146,7 @@ function onKeypress(str, key) {
       if (matches.length === 1) { input = matches[0] + ' '; cursor = input.length; redrawPrompt() }
       else if (matches.length > 1) { logInfo('', C.gry + matches.join('  ') + C.reset) }
     } else if (parts.length >= 2) {
-      const botCmds = ['select', 'control', 'disconnect', 'config', 'onjoin', 'afk', 'jump', 'eat', 'reconnect', 'respack', 'inv', 'mcbridge', 'bridge']
+      const botCmds = ['select', 'control', 'disconnect', 'config', 'onjoin', 'afk', 'jump', 'eat', 'reconnect', 'respack', 'inv', 'mcbridge', 'bridge', 'players', 'group']
       if (botCmds.includes(parts[0])) {
         const lastPart = parts[parts.length - 1]
         const prefix = lastPart.includes(',') ? lastPart.slice(0, lastPart.lastIndexOf(',') + 1) : ''
@@ -1109,7 +1173,7 @@ function getState() {
     bots: {}, groups: botGroups, serverCounts,
     commandHistory: commandHistory.slice(-100), alertLog: alertLog.slice(-100),
     playerHistory: playerCountHistory,
-    savedCommands, logLines: logLines.slice(-100).map(e => ({ ...e, text: stripAnsi(e.text) })),
+    savedCommands, savedScripts, logLines: logLines.slice(-100).map(e => ({ ...e, text: stripAnsi(e.text) })),
   }
   for (const [name, cfg] of Object.entries(bots)) {
     state.bots[name] = {
@@ -1151,6 +1215,7 @@ function startWebServer(port) {
       ws.on('message', (data) => {
         try {
           const msg = JSON.parse(data.toString())
+          msg.ws = ws
           handleWSCommand(msg)
         } catch {}
       })
@@ -1202,6 +1267,97 @@ function handleWSCommand(msg) {
     }
     scheduleSave()
     broadcast()
+  }
+  if (msg.type === 'connect') {
+    const name = msg.name, host = msg.host, port = msg.port || '25565'
+    if (!name || !host) return
+    if (bots[name]) { logWarn('', `Bot "${name}" already exists`); broadcast(); return }
+    bots[name] = { ...DEFAULT_BOT_CONFIG, host, port: parseInt(port, 10), name, connected: false, joined: false }
+    logInfo('', `Configured bot "${name}" → ${host}:${port}`)
+    scheduleSave()
+    setTimeout(() => createBot(name, host, port), 1000)
+    broadcast()
+  }
+  if (msg.type === 'disconnect') {
+    const name = msg.name
+    if (name && bots[name]) disconnectBot(name)
+    broadcast()
+  }
+  if (msg.type === 'deleteBot') {
+    const name = msg.name
+    if (name && bots[name]) {
+      if (bots[name].connected) disconnectBot(name)
+      delete bots[name]
+      scheduleSave()
+      broadcast()
+    }
+  }
+  if (msg.type === 'group') {
+    const { action, name, bot } = msg
+    if (action === 'create' && name && !botGroups[name]) { botGroups[name] = []; scheduleSave(); broadcast() }
+    if (action === 'delete' && name && botGroups[name]) { delete botGroups[name]; scheduleSave(); broadcast() }
+    if (action === 'rename' && name && msg.newName && botGroups[name]) { botGroups[msg.newName] = botGroups[name]; delete botGroups[name]; scheduleSave(); broadcast() }
+    if (action === 'add' && name && bot && botGroups[name] && bots[bot] && !botGroups[name].includes(bot)) { botGroups[name].push(bot); scheduleSave(); broadcast() }
+    if (action === 'remove' && name && bot && botGroups[name]) {
+      const idx = botGroups[name].indexOf(bot)
+      if (idx !== -1) { botGroups[name].splice(idx, 1); scheduleSave(); broadcast() }
+    }
+  }
+  if (msg.type === 'savecmd') {
+    const { action, label, command, idx } = msg
+    if (action === 'add' && label && command) { savedCommands.push({ label, command }); scheduleSave(); broadcast() }
+    if (action === 'remove' && typeof idx === 'number' && idx >= 0 && idx < savedCommands.length) { savedCommands.splice(idx, 1); scheduleSave(); broadcast() }
+    if (action === 'run' && typeof idx === 'number' && idx >= 0 && idx < savedCommands.length) {
+      const cmd = savedCommands[idx]
+      const targets = Object.values(bots).filter(b => b.connected)
+      for (const t of targets) { if (t.bot) t.bot.chat(cmd.command) }
+      broadcast()
+    }
+  }
+  if (msg.type === 'script') {
+    const { action, name, step } = msg
+    if (action === 'create' && name && !savedScripts[name]) { savedScripts[name] = []; scheduleSave(); broadcast() }
+    if (action === 'delete' && name && savedScripts[name]) { delete savedScripts[name]; scheduleSave(); broadcast() }
+    if (action === 'addstep' && name && savedScripts[name]) {
+      savedScripts[name].push({ delay: step?.delay || 1000, content: step?.content || '' })
+      scheduleSave(); broadcast()
+    }
+    if (action === 'removestep' && name && savedScripts[name] && typeof step === 'number') {
+      savedScripts[name].splice(step, 1); scheduleSave(); broadcast()
+    }
+    if (action === 'run' && name && savedScripts[name]) {
+      const script = savedScripts[name]; let totalDelay = 0
+      for (const s of script) {
+        totalDelay += s.delay
+        setTimeout(() => {
+          const targets = Object.values(bots).filter(b => b.connected)
+          for (const t of targets) { if (t.bot) t.bot.chat(s.content) }
+        }, totalDelay)
+      }
+    }
+  }
+  if (msg.type === 'exportConfig') {
+    const safe = JSON.parse(JSON.stringify({ version: VERSION, web: appConfig.web, autoUpdate: appConfig.autoUpdate, groups: botGroups, savedCommands, savedScripts, bots: Object.entries(bots).reduce((a, [k, v]) => { a[k] = { host: v.host, port: v.port, autoAfk: !!v.autoAfk, autoJump: !!v.autoJump, autoShift: !!v.autoShift, autoEat: !!v.autoEat, resourcePack: v.resourcePack || 'accept' }; return a }, {}) }))
+    if (msg.ws && msg.ws.readyState === 1) {
+      try { msg.ws.send(JSON.stringify({ type: 'configExport', data: safe })) } catch {}
+    }
+  }
+  if (msg.type === 'importConfig') {
+    try {
+      const d = msg.data
+      if (d.groups) botGroups = d.groups
+      if (d.savedCommands) savedCommands = d.savedCommands
+      if (d.savedScripts) savedScripts = d.savedScripts
+      if (d.bots) {
+        for (const [name, cfg] of Object.entries(d.bots)) {
+          if (!bots[name]) bots[name] = { ...DEFAULT_BOT_CONFIG, ...cfg, name, connected: false, joined: false }
+        }
+      }
+      if (d.web) appConfig.web = { ...appConfig.web, ...d.web }
+      scheduleSave()
+      logInfo('', 'Config imported')
+      broadcast()
+    } catch (e) { logErr('', `Import failed: ${e.message}`) }
   }
 }
 
