@@ -60,6 +60,7 @@ function loadConfig() {
       const raw = fs.readFileSync(CONFIG_PATH, 'utf8')
       const data = JSON.parse(raw)
       if (data.web) appConfig.web = { ...DEFAULT_CONFIG.web, ...data.web }
+      if (data._setup) appConfig._setup = true
       if (data.autoUpdate !== undefined) appConfig.autoUpdate = data.autoUpdate
       if (data.groups) botGroups = data.groups
       if (data.savedCommands) savedCommands = data.savedCommands
@@ -75,7 +76,7 @@ function loadConfig() {
 }
 
 function saveConfig() {
-  const data = { version: VERSION, web: appConfig.web, autoUpdate: appConfig.autoUpdate, bots: {}, groups: botGroups, savedCommands, savedScripts }
+  const data = { version: VERSION, web: appConfig.web, autoUpdate: appConfig.autoUpdate, _setup: appConfig._setup || true, bots: {}, groups: botGroups, savedCommands, savedScripts }
   for (const [name, b] of Object.entries(bots)) {
     data.bots[name] = {
       host: b.host, port: b.port,
@@ -1321,7 +1322,32 @@ function init() {
   try { fs.writeFileSync(LOG_PATH, '', 'utf8') } catch {} // ¯\_(ツ)_/¯
   process.stdout.write('\x1b[?25l')
   loadConfig()
+  registerLifecycle()
 
+  // first-time setup
+  if (!appConfig._setup) {
+    process.stdout.write(`\n${C.c}Do you want to enable the web dashboard panel?${C.reset}\n${C.g}[Y]es${C.reset}  ${C.dim}[n]o${C.reset}\n> `)
+    process.stdin.resume()
+    process.stdin.once('data', (buf) => {
+      const ans = buf.toString().trim().toLowerCase()
+      if (ans === '' || ans === 'y' || ans === 'yes') {
+        appConfig.web.enabled = true
+        logInfo('', `Web dashboard ${C.g}enabled${C.reset}`)
+      } else {
+        appConfig.web.enabled = false
+        logInfo('', 'Web dashboard disabled (can be changed in config.json)')
+      }
+      appConfig._setup = true
+      scheduleSave()
+      showLogo()
+    })
+    return
+  }
+
+  showLogo()
+}
+
+function showLogo() {
   const logo = [
     `${C.m}  ════════════════════════════${C.reset}`,
     `${C.m}  ║${C.reset}  ${C.c}███╗   ███╗${C.reset}${C.g}██╗${C.reset}${C.y}███╗${C.reset}   ${C.b}██╗${C.reset}  ${C.m}║${C.reset}`,
@@ -1374,7 +1400,9 @@ function init() {
     process.stdin.on('keypress', onKeypress)
     redrawPrompt()
   }
+}
 
+function registerLifecycle() {
   process.on('SIGINT', () => { process.exit(0) })
   process.on('SIGTERM', () => { process.exit(0) })
   process.on('exit', () => {
