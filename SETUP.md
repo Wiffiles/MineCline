@@ -102,11 +102,5 @@ command still works.
 
 ## Rollback
 
-Each update creates `minecline.js.bak`. To revert the main file:
+No rollback system currently cant offord it
 
-```bash
-copy minecline.js.bak minecline.js
-```
-
-For the public files, restore from your Git history or re-download
-from GitHub manually.
