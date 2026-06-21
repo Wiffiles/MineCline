@@ -7,7 +7,7 @@ const express = require('express')
 const http = require('http')
 const { WebSocketServer } = require('ws')
 
-const VERSION = '2.0.0'
+const VERSION = '2.1.0'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const REPO_BASE_REF = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
