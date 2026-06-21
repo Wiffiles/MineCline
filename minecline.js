@@ -21,7 +21,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.2'
+const VERSION = '2.1.3'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const REPO_BASE_REF = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
@@ -1370,31 +1370,62 @@ function handleWSCommand(msg) {
 //  auto-update
 
 function promptUpdate(currentVer, remoteVer) {
-  const msg = `\n${C.c}Hello. We detected you are using version ${C.bold}${currentVer}${C.reset}${C.c}.${C.reset}\n` +
-    `${C.c}Would you like us to automatically update to the latest version ${C.bold}${remoteVer}${C.reset}${C.c}?${C.reset}\n` +
-    `${C.g}[Y]es${C.reset}  ${C.y}[N]o${C.reset}  ${C.dim}[Never] ask again${C.reset}\n> `
-  process.stdout.write(msg)
-  process.stdin.once('data', (buf) => {
-    const answer = buf.toString().trim().toLowerCase()
-    if (answer === 'y' || answer === 'yes') {
-      doUpdate(remoteVer)
-    } else if (answer === 'never' || answer === 'n') {
-      appConfig.autoUpdate = false
-      scheduleSave()
-      logInfo('', 'Auto-update disabled.')
-      redrawPrompt()
-    } else {
-      logInfo('', 'Update skipped.')
-      redrawPrompt()
-    }
-  })
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+  const ask = () => {
+    rl.question(`\n${C.c}Hello. We detected you are using version ${C.bold}${currentVer}${C.reset}${C.c}.${C.reset}\n` +
+      `${C.c}Would you like us to automatically update to the latest version ${C.bold}${remoteVer}${C.reset}${C.c}?${C.reset}\n` +
+      `${C.g}[Y]es${C.reset}  ${C.y}[N]o${C.reset}  ${C.dim}[Never] ask again${C.reset}\n> `, (answer) => {
+      const a = answer.trim().toLowerCase()
+      if (a === 'y' || a === 'yes') {
+        rl.close(); doUpdate(remoteVer)
+      } else if (a === 'never' || a === 'n') {
+        appConfig.autoUpdate = false; scheduleSave()
+        logInfo('', 'Auto-update disabled.'); rl.close(); redrawPrompt()
+      } else {
+        logWarn('', 'Please answer Y, N, or Never.')
+        ask()
+      }
+    })
+  }
+  ask()
 }
 
 function doUpdate(remoteVer) {
-  logInfo('', `Downloading v${remoteVer}...`)
   const mainUrl = `${REPO_BASE}/minecline.js`
   const publicFiles = ['index.html', 'style.css', 'app.js']
   let completed = 0; const total = 1 + publicFiles.length; let hadError = false
+  let dlDone = false
+
+  const startTime = Date.now()
+  const animFrames = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷']
+  let frame = 0
+  let lastProgress = 0
+
+  function drawProgress(pct, status) {
+    const elapsed = Math.min(8000, Date.now() - startTime)
+    const overallPct = Math.min(100, Math.round((pct * 0.5 + (elapsed / 8000) * 0.5) * 100))
+    const w = 30
+    const filled = Math.round(w * overallPct / 100)
+    const bar = `${C.g}${'█'.repeat(filled)}${C.dim}${'░'.repeat(w - filled)}${C.reset}`
+    const spinner = animFrames[frame % animFrames.length]
+    const prefix = overallPct < 100 ? `${C.bold}${C.c}${spinner}${C.reset} ${C.bold}UPDATE${C.reset}` : `${C.g}${C.bold}✔${C.reset} ${C.bold}UPDATE${C.reset}`
+    process.stdout.write(`\r${prefix} ${bar} ${C.bold}${overallPct}%${C.reset} ${C.dim}${status || ''}${C.reset}\x1b[K`)
+    if (overallPct < 100) frame++
+  }
+
+  const animInterval = setInterval(() => {
+    const pct = dlDone ? 1 : (completed / total)
+    drawProgress(pct, dlDone ? 'Finishing...' : `Downloading (${completed}/${total})`)
+    if (dlDone && Date.now() - startTime >= 8000) {
+      clearInterval(animInterval)
+      const color = hadError ? C.r : C.g
+      const icon = hadError ? '✖' : '✔'
+      process.stdout.write(`\r${color}${C.bold}${icon}${C.reset} ${C.bold}UPDATE${C.reset} ${hadError ? `${C.r}completed with errors${C.reset}` : `${C.g}to v${remoteVer}${C.reset}`} ${C.dim}(8.0s)${C.reset}\x1b[K\n`)
+      if (hadError) { redrawPrompt(); return }
+      logInfo('', `${C.g}Updated to v${remoteVer}! Restarting...${C.reset}`)
+      setTimeout(() => process.exit(0), 1500)
+    }
+  }, 80)
 
   function dl(url, dest) {
     https.get(url, (res) => {
@@ -1416,9 +1447,7 @@ function doUpdate(remoteVer) {
 
   function checkDone() {
     if (completed < total) return
-    if (hadError) { logErr('', 'Update completed with errors'); redrawPrompt(); return }
-    logInfo('', `${C.g}Updated to v${remoteVer}! Restarting...${C.reset}`)
-    setTimeout(() => process.exit(0), 1000)
+    dlDone = true
   }
 
   const bak = __filename + '.bak'
@@ -1458,9 +1487,7 @@ function checkAutoUpdate() {
       setTimeout(async () => {
         const forced = await checkForceUpdate()
         if (forced) {
-          const msg = `\n${C.bgR}${C.bold} FORCE UPDATE AVAILABLE ${C.reset}\n${C.r}Critical update: v${VERSION} → v${remoteVer}${C.reset}\n${C.y}Updating automatically...${C.reset}\n`
-          process.stdout.write(msg)
-          setTimeout(() => doUpdate(remoteVer), 1500)
+          setTimeout(() => doUpdate(remoteVer), 500)
         } else if (appConfig.autoUpdate) {
           promptUpdate(VERSION, remoteVer)
         } else {
