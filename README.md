@@ -155,6 +155,13 @@ mcbridge ItzMeJoel <bot-token> <channel-id>
 - [mineflayer](https://github.com/PrismarineJS/mineflayer) — Minecraft bot library
 - [mineflayer-pathfinder](https://github.com/PrismarineJS/mineflayer-pathfinder) — Pathfinding
 
+--- 
+
+## 📱 Optimized for mobile support
+
+<img width="1074" height="561" alt="image" src="https://github.com/user-attachments/assets/a7555606-a2f8-48d9-b18d-667eeb647758" />
+
+
 ---
 
 <p align="center">
