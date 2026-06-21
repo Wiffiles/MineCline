@@ -1,11 +1,8 @@
-const mineflayer = require('mineflayer')
+﻿const mineflayer = require('mineflayer')
 const fs = require('fs')
 const path = require('path')
 const readline = require('readline')
 const https = require('https')
-const express = require('express')
-const http = require('http')
-const { WebSocketServer } = require('ws')
 
 //  suppress noisy minecraft-protocol partial-read warnings
 const _stderrWrite = process.stderr.write.bind(process.stderr)
@@ -21,9 +18,8 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.4'
+const VERSION = '2.1.5'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
-const REPO_BASE_REF = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
 const MAX_LOG = 500
@@ -39,7 +35,6 @@ const C = {
 }
 
 const DEFAULT_CONFIG = {
-  web: { enabled: true, port: 3000 },
   autoUpdate: true,
 }
 
@@ -56,8 +51,6 @@ let exitFlag = false, saveTimer = null, discordBridge = null
 let appConfig = { ...DEFAULT_CONFIG }
 let commandHistory = [], alertLog = [], playerCountHistory = {}, serverCounts = {}
 let botGroups = {}, savedCommands = [], savedScripts = {}
-let webApp = null, webServer = null, wss = null, wsClients = new Set()
-let broadcastInterval = null
 
 function stripAnsi(s) { return s.replace(/\x1b\[[0-9;]*m/g, '') } // kill the escape codes
 
@@ -73,7 +66,6 @@ function loadConfig() {
     if (fs.existsSync(CONFIG_PATH)) {
       const raw = fs.readFileSync(CONFIG_PATH, 'utf8')
       const data = JSON.parse(raw)
-      if (data.web) appConfig.web = { ...DEFAULT_CONFIG.web, ...data.web }
       if (data._setup) appConfig._setup = true
       if (data.autoUpdate !== undefined) appConfig.autoUpdate = data.autoUpdate
       if (data.groups) botGroups = data.groups
@@ -90,7 +82,7 @@ function loadConfig() {
 }
 
 function saveConfig() {
-  const data = { version: VERSION, web: appConfig.web, autoUpdate: appConfig.autoUpdate, _setup: appConfig._setup || true, bots: {}, groups: botGroups, savedCommands, savedScripts }
+  const data = { version: VERSION, autoUpdate: appConfig.autoUpdate, _setup: appConfig._setup || true, bots: {}, groups: botGroups, savedCommands, savedScripts }
   for (const [name, b] of Object.entries(bots)) {
     data.bots[name] = {
       host: b.host, port: b.port,
@@ -337,7 +329,7 @@ function createBot(name, host, port) {
   b.on('message', (msg) => {
     if (msg.fromMob) return
     const from = msg.to?.username || 'SERVER'
-    const text = msg.toString().replace(/§[0-9a-fk-or]/gi, '').trim()
+    const text = msg.toString().replace(/Â§[0-9a-fk-or]/gi, '').trim()
     logMsg(name, `<${from}> ${text}`)
     if (discordBridge && discordBridge.botName === name && discordBridge.connected) {
       discordBridge.sendMessage(`**${from}**: ${text}`)
@@ -519,14 +511,15 @@ function addLog(botName, text) {
   if (logLines.length > MAX_LOG) logLines.splice(0, logLines.length - MAX_LOG)
   writeLogFile(entry.bot, entry.time, entry.text)
   const line = formatLog(entry)
+  if (activeBot && botName && botName !== activeBot) return
   process.stdout.write(`\r\x1b[K${line}\n`)
   redrawPrompt()
 }
 
-function logInfo(botName, msg) { addLog(botName, `${C.g}◆${C.reset} ${msg}`) }
-function logWarn(botName, msg) { addLog(botName, `${C.y}⚠${C.reset} ${msg}`) }
-function logErr(botName, msg) { addLog(botName, `${C.r}✖${C.reset} ${msg}`) }
-function logChat(botName, msg) { addLog(botName, `${C.gry}💬${C.reset} ${msg}`) }
+function logInfo(botName, msg) { addLog(botName, `${C.g}â—†${C.reset} ${msg}`) }
+function logWarn(botName, msg) { addLog(botName, `${C.y}âš ${C.reset} ${msg}`) }
+function logErr(botName, msg) { addLog(botName, `${C.r}âœ–${C.reset} ${msg}`) }
+function logChat(botName, msg) { addLog(botName, `${C.gry}ðŸ’¬${C.reset} ${msg}`) }
 function logMsg(botName, msg) { addLog(botName, `${C.c}${msg}${C.reset}`) }
 function logRaw(botName, msg) { addLog(botName, msg) }
 
@@ -560,7 +553,7 @@ const CMD_LIST = [
   'afk', 'jump', 'shift', 'eat', 'reconnect', 'respack',
   'chat', 'msg', 'inv', 'mcbridge', 'bridge',
   'config', 'onjoin', 'clear', 'help', 'quit', 'exit',
-  'update', 'web', 'group', 'savecmd', 'script', 'players', 'save',
+  'update', 'group', 'savecmd', 'script', 'players', 'save',
 ]
 
 function forTargets(name, fn) {
@@ -584,36 +577,35 @@ function setConfig(cfg, key, val) {
 }
 
 function showConfig(cfg) {
-  logRaw('', `${C.bold}${cfg.name}${C.reset} — ${cfg.host}:${cfg.port}  ${cfg.connected ? C.g + '●' : C.r + '◌'}${C.reset}`)
+  logRaw('', `${C.bold}${cfg.name}${C.reset} â€” ${cfg.host}:${cfg.port}  ${cfg.connected ? C.g + 'â—' : C.r + 'â—Œ'}${C.reset}`)
   logRaw('', `  autoAfk: ${cfg.autoAfk}  autoJump: ${cfg.autoJump}  autoShift: ${cfg.autoShift}  autoEat: ${cfg.autoEat}  respack: ${cfg.resourcePack}`)
   logRaw('', `  onJoin: [${(cfg.onJoin?.commands || []).join(', ')}] [${(cfg.onJoin?.chat || []).join(', ')}]`)
 }
 
 function printHelp() {
-  logRaw('', `${C.bold}── ${C.c}MineCline v${VERSION}${C.reset} Commands ──${C.reset}`)
-  logRaw('', `  ${C.g}connect${C.reset} <name,names...> <host> [port] — Connect bot(s) (8s delay)`)
-  logRaw('', `  ${C.g}disconnect${C.reset} [name | all]          — Disconnect bot(s)`)
-  logRaw('', `  ${C.g}select${C.reset} <name>                  — Select single bot`)
-  logRaw('', `  ${C.g}control${C.reset} <name1,name2|all>        — Multi-select bots`)
-  logRaw('', `  ${C.g}global${C.reset}                         — Clear selection`)
-  logRaw('', `  ${C.g}bots${C.reset}                           — List all bots`)
+  logRaw('', `${C.bold}â”€â”€ ${C.c}MineCline v${VERSION}${C.reset} Commands â”€â”€${C.reset}`)
+  logRaw('', `  ${C.g}connect${C.reset} <name,names...> <host> [port] â€” Connect bot(s) (8s delay)`)
+  logRaw('', `  ${C.g}disconnect${C.reset} [name | all]          â€” Disconnect bot(s)`)
+  logRaw('', `  ${C.g}select${C.reset} <name>                  â€” Select single bot`)
+  logRaw('', `  ${C.g}control${C.reset} <name1,name2|all>        â€” Multi-select bots`)
+  logRaw('', `  ${C.g}global${C.reset}                         â€” Clear selection`)
+  logRaw('', `  ${C.g}bots${C.reset}                           â€” List all bots`)
   logRaw('', `  ${C.y}Toggles:${C.reset} ${C.g}afk${C.reset}, ${C.g}jump${C.reset}, ${C.g}shift${C.reset}, ${C.g}eat${C.reset}, ${C.g}respack${C.reset}`)
-  logRaw('', `  ${C.g}reconnect${C.reset} — Reconnect all saved bots (8s delay)`)
-  logRaw('', `  ${C.g}chat/msg${C.reset} <text>                — Send chat`)
-  logRaw('', `  ${C.g}/<cmd>${C.reset}                         — Server command`)
-  logRaw('', `  ${C.g}inv${C.reset} [name]                     — Show inventory`)
-  logRaw('', `  ${C.g}mcbridge${C.reset} <bot> <token> <chan> — MC↔Discord bridge`)
-  logRaw('', `  ${C.g}bridge stop${C.reset}                    — Stop bridge`)
-  logRaw('', `  ${C.g}config${C.reset} [name] [set k v]        — View/change config`)
-  logRaw('', `  ${C.g}onjoin${C.reset} <name> add cmd|chat     — Join actions`)
-  logRaw('', `  ${C.g}clear${C.reset}, ${C.g}save${C.reset}, ${C.g}quit${C.reset} — Utility`)
-  logRaw('', `  ${C.g}update${C.reset} — Check for updates`)
-  logRaw('', `  ${C.g}web${C.reset} [port|on|off] — Web dashboard config`)
-  logRaw('', `  ${C.g}group${C.reset} list|create|delete|rename|add|remove — Bot groups`)
-  logRaw('', `  ${C.g}savecmd${C.reset} list|add|remove|run — Saved commands`)
-  logRaw('', `  ${C.g}script${C.reset} list|create|delete|addstep|run — Script runner`)
-  logRaw('', `  ${C.g}players${C.reset} [name] — List players seen by a bot`)
-  logRaw('', `  ${C.g}save${C.reset} — Save config to disk`)
+  logRaw('', `  ${C.g}reconnect${C.reset} â€” Reconnect all saved bots (8s delay)`)
+  logRaw('', `  ${C.g}chat/msg${C.reset} <text>                â€” Send chat`)
+  logRaw('', `  ${C.g}/<cmd>${C.reset}                         â€” Server command`)
+  logRaw('', `  ${C.g}inv${C.reset} [name]                     â€” Show inventory`)
+  logRaw('', `  ${C.g}mcbridge${C.reset} <bot> <token> <chan> â€” MCâ†”Discord bridge`)
+  logRaw('', `  ${C.g}bridge stop${C.reset}                    â€” Stop bridge`)
+  logRaw('', `  ${C.g}config${C.reset} [name] [set k v]        â€” View/change config`)
+  logRaw('', `  ${C.g}onjoin${C.reset} <name> add cmd|chat     â€” Join actions`)
+  logRaw('', `  ${C.g}clear${C.reset}, ${C.g}save${C.reset}, ${C.g}quit${C.reset} â€” Utility`)
+  logRaw('', `  ${C.g}update${C.reset} â€” Check for updates`)
+  logRaw('', `  ${C.g}group${C.reset} list|create|delete|rename|add|remove â€” Bot groups`)
+  logRaw('', `  ${C.g}savecmd${C.reset} list|add|remove|run â€” Saved commands`)
+  logRaw('', `  ${C.g}script${C.reset} list|create|delete|addstep|run â€” Script runner`)
+  logRaw('', `  ${C.g}players${C.reset} [name] â€” List players seen by a bot`)
+  logRaw('', `  ${C.g}save${C.reset} â€” Save config to disk`)
 }
 
 function execCmd(raw) {
@@ -628,7 +620,7 @@ function execCmd(raw) {
   const cmd = parts[0].toLowerCase()
   const args = parts.slice(1)
 
-  //  quit / exit ══
+  //  quit / exit â•â•
   if (cmd === 'quit' || cmd === 'exit') {
     exitFlag = true
     if (discordBridge) discordBridge.stop()
@@ -637,7 +629,7 @@ function execCmd(raw) {
     return
   }
 
-  //  help / clear ══
+  //  help / clear â•â•
   if (cmd === 'help') {
     if (args[0]) {
       const details = {
@@ -661,7 +653,6 @@ function execCmd(raw) {
         onjoin:     'onjoin <name> add command|chat <text> | list | remove <idx>\n  Manage commands that run when a bot joins a server.',
         players:    'players [name]\n  List online players seen by the selected or named bot.',
         update:     'update\n  Check GitHub for a new version and update if available.',
-        web:        'web [port <n> | on | off]\n  View or change web dashboard settings. Restart required for port change.',
         group:      'group list | create <name> | delete <name> | rename <old> <new> | add <group> <bot> | remove <group> <bot>\n  Manage bot groups.',
         savecmd:    'savecmd list | add <label> <cmd> | remove <idx> | run <idx>\n  Manage saved commands (quick-run from web/CLI).',
         script:     'script list | create <name> | delete <name> | addstep <name> <delay> <cmd> | run <name>\n  Run multi-step scripts with delays.',
@@ -678,7 +669,7 @@ function execCmd(raw) {
   }
   if (cmd === 'clear') { logLines = []; logInfo('', 'Log cleared'); return }
 
-  //  connect ══
+  //  connect â•â•
   if (cmd === 'connect') {
     if (args.length < 2) { logErr('', 'Usage: connect <name,names...> <host> [port]'); return }
     const rawNames = args[0]
@@ -695,7 +686,7 @@ function execCmd(raw) {
     return
   }
 
-  //  disconnect ══
+  //  disconnect â•â•
   if (cmd === 'disconnect') {
     if (args[0] === 'all') { for (const n of Object.keys(bots)) disconnectBot(n); return }
     const name = args[0] || activeBot
@@ -704,18 +695,18 @@ function execCmd(raw) {
     return
   }
 
-  //  bots ══
+  //  bots â•â•
   if (cmd === 'bots') {
     const names = Object.keys(bots)
     if (names.length === 0) { logInfo('', 'No bots configured'); return }
     for (const n of names) {
       const b = bots[n]
-      logRaw('', `${C.bold}${n}${C.reset} — ${b.connected ? C.g + '●' : C.r + '◌'}${C.reset} ${b.host}:${b.port} ${C.dim}AFK:${b.afkEnabled ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Eat:${b.autoEat ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Jump:${b.autoJump ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Shift:${b.autoShift ? C.g + 'ON' : 'OFF'}${C.reset}`)
+      logRaw('', `${C.bold}${n}${C.reset} â€” ${b.connected ? C.g + 'â—' : C.r + 'â—Œ'}${C.reset} ${b.host}:${b.port} ${C.dim}AFK:${b.afkEnabled ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Eat:${b.autoEat ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Jump:${b.autoJump ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Shift:${b.autoShift ? C.g + 'ON' : 'OFF'}${C.reset}`)
     }
     return
   }
 
-  //  select ══
+  //  select â•â•
   if (cmd === 'select') {
     if (!args[0]) { logErr('', 'Usage: select <name>'); return }
     if (!bots[args[0]]) { logErr('', `No bot "${args[0]}"`); return }
@@ -724,7 +715,7 @@ function execCmd(raw) {
     return
   }
 
-  //  control ══
+  //  control â•â•
   if (cmd === 'control') {
     if (args.length === 0) {
       if (selMode === 'multi' && activeBots.size > 0) logInfo('', `Multi: ${C.m}${[...activeBots].join(', ')}${C.reset}`)
@@ -732,7 +723,7 @@ function execCmd(raw) {
       else logInfo('', 'No selection')
       return
     }
-    const rawNames = args.join('')
+    const rawNames = args.join(',')
     if (rawNames === 'all') {
       const all = Object.keys(bots)
       if (all.length === 0) { logErr('', 'No bots'); return }
@@ -752,10 +743,12 @@ function execCmd(raw) {
     return
   }
 
-  //  global ══
+  //  global â•â•
   if (cmd === 'global' || cmd === 'gloval') {
-    activeBot = null; activeBots.clear(); selMode = 'single'
-    logInfo('', 'Cleared selection')
+    const all = Object.keys(bots)
+    if (all.length === 0) { logErr('', 'No bots'); return }
+    activeBots = new Set(all); selMode = 'multi'; activeBot = null
+    logInfo('', `Selected all ${all.length} bots`)
     return
   }
 
@@ -802,7 +795,7 @@ function execCmd(raw) {
     scheduleSave(); return
   }
 
-  //  reconnect (reconnect all saved bots) ══
+  //  reconnect (reconnect all saved bots) â•â•
   if (cmd === 'reconnect') {
     const all = Object.keys(bots).filter(n => bots[n].host)
     if (all.length === 0) { logErr('', 'No saved bots'); return }
@@ -819,7 +812,7 @@ function execCmd(raw) {
     scheduleSave(); return
   }
 
-  //  chat / msg ══
+  //  chat / msg â•â•
   if (cmd === 'chat' || cmd === 'msg') {
     const text = args.join(' ')
     if (!text) { logErr('', 'Usage: chat <text>'); return }
@@ -830,7 +823,7 @@ function execCmd(raw) {
     return
   }
 
-  //  players ══
+  //  players â•â•
   if (cmd === 'players') {
     const targets = getTargets(args[0] || null)
     if (targets.length === 0) return
@@ -842,7 +835,7 @@ function execCmd(raw) {
     return
   }
 
-  //  /command ══
+  //  /command â•â•
   if (cmd.startsWith('/')) {
     if (!forTargets(null, (t) => {
       if (!t.bot || !t.connected) { logErr(t.name, 'Not connected'); return }
@@ -851,27 +844,27 @@ function execCmd(raw) {
     return
   }
 
-  //  inv (inventory viewer) ══
+  //  inv (inventory viewer) â•â•
   if (cmd === 'inv') {
     const targets = getTargets(args[0] || null)
     if (targets.length === 0) return
     for (const cfg of targets) {
       if (!cfg.bot || !cfg.connected) { logErr(cfg.name, 'Not connected'); continue }
       logRaw(cfg.name, `${C.bold}Inventory:${C.reset}`)
-      if (cfg.heldItem) logRaw(cfg.name, `  ${C.gry}✊${C.reset} Held: ${C.bold}${cfg.heldItem.name}${C.reset} x${cfg.heldItem.count} (slot ${cfg.heldItem.slot})`)
+      if (cfg.heldItem) logRaw(cfg.name, `  ${C.gry}âœŠ${C.reset} Held: ${C.bold}${cfg.heldItem.name}${C.reset} x${cfg.heldItem.count} (slot ${cfg.heldItem.slot})`)
       if (cfg.armor.length > 0) {
         const armorStr = cfg.armor.map(a => `${C.c}${a.name}${C.reset}`).join(', ')
-        logRaw(cfg.name, `  ${C.gry}🪖${C.reset} Armor: ${armorStr}`)
+        logRaw(cfg.name, `  ${C.gry}ðŸª–${C.reset} Armor: ${armorStr}`)
       }
       if (cfg.inventoryItems.length === 0) { logRaw(cfg.name, `  ${C.dim}(empty)${C.reset}`); continue }
       const hotbar = cfg.inventoryItems.filter(i => i.slot < 9)
       const rest = cfg.inventoryItems.filter(i => i.slot >= 9)
-      logRaw(cfg.name, `  ${C.gry}📦${C.reset} ${C.bold}Hotbar:${C.reset}`)
+      logRaw(cfg.name, `  ${C.gry}ðŸ“¦${C.reset} ${C.bold}Hotbar:${C.reset}`)
       for (const item of hotbar) {
         logRaw(cfg.name, `    [${item.slot}] ${item.name} x${item.count}`)
       }
       if (rest.length > 0) {
-        logRaw(cfg.name, `  ${C.gry}📦${C.reset} ${C.bold}Inventory:${C.reset}`)
+        logRaw(cfg.name, `  ${C.gry}ðŸ“¦${C.reset} ${C.bold}Inventory:${C.reset}`)
         for (const item of rest) {
           logRaw(cfg.name, `    [${item.slot}] ${item.name} x${item.count}`)
         }
@@ -881,7 +874,7 @@ function execCmd(raw) {
     return
   }
 
-  //  mcbridge / bridge ══
+  //  mcbridge / bridge â•â•
   if (cmd === 'mcbridge' || cmd === 'bridge') {
     if (args[0] === 'stop') {
       if (discordBridge) { discordBridge.stop(); logInfo('', 'Discord bridge stopped') }
@@ -906,11 +899,11 @@ function execCmd(raw) {
       const clean = content.replace(/@/g, '@\u200b')
       try { bots[botName].bot.chat(clean); logChat(botName, `[Discord] ${username}: ${clean}`) } catch {}
     }
-    logInfo(botName, `Bridge started → channel ${channelId}`)
+    logInfo(botName, `Bridge started â†’ channel ${channelId}`)
     return
   }
 
-  //  config ══
+  //  config â•â•
   if (cmd === 'config') {
     // config <bot> set <key> <val>
     if (args.length >= 4 && bots[args[0]] && args[1] === 'set') {
@@ -936,7 +929,7 @@ function execCmd(raw) {
     return
   }
 
-  //  onjoin ══
+  //  onjoin â•â•
   if (cmd === 'onjoin') {
     if (args.length < 2) { logErr('', 'Usage: onjoin <name> add command|chat <text> | list | remove <idx>'); return }
     const name = args[0]
@@ -972,25 +965,10 @@ function execCmd(raw) {
     return
   }
 
-  //  update ══
+  //  update â•â•
   if (cmd === 'update') { checkAutoUpdate(); return }
 
-  //  web ══
-  if (cmd === 'web') {
-    if (args[0] === 'port') {
-      appConfig.web.port = parseInt(args[1], 10) || 3000
-      logInfo('', `Web port set to ${appConfig.web.port} (restart required)`)
-    } else if (args[0] === 'on') {
-      appConfig.web.enabled = true; scheduleSave(); logInfo('', 'Web server enabled (restart required)')
-    } else if (args[0] === 'off') {
-      appConfig.web.enabled = false; scheduleSave(); logInfo('', 'Web server disabled')
-    } else {
-      logRaw('', `Web dashboard: ${appConfig.web.enabled ? C.g + 'enabled' : C.r + 'disabled'}${C.reset} on port ${C.c}${appConfig.web.port}${C.reset}`)
-    }
-    scheduleSave(); return
-  }
-
-  //  group ══
+  //  group â•â•
   if (cmd === 'group') {
     if (args[0] === 'list') {
       const entries = Object.entries(botGroups)
@@ -1027,7 +1005,7 @@ function execCmd(raw) {
     return
   }
 
-  //  savecmd ══
+  //  savecmd â•â•
   if (cmd === 'savecmd') {
     if (args[0] === 'list') {
       if (savedCommands.length === 0) logInfo('', 'No saved commands')
@@ -1057,7 +1035,7 @@ function execCmd(raw) {
     return
   }
 
-  //  script ══
+  //  script â•â•
   if (cmd === 'script') {
     if (args[0] === 'list') {
       const entries = Object.entries(savedScripts)
@@ -1098,7 +1076,7 @@ function execCmd(raw) {
     return
   }
 
-  //  save ══
+  //  save â•â•
   if (cmd === 'save') { saveConfig(); logInfo('', 'Config saved'); return }
 
   logErr('', `Unknown: "${cmd}". Type ${C.bold}help${C.reset}.`)
@@ -1109,7 +1087,7 @@ function execCmd(raw) {
 function onKeypress(str, key) {
   if (!key) return
   if (key.ctrl && key.name === 'c') { cleanup(); process.exit(0) }
-  if (key.ctrl && key.name === 'l') { logInfo('', '—'.repeat(20)); return }
+  if (key.ctrl && key.name === 'l') { logInfo('', 'â€”'.repeat(20)); return }
 
   if (key.name === 'return' || key.name === 'enter') {
     const cmd = input; input = ''; cursor = 0
@@ -1172,203 +1150,6 @@ function onKeypress(str, key) {
   }
 }
 
-//  web server
-
-function getState() {
-  const state = {
-    bots: {}, groups: botGroups, serverCounts,
-    commandHistory: commandHistory.slice(-100), alertLog: alertLog.slice(-100),
-    playerHistory: playerCountHistory,
-    savedCommands, savedScripts, logLines: logLines.slice(-100).map(e => ({ ...e, text: stripAnsi(e.text) })),
-  }
-  for (const [name, cfg] of Object.entries(bots)) {
-    state.bots[name] = {
-      name, host: cfg.host, port: cfg.port, connected: !!cfg.connected,
-      joined: !!cfg.joined, health: cfg.health, food: cfg.food,
-      x: cfg.x, y: cfg.y, z: cfg.z, ping: cfg.ping, dimension: cfg.dimension,
-      error: cfg.error, kickedReason: cfg.kickedReason,
-      connectedAt: cfg.connectedAt, afkEnabled: !!cfg.afkEnabled,
-      players: cfg.players,
-    }
-  }
-  return state
-}
-
-function broadcast() {
-  if (!wss) return
-  const data = JSON.stringify(getState())
-  for (const ws of wsClients) {
-    if (ws.readyState === 1) { try { ws.send(data) } catch {} }
-  }
-}
-
-function startBroadcast() {
-  if (broadcastInterval) clearInterval(broadcastInterval)
-  broadcastInterval = setInterval(broadcast, 1000)
-}
-
-function startWebServer(port) {
-  try {
-    webApp = express()
-    webServer = http.createServer(webApp)
-    wss = new WebSocketServer({ server: webServer })
-
-    webApp.use(express.static(path.join(__dirname, 'public')))
-
-    wss.on('connection', (ws) => {
-      wsClients.add(ws)
-      ws.send(JSON.stringify(getState()))
-      ws.on('message', (data) => {
-        try {
-          const msg = JSON.parse(data.toString())
-          msg.ws = ws
-          handleWSCommand(msg)
-        } catch {}
-      })
-      ws.on('close', () => { wsClients.delete(ws) })
-    })
-
-    webServer.listen(port, () => {
-      logInfo('', `Web dashboard at ${C.c}http://localhost:${port}${C.reset}`)
-    })
-    startBroadcast()
-  } catch (e) {
-    logErr('', `Web server failed: ${e.message}`)
-  }
-}
-
-function handleWSCommand(msg) {
-  if (msg.type === 'command') {
-    const names = msg.targets ? msg.targets.split(',').filter(Boolean) : []
-    const text = msg.content || ''
-    for (const n of names) {
-      const cfg = bots[n]
-      if (!cfg || !cfg.bot || !cfg.connected) continue
-      if (text.startsWith('/')) {
-        cfg.bot.chat(text)
-        logInfo(n, `Cmd: ${text.slice(0, 60)}`)
-      } else {
-        cfg.bot.chat(text)
-        logChat(n, `> ${text}`)
-      }
-    }
-    commandHistory.push({ t: ts(), bots: names.join(','), type: text.startsWith('/') ? 'cmd' : 'chat', content: text })
-    if (commandHistory.length > 500) commandHistory.splice(0, commandHistory.length - 500)
-    broadcast()
-  }
-  if (msg.type === 'preset') {
-    const names = msg.targets ? msg.targets.split(',').filter(Boolean) : []
-    const action = msg.action
-    for (const n of names) {
-      const cfg = bots[n]
-      if (!cfg) continue
-      if (action === 'afk') {
-        if (cfg.afkEnabled) stopAfk(n)
-        else startAfk(n)
-      }
-      if (action === 'jump' || action === 'eat' || action === 'shift') {
-        if (!cfg.bot || !cfg.connected) continue
-        cfg[`auto${action.charAt(0).toUpperCase() + action.slice(1)}`] = !cfg[`auto${action.charAt(0).toUpperCase() + action.slice(1)}`]
-      }
-    }
-    scheduleSave()
-    broadcast()
-  }
-  if (msg.type === 'connect') {
-    const name = msg.name, host = msg.host, port = msg.port || '25565'
-    if (!name || !host) return
-    if (bots[name]) { logWarn('', `Bot "${name}" already exists`); broadcast(); return }
-    bots[name] = { ...DEFAULT_BOT_CONFIG, host, port: parseInt(port, 10), name, connected: false, joined: false }
-    logInfo('', `Configured bot "${name}" → ${host}:${port}`)
-    scheduleSave()
-    setTimeout(() => createBot(name, host, port), 1000)
-    broadcast()
-  }
-  if (msg.type === 'disconnect') {
-    const name = msg.name
-    if (name && bots[name]) disconnectBot(name)
-    broadcast()
-  }
-  if (msg.type === 'deleteBot') {
-    const name = msg.name
-    if (name && bots[name]) {
-      if (bots[name].connected) disconnectBot(name)
-      delete bots[name]
-      scheduleSave()
-      broadcast()
-    }
-  }
-  if (msg.type === 'group') {
-    const { action, name, bot } = msg
-    if (action === 'create' && name && !botGroups[name]) { botGroups[name] = []; scheduleSave(); broadcast() }
-    if (action === 'delete' && name && botGroups[name]) { delete botGroups[name]; scheduleSave(); broadcast() }
-    if (action === 'rename' && name && msg.newName && botGroups[name]) { botGroups[msg.newName] = botGroups[name]; delete botGroups[name]; scheduleSave(); broadcast() }
-    if (action === 'add' && name && bot && botGroups[name] && bots[bot] && !botGroups[name].includes(bot)) { botGroups[name].push(bot); scheduleSave(); broadcast() }
-    if (action === 'remove' && name && bot && botGroups[name]) {
-      const idx = botGroups[name].indexOf(bot)
-      if (idx !== -1) { botGroups[name].splice(idx, 1); scheduleSave(); broadcast() }
-    }
-  }
-  if (msg.type === 'savecmd') {
-    const { action, label, command, idx } = msg
-    if (action === 'add' && label && command) { savedCommands.push({ label, command }); scheduleSave(); broadcast() }
-    if (action === 'remove' && typeof idx === 'number' && idx >= 0 && idx < savedCommands.length) { savedCommands.splice(idx, 1); scheduleSave(); broadcast() }
-    if (action === 'run' && typeof idx === 'number' && idx >= 0 && idx < savedCommands.length) {
-      const cmd = savedCommands[idx]
-      const targets = Object.values(bots).filter(b => b.connected)
-      for (const t of targets) { if (t.bot) t.bot.chat(cmd.command) }
-      broadcast()
-    }
-  }
-  if (msg.type === 'script') {
-    const { action, name, step } = msg
-    if (action === 'create' && name && !savedScripts[name]) { savedScripts[name] = []; scheduleSave(); broadcast() }
-    if (action === 'delete' && name && savedScripts[name]) { delete savedScripts[name]; scheduleSave(); broadcast() }
-    if (action === 'addstep' && name && savedScripts[name]) {
-      savedScripts[name].push({ delay: step?.delay || 1000, content: step?.content || '' })
-      scheduleSave(); broadcast()
-    }
-    if (action === 'removestep' && name && savedScripts[name] && typeof step === 'number') {
-      savedScripts[name].splice(step, 1); scheduleSave(); broadcast()
-    }
-    if (action === 'run' && name && savedScripts[name]) {
-      const script = savedScripts[name]; let totalDelay = 0
-      for (const s of script) {
-        totalDelay += s.delay
-        setTimeout(() => {
-          const targets = Object.values(bots).filter(b => b.connected)
-          for (const t of targets) { if (t.bot) t.bot.chat(s.content) }
-        }, totalDelay)
-      }
-    }
-  }
-  if (msg.type === 'exportConfig') {
-    const safe = JSON.parse(JSON.stringify({ version: VERSION, web: appConfig.web, autoUpdate: appConfig.autoUpdate, groups: botGroups, savedCommands, savedScripts, bots: Object.entries(bots).reduce((a, [k, v]) => { a[k] = { host: v.host, port: v.port, autoAfk: !!v.autoAfk, autoJump: !!v.autoJump, autoShift: !!v.autoShift, autoEat: !!v.autoEat, resourcePack: v.resourcePack || 'accept' }; return a }, {}) }))
-    if (msg.ws && msg.ws.readyState === 1) {
-      try { msg.ws.send(JSON.stringify({ type: 'configExport', data: safe })) } catch {}
-    }
-  }
-  if (msg.type === 'importConfig') {
-    try {
-      const d = msg.data
-      if (d.groups) botGroups = d.groups
-      if (d.savedCommands) savedCommands = d.savedCommands
-      if (d.savedScripts) savedScripts = d.savedScripts
-      if (d.bots) {
-        for (const [name, cfg] of Object.entries(d.bots)) {
-          if (!bots[name]) bots[name] = { ...DEFAULT_BOT_CONFIG, ...cfg, name, connected: false, joined: false }
-        }
-      }
-      if (d.web) appConfig.web = { ...appConfig.web, ...d.web }
-      scheduleSave()
-      logInfo('', 'Config imported')
-      broadcast()
-    } catch (e) { logErr('', `Import failed: ${e.message}`) }
-  }
-}
-
-//  auto-update
-
 function promptUpdate(currentVer, remoteVer) {
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
   const ask = () => {
@@ -1391,13 +1172,11 @@ function promptUpdate(currentVer, remoteVer) {
 }
 
 function doUpdate(remoteVer) {
-  const mainUrl = `${REPO_BASE}/minecline.js`
-  const publicFiles = ['index.html', 'style.css', 'app.js']
-  let completed = 0; const total = 1 + publicFiles.length; let hadError = false
+  let completed = 0; const total = 1; let hadError = false
   let dlDone = false
 
   const startTime = Date.now()
-  const animFrames = ['⣾', '⣽', '⣻', '⢿', '⡿', '⣟', '⣯', '⣷']
+  const animFrames = ['â£¾', 'â£½', 'â£»', 'â¢¿', 'â¡¿', 'â£Ÿ', 'â£¯', 'â£·']
   let frame = 0
   let lastProgress = 0
 
@@ -1406,9 +1185,9 @@ function doUpdate(remoteVer) {
     const overallPct = Math.min(100, Math.round((pct * 0.5 + (elapsed / 8000) * 0.5) * 100))
     const w = 30
     const filled = Math.round(w * overallPct / 100)
-    const bar = `${C.g}${'█'.repeat(filled)}${C.dim}${'░'.repeat(w - filled)}${C.reset}`
+    const bar = `${C.g}${'â–ˆ'.repeat(filled)}${C.dim}${'â–‘'.repeat(w - filled)}${C.reset}`
     const spinner = animFrames[frame % animFrames.length]
-    const prefix = overallPct < 100 ? `${C.bold}${C.c}${spinner}${C.reset} ${C.bold}UPDATE${C.reset}` : `${C.g}${C.bold}✔${C.reset} ${C.bold}UPDATE${C.reset}`
+    const prefix = overallPct < 100 ? `${C.bold}${C.c}${spinner}${C.reset} ${C.bold}UPDATE${C.reset}` : `${C.g}${C.bold}âœ”${C.reset} ${C.bold}UPDATE${C.reset}`
     process.stdout.write(`\r${prefix} ${bar} ${C.bold}${overallPct}%${C.reset} ${C.dim}${status || ''}${C.reset}\x1b[K`)
     if (overallPct < 100) frame++
   }
@@ -1419,7 +1198,7 @@ function doUpdate(remoteVer) {
     if (dlDone && Date.now() - startTime >= 8000) {
       clearInterval(animInterval)
       const color = hadError ? C.r : C.g
-      const icon = hadError ? '✖' : '✔'
+      const icon = hadError ? 'âœ–' : 'âœ”'
       process.stdout.write(`\r${color}${C.bold}${icon}${C.reset} ${C.bold}UPDATE${C.reset} ${hadError ? `${C.r}completed with errors${C.reset}` : `${C.g}to v${remoteVer}${C.reset}`} ${C.dim}(8.0s)${C.reset}\x1b[K\n`)
       if (hadError) { redrawPrompt(); return }
       logInfo('', `${C.g}Updated to v${remoteVer}! Restarting...${C.reset}`)
@@ -1452,13 +1231,12 @@ function doUpdate(remoteVer) {
 
   const bak = __filename + '.bak'
   if (fs.existsSync(__filename)) fs.copyFileSync(__filename, bak)
-  dl(mainUrl, __filename)
-  for (const f of publicFiles) dl(`${REPO_BASE}/public/${f}`, path.join(__dirname, 'public', f))
+  dl(`${REPO_BASE}/minecline.js`, __filename)
 }
 
 function checkForceUpdate() {
   return new Promise((resolve) => {
-    const url = `${REPO_BASE_REF}/UPDATENOW.txt`
+    const url = `${REPO_BASE}/UPDATENOW.txt`
     https.get(url, (res) => {
       let data = ''
       res.on('data', (chunk) => { data += chunk })
@@ -1491,7 +1269,7 @@ function checkAutoUpdate() {
         } else if (appConfig.autoUpdate) {
           promptUpdate(VERSION, remoteVer)
         } else {
-          logInfo('', `Update available: v${VERSION} → ${C.c}v${remoteVer}${C.reset} (use "update" to install)`)
+          logInfo('', `Update available: v${VERSION} â†’ ${C.c}v${remoteVer}${C.reset} (use "update" to install)`)
           redrawPrompt()
         }
       }, 500)
@@ -1508,47 +1286,26 @@ function cleanup() {
 }
 
 function init() {
-  try { fs.writeFileSync(LOG_PATH, '', 'utf8') } catch {} // ¯\_(ツ)_/¯
+  try { fs.writeFileSync(LOG_PATH, '', 'utf8') } catch {} // Â¯\_(ãƒ„)_/Â¯
   process.stdout.write('\x1b[?25l')
   loadConfig()
   registerLifecycle()
-
-  // first-time setup
-  if (!appConfig._setup) {
-    process.stdout.write(`\n${C.c}Do you want to enable the web dashboard panel?${C.reset}\n${C.g}[Y]es${C.reset}  ${C.dim}[n]o${C.reset}\n> `)
-    process.stdin.resume()
-    process.stdin.once('data', (buf) => {
-      const ans = buf.toString().trim().toLowerCase()
-      if (ans === '' || ans === 'y' || ans === 'yes') {
-        appConfig.web.enabled = true
-        logInfo('', `Web dashboard ${C.g}enabled${C.reset}`)
-      } else {
-        appConfig.web.enabled = false
-        logInfo('', 'Web dashboard disabled (can be changed in config.json)')
-      }
-      appConfig._setup = true
-      scheduleSave()
-      showLogo()
-    })
-    return
-  }
-
   showLogo()
 }
 
 function showLogo() {
   const logo = [
-    `${C.m}  ════════════════════════════${C.reset}`,
-    `${C.m}  ║${C.reset}  ${C.c}███╗   ███╗${C.reset}${C.g}██╗${C.reset}${C.y}███╗${C.reset}   ${C.b}██╗${C.reset}  ${C.m}║${C.reset}`,
-    `${C.m}  ║${C.reset}  ${C.c}████╗ ████║${C.reset}${C.g}██║${C.reset}${C.y}████╗${C.reset}  ${C.b}██║${C.reset}  ${C.m}║${C.reset}`,
-    `${C.m}  ║${C.reset}  ${C.c}██╔████╔██║${C.reset}${C.g}██║${C.reset}${C.y}██╔██╗${C.reset} ${C.b}██║${C.reset}  ${C.m}║${C.reset}`,
-    `${C.m}  ║${C.reset}  ${C.c}██║╚██╔╝██║${C.reset}${C.g}██║${C.reset}${C.y}██║╚██╗${C.reset}${C.b}██║${C.reset}  ${C.m}║${C.reset}`,
-    `${C.m}  ║${C.reset}  ${C.c}██║ ╚═╝ ██║${C.reset}${C.g}██║${C.reset}${C.y}██║ ╚████║${C.reset}  ${C.m}║${C.reset}`,
-    `${C.m}  ║${C.reset}  ${C.c}╚═╝     ╚═╝${C.reset}${C.g}╚═╝${C.reset}${C.y}╚═╝  ╚═══╝${C.reset}  ${C.m}║${C.reset}`,
-    `${C.m}  ════════════════════════════${C.reset}`,
+    `${C.m}  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${C.reset}`,
+    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ–ˆâ•—   â–ˆâ–ˆâ–ˆâ•—${C.reset}${C.g}â–ˆâ–ˆâ•—${C.reset}${C.y}â–ˆâ–ˆâ–ˆâ•—${C.reset}   ${C.b}â–ˆâ–ˆâ•—${C.reset}  ${C.m}â•‘${C.reset}`,
+    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ–ˆâ–ˆâ•— â–ˆâ–ˆâ–ˆâ–ˆâ•‘${C.reset}${C.g}â–ˆâ–ˆâ•‘${C.reset}${C.y}â–ˆâ–ˆâ–ˆâ–ˆâ•—${C.reset}  ${C.b}â–ˆâ–ˆâ•‘${C.reset}  ${C.m}â•‘${C.reset}`,
+    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ•”â–ˆâ–ˆâ–ˆâ–ˆâ•”â–ˆâ–ˆâ•‘${C.reset}${C.g}â–ˆâ–ˆâ•‘${C.reset}${C.y}â–ˆâ–ˆâ•”â–ˆâ–ˆâ•—${C.reset} ${C.b}â–ˆâ–ˆâ•‘${C.reset}  ${C.m}â•‘${C.reset}`,
+    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ•‘â•šâ–ˆâ–ˆâ•”â•â–ˆâ–ˆâ•‘${C.reset}${C.g}â–ˆâ–ˆâ•‘${C.reset}${C.y}â–ˆâ–ˆâ•‘â•šâ–ˆâ–ˆâ•—${C.reset}${C.b}â–ˆâ–ˆâ•‘${C.reset}  ${C.m}â•‘${C.reset}`,
+    `${C.m}  â•‘${C.reset}  ${C.c}â–ˆâ–ˆâ•‘ â•šâ•â• â–ˆâ–ˆâ•‘${C.reset}${C.g}â–ˆâ–ˆâ•‘${C.reset}${C.y}â–ˆâ–ˆâ•‘ â•šâ–ˆâ–ˆâ–ˆâ–ˆâ•‘${C.reset}  ${C.m}â•‘${C.reset}`,
+    `${C.m}  â•‘${C.reset}  ${C.c}â•šâ•â•     â•šâ•â•${C.reset}${C.g}â•šâ•â•${C.reset}${C.y}â•šâ•â•  â•šâ•â•â•â•${C.reset}  ${C.m}â•‘${C.reset}`,
+    `${C.m}  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•${C.reset}`,
   ]
 
-  const bars = ['▁▂▃▄▅▆▇█▇▆▅▄▃▂▁', '█▇▆▅▄▃▂▁▂▃▄▅▆▇█', '▁▃▅▇█▇▅▃▁', '█▆▄▂▄▆█']
+  const bars = ['â–â–‚â–ƒâ–„â–…â–†â–‡â–ˆâ–‡â–†â–…â–„â–ƒâ–‚â–', 'â–ˆâ–‡â–†â–…â–„â–ƒâ–‚â–â–‚â–ƒâ–„â–…â–†â–‡â–ˆ', 'â–â–ƒâ–…â–‡â–ˆâ–‡â–…â–ƒâ–', 'â–ˆâ–†â–„â–‚â–„â–†â–ˆ']
   const msgs = ['  firing up mineflayer...', '  loading your bots...', '  almost there...', '  ready!']
 
   let step = 0, frame = 0
@@ -1577,10 +1334,9 @@ function showLogo() {
     const titleBare = stripAnsi(title)
     const dash = Math.max(0, w - titleBare.length - 2)
     const left = Math.floor(dash / 2); const right = dash - left
-    process.stdout.write(`┌${'─'.repeat(left)}${title}${'─'.repeat(right)}┐\n`)
-    logInfo('', `${C.dim}ready — type ${C.c}help${C.dim} for commands${C.reset}`)
+    process.stdout.write(`â”Œ${'â”€'.repeat(left)}${title}${'â”€'.repeat(right)}â”\n`)
+    logInfo('', `${C.dim}ready â€” type ${C.c}help${C.dim} for commands${C.reset}`)
 
-    if (appConfig.web.enabled) startWebServer(appConfig.web.port)
     setTimeout(checkAutoUpdate, 2000)
 
     readline.emitKeypressEvents(process.stdin)

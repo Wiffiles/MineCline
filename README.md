@@ -37,12 +37,10 @@
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/Wiffiles/MineCline
-
-cd MineCline
-
+# Install
 npm install
 
+# Run
 npm start
 
 # Connect a bot
@@ -156,17 +154,6 @@ mcbridge ItzMeJoel <bot-token> <channel-id>
 
 - [mineflayer](https://github.com/PrismarineJS/mineflayer) — Minecraft bot library
 - [mineflayer-pathfinder](https://github.com/PrismarineJS/mineflayer-pathfinder) — Pathfinding
-
---- 
-
-## 📱 Optimized for mobile support
-
-The code is optimized to be runned on phones. You can use old ones. for hosting
-
-Just download termux and follow setup guide above. its the same for windows Linux (Android Included) 
-
-
-<img width="1074" height="561" alt="image" src="https://github.com/user-attachments/assets/a7555606-a2f8-48d9-b18d-667eeb647758" />
 
 ---
 

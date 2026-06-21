@@ -1,73 +1,1622 @@
-5:32:35 PM [] ◆ ready — type help for commands
-5:32:35 PM [] ◆ Web dashboard at http://localhost:3000
-5:32:51 PM [] Web dashboard: enabled on port 3000
-5:32:57 PM [] Web dashboard: enabled on port 3000
-5:32:59 PM [] ── MineCline v2.1.0 Commands ──
-5:32:59 PM []   connect <name,names...> <host> [port] — Connect bot(s) (8s delay)
-5:32:59 PM []   disconnect [name | all]          — Disconnect bot(s)
-5:32:59 PM []   select <name>                  — Select single bot
-5:32:59 PM []   control <name1,name2|all>        — Multi-select bots
-5:32:59 PM []   global                         — Clear selection
-5:32:59 PM []   bots                           — List all bots
-5:32:59 PM []   Toggles: afk, jump, shift, eat, respack
-5:32:59 PM []   reconnect — Reconnect all saved bots (8s delay)
-5:32:59 PM []   chat <text>                    — Send chat
-5:32:59 PM []   /<cmd>                         — Server command
-5:32:59 PM []   inv [name]                     — Show inventory
-5:32:59 PM []   mcbridge <bot> <token> <chan> — MC↔Discord bridge
-5:32:59 PM []   bridge stop                    — Stop bridge
-5:32:59 PM []   config [name] [set k v]        — View/change config
-5:32:59 PM []   onjoin <name> add cmd|chat     — Join actions
-5:32:59 PM []   clear, save, quit — Utility
-5:32:59 PM []   update — Check for updates
-5:32:59 PM []   web [port|on|off] — Web dashboard config
-5:32:59 PM []   group list|create|delete|add|remove — Bot groups
-5:32:59 PM []   savecmd list|add|remove|run — Saved commands
-5:32:59 PM []   script list|create|delete|addstep|run — Script runner
-5:55:26 PM [] ◆ Connecting 1 bot(s) with 8s delay...
-5:55:27 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
-5:55:29 PM [syzdark] ✖ Kicked: {"text":"DDoS Mitigation: ","color":"red","extra":[{"text":"Please Reconnect to the server.","color":"white"}]}
-5:55:29 PM [syzdark] ⚠ Disconnected: socketClosed
-5:56:30 PM [] Web dashboard: enabled on port 3000
-5:56:32 PM [] Web dashboard: enabled on port 3000
-5:56:34 PM [] ◆ Web server disabled
-5:56:47 PM [] ◆ Web server disabled
-5:56:49 PM [] ◆ Connecting 1 bot(s) with 8s delay...
-5:56:49 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
-5:56:54 PM [syzdark] ✖ Kicked: {"text":"DDoS Mitigation: ","color":"red","extra":[{"text":"Please Reconnect to the server.","color":"white"}]}
-5:56:54 PM [syzdark] ⚠ Disconnected: socketClosed
-5:56:55 PM [] ◆ Connecting 1 bot(s) with 8s delay...
-5:56:55 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
-5:58:01 PM [syzdark] ✖ read ECONNRESET
-5:58:01 PM [syzdark] ⚠ Disconnected: socketClosed
-6:02:17 PM [] ── MineCline v2.1.0 Commands ──
-6:02:17 PM []   connect <name,names...> <host> [port] — Connect bot(s) (8s delay)
-6:02:17 PM []   disconnect [name | all]          — Disconnect bot(s)
-6:02:17 PM []   select <name>                  — Select single bot
-6:02:17 PM []   control <name1,name2|all>        — Multi-select bots
-6:02:17 PM []   global                         — Clear selection
-6:02:17 PM []   bots                           — List all bots
-6:02:17 PM []   Toggles: afk, jump, shift, eat, respack
-6:02:17 PM []   reconnect — Reconnect all saved bots (8s delay)
-6:02:17 PM []   chat <text>                    — Send chat
-6:02:17 PM []   /<cmd>                         — Server command
-6:02:17 PM []   inv [name]                     — Show inventory
-6:02:17 PM []   mcbridge <bot> <token> <chan> — MC↔Discord bridge
-6:02:17 PM []   bridge stop                    — Stop bridge
-6:02:17 PM []   config [name] [set k v]        — View/change config
-6:02:17 PM []   onjoin <name> add cmd|chat     — Join actions
-6:02:17 PM []   clear, save, quit — Utility
-6:02:17 PM []   update — Check for updates
-6:02:17 PM []   web [port|on|off] — Web dashboard config
-6:02:17 PM []   group list|create|delete|add|remove — Bot groups
-6:02:17 PM []   savecmd list|add|remove|run — Saved commands
-6:02:17 PM []   script list|create|delete|addstep|run — Script runner
-6:02:20 PM [] ✖ Usage: group list | create <name> | delete <name> | add <group> <bot> | remove <group> <bot>
-6:07:11 PM [] ◆ Connecting 1 bot(s) with 8s delay...
-6:07:11 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
-6:07:13 PM [syzdark] ✖ Kicked: {"text":"DDoS Mitigation: ","color":"red","extra":[{"text":"Please Reconnect to the server.","color":"white"}]}
-6:07:13 PM [syzdark] ⚠ Disconnected: socketClosed
-6:07:15 PM [] ◆ Connecting 1 bot(s) with 8s delay...
-6:07:15 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
-6:07:46 PM [syzdark] ⚠ Disconnected: socketClosed
-6:08:05 PM [syzdark] ✖ read ECONNRESET
+7:03:36 PM [] ◆ ready — type help for commands
+7:03:46 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+7:03:46 PM [syzdark] ◆ Connecting to play.swiftsmp.com:25565...
+7:03:49 PM [syzdark] ◆ Logged in as syzdark
+7:03:49 PM [syzdark] <SERVER> Your login session has been continued.
+7:03:49 PM [syzdark] ◆ Spawned into world
+7:03:49 PM [syzdark] ◆ Bot respawned
+7:03:49 PM [syzdark] ◆ Spawned into world
+7:03:49 PM [syzdark] <SERVER> 
+7:03:49 PM [syzdark] <SERVER> Welcome to SwiftSMP, syzdark
+7:03:49 PM [syzdark] <SERVER> 
+7:03:49 PM [syzdark] <SERVER> WEBSITE swiftsmp.com
+7:03:49 PM [syzdark] <SERVER> STORE store.swiftsmp.net
+7:03:49 PM [syzdark] <SERVER> DISCORD discord.gg/swiftsmp
+7:03:49 PM [syzdark] <SERVER> 
+7:03:54 PM [syzdark] ◆ Cmd: /help
+7:03:54 PM [syzdark] <SERVER> You do not have access to that command.
+7:03:59 PM [syzdark] ◆ Cmd: /server economy
+7:03:59 PM [syzdark] <SERVER> You are now queued for economy! You are in position 2 of 2.
+Type /leavequeue or
+7:04:02 PM [syzdark] <SERVER> Sending you to economy now..
+7:04:03 PM [syzdark] ◆ Logged in as syzdark
+7:04:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 47s) | ❖ 2x DROPS (1d 3h 52m 3s)
+7:04:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 46s) | ❖ 2x DROPS (1d 3h 52m 2s)
+7:04:04 PM [syzdark] <SERVER> Vote for SwiftSMP to receive an awesome rewards! /vote
+7:04:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 45s) | ❖ 2x DROPS (1d 3h 52m 1s)
+7:04:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 44s) | ❖ 2x DROPS (1d 3h 52m)
+7:04:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 43s) | ❖ 2x DROPS (1d 3h 51m 59s)
+7:04:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 42s) | ❖ 2x DROPS (1d 3h 51m 58s)
+7:04:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 41s) | ❖ 2x DROPS (1d 3h 51m 57s)
+7:04:09 PM [syzdark] ◆ Cmd: /team home
+7:04:09 PM [syzdark] <SERVER> Teleporting in 5s... Do not move.
+7:04:09 PM [syzdark] <SERVER> Teleporting in 5s...
+7:04:10 PM [syzdark] <SERVER> #17 $3.36  [Iron I] SWIFT UR_Cristiano: wait
+7:04:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 40s) | ❖ 2x DROPS (1d 3h 51m 56s)
+7:04:10 PM [syzdark] <SERVER> Teleporting in 4s...
+7:04:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 39s) | ❖ 2x DROPS (1d 3h 51m 55s)
+7:04:11 PM [syzdark] <SERVER> Teleporting in 3s...
+7:04:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 38s) | ❖ 2x DROPS (1d 3h 51m 54s)
+7:04:12 PM [syzdark] <SERVER> Teleporting in 2s...
+7:04:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 37s) | ❖ 2x DROPS (1d 3h 51m 53s)
+7:04:13 PM [syzdark] <SERVER> Teleporting in 1s...
+7:04:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 36s) | ❖ 2x DROPS (1d 3h 51m 52s)
+7:04:15 PM [syzdark] <SERVER> Teleported!
+7:04:15 PM [syzdark] <SERVER> Teleport Successful!
+7:04:15 PM [syzdark] <SERVER> Next shard in 59s
+7:04:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 35s) | ❖ 2x DROPS (1d 3h 51m 51s)
+7:04:16 PM [syzdark] <SERVER> Next shard in 58s
+7:04:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 34s) | ❖ 2x DROPS (1d 3h 51m 50s)
+7:04:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 33s) | ❖ 2x DROPS (1d 3h 51m 49s)
+7:04:17 PM [syzdark] <SERVER> Next shard in 57s
+7:04:17 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: i got kick for flying and idk I'm stuck in the pvp area and spawn
+7:04:17 PM [syzdark] <SERVER> s7ak was slain by The Rubber Brawler [552 HP]
+7:04:18 PM [syzdark] <SERVER> Next shard in 56s
+7:04:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 32s) | ❖ 2x DROPS (1d 3h 51m 48s)
+7:04:19 PM [syzdark] <SERVER> ** EnderTweaks just beat Immortal_Rapii in a Coinflip worth 38,000,000 (Money) (-$2,000,000 5.0% Tax) **
+7:04:19 PM [syzdark] <SERVER> Next shard in 55s
+7:04:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 31s) | ❖ 2x DROPS (1d 3h 51m 47s)
+7:04:20 PM [syzdark] <SERVER> Next shard in 54s
+7:04:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 30s) | ❖ 2x DROPS (1d 3h 51m 46s)
+7:04:21 PM [syzdark] <SERVER> Next shard in 53s
+7:04:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 29s) | ❖ 2x DROPS (1d 3h 51m 45s)
+7:04:22 PM [syzdark] <SERVER> Next shard in 52s
+7:04:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 28s) | ❖ 2x DROPS (1d 3h 51m 44s)
+7:04:23 PM [syzdark] <SERVER> Next shard in 51s
+7:04:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 27s) | ❖ 2x DROPS (1d 3h 51m 43s)
+7:04:23 PM [syzdark] <SERVER> ** EnderTweaks just beat itsmetotoy in a Coinflip worth 1,900,000 (Money) (-$100,000 5.0% Tax) **
+7:04:24 PM [syzdark] <SERVER> Next shard in 50s
+7:04:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 26s) | ❖ 2x DROPS (1d 3h 51m 42s)
+7:04:25 PM [syzdark] <SERVER> Next shard in 49s
+7:04:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 25s) | ❖ 2x DROPS (1d 3h 51m 41s)
+7:04:26 PM [syzdark] <SERVER> Next shard in 48s
+7:04:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 24s) | ❖ 2x DROPS (1d 3h 51m 40s)
+7:04:27 PM [syzdark] <SERVER> Next shard in 47s
+7:04:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 23s) | ❖ 2x DROPS (1d 3h 51m 39s)
+7:04:28 PM [syzdark] <SERVER> Next shard in 46s
+7:04:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 22s) | ❖ 2x DROPS (1d 3h 51m 38s)
+7:04:29 PM [syzdark] <SERVER> Next shard in 45s
+7:04:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 21s) | ❖ 2x DROPS (1d 3h 51m 37s)
+7:04:30 PM [syzdark] <SERVER> Next shard in 44s
+7:04:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 20s) | ❖ 2x DROPS (1d 3h 51m 36s)
+7:04:31 PM [syzdark] <SERVER> Next shard in 43s
+7:04:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 19s) | ❖ 2x DROPS (1d 3h 51m 35s)
+7:04:32 PM [syzdark] <SERVER> Next shard in 42s
+7:04:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 18s) | ❖ 2x DROPS (1d 3h 51m 34s)
+7:04:33 PM [syzdark] <SERVER> Next shard in 41s
+7:04:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 17s) | ❖ 2x DROPS (1d 3h 51m 33s)
+7:04:33 PM [syzdark] <SERVER> GeezEman was obliterated by GeezEman
+7:04:34 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 10s!
+7:04:34 PM [syzdark] <SERVER> Next shard in 40s
+7:04:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 16s) | ❖ 2x DROPS (1d 3h 51m 32s)
+7:04:35 PM [syzdark] <SERVER> Next shard in 39s
+7:04:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 15s) | ❖ 2x DROPS (1d 3h 51m 31s)
+7:04:36 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: i lost everything
+7:04:36 PM [syzdark] <SERVER> Next shard in 38s
+7:04:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 14s) | ❖ 2x DROPS (1d 3h 51m 30s)
+7:04:37 PM [syzdark] <SERVER> Next shard in 37s
+7:04:37 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 13s) | ❖ 2x DROPS (1d 3h 51m 29s)
+7:04:38 PM [syzdark] <SERVER> Next shard in 36s
+7:04:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 12s) | ❖ 2x DROPS (1d 3h 51m 28s)
+7:04:39 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 5s!
+7:04:39 PM [syzdark] <SERVER> Next shard in 35s
+7:04:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 11s) | ❖ 2x DROPS (1d 3h 51m 27s)
+7:04:40 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 4s!
+7:04:40 PM [syzdark] <SERVER> Next shard in 34s
+7:04:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 10s) | ❖ 2x DROPS (1d 3h 51m 26s)
+7:04:40 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: aray mo devel
+7:04:41 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: loot?
+7:04:41 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 3s!
+7:04:41 PM [syzdark] <SERVER> Next shard in 33s
+7:04:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 9s) | ❖ 2x DROPS (1d 3h 51m 25s)
+7:04:42 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 2s!
+7:04:42 PM [syzdark] <SERVER> Next shard in 32s
+7:04:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 8s) | ❖ 2x DROPS (1d 3h 51m 24s)
+7:04:43 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 1s!
+7:04:43 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: my sword ny money
+7:04:43 PM [syzdark] <SERVER> ** Immortal_Rapii just beat EnderTweaks in a Coinflip worth 38,000,000 (Money) (-$2,000,000 5.0% Tax) **
+7:04:43 PM [syzdark] <SERVER> Next shard in 31s
+7:04:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 7s) | ❖ 2x DROPS (1d 3h 51m 23s)
+7:04:44 PM [syzdark] <SERVER> A Meteorite has crashed at X: 9296 Z: -8462 in the Overworld!
+7:04:44 PM [syzdark] <SERVER> Next shard in 30s
+7:04:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 6s) | ❖ 2x DROPS (1d 3h 51m 22s)
+7:04:45 PM [syzdark] <SERVER> Next shard in 29s
+7:04:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 5s) | ❖ 2x DROPS (1d 3h 51m 21s)
+7:04:46 PM [syzdark] <SERVER> Next shard in 28s
+7:04:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 4s) | ❖ 2x DROPS (1d 3h 51m 20s)
+7:04:47 PM [syzdark] <SERVER> A looted Meteorite has been fully cleared and decayed.
+7:04:47 PM [syzdark] <SERVER> Next shard in 27s
+7:04:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 3s) | ❖ 2x DROPS (1d 3h 51m 19s)
+7:04:47 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: my*
+7:04:48 PM [syzdark] <SERVER> Next shard in 26s
+7:04:48 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 2s) | ❖ 2x DROPS (1d 3h 51m 18s)
+7:04:48 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: by who?
+7:04:49 PM [syzdark] <SERVER> #28 $2.10B BILLIONAIRE [Iron I] UmarAhmadPlayz: tpa for gambling items or money
+7:04:49 PM [syzdark] <SERVER> Next shard in 25s
+7:04:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m 1s) | ❖ 2x DROPS (1d 3h 51m 17s)
+7:04:50 PM [syzdark] <SERVER> #152 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: GUys im looking for a new zen princess!
+7:04:50 PM [syzdark] <SERVER> Next shard in 24s
+7:04:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 51m) | ❖ 2x DROPS (1d 3h 51m 16s)
+7:04:50 PM [syzdark] <SERVER> brakulis is unlocking a Meteorite at X: 9296 Z: -8462!
+7:04:51 PM [syzdark] <SERVER> Next shard in 23s
+7:04:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 59s) | ❖ 2x DROPS (1d 3h 51m 15s)
+7:04:52 PM [syzdark] <SERVER> Next shard in 22s
+7:04:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 58s) | ❖ 2x DROPS (1d 3h 51m 14s)
+7:04:53 PM [syzdark] <SERVER> #421 $176.72k  [Iron I] itsmetotoy: cf 2m EnderTweaks
+7:04:53 PM [syzdark] <SERVER> Next shard in 21s
+7:04:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 57s) | ❖ 2x DROPS (1d 3h 51m 13s)
+7:04:54 PM [syzdark] <SERVER> Next shard in 20s
+7:04:54 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 56s) | ❖ 2x DROPS (1d 3h 51m 12s)
+7:04:55 PM [syzdark] <SERVER> Next shard in 19s
+7:04:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 55s) | ❖ 2x DROPS (1d 3h 51m 11s)
+7:04:55 PM [syzdark] <SERVER> #421 $176.72k  [Iron I] itsmetotoy: cf 2m EnderTweaks
+7:04:56 PM [syzdark] <SERVER> Next shard in 18s
+7:04:56 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 54s) | ❖ 2x DROPS (1d 3h 51m 10s)
+7:04:56 PM [syzdark] <SERVER> #421 $176.72k  [Iron I] itsmetotoy: cf 2m EnderTweaks
+7:04:57 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: me zen
+7:04:57 PM [syzdark] <SERVER> Next shard in 17s
+7:04:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 53s) | ❖ 2x DROPS (1d 3h 51m 9s)
+7:04:58 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasu money
+7:04:58 PM [syzdark] <SERVER> Next shard in 16s
+7:04:58 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 52s) | ❖ 2x DROPS (1d 3h 51m 8s)
+7:04:59 PM [syzdark] <SERVER> Next shard in 15s
+7:04:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 51s) | ❖ 2x DROPS (1d 3h 51m 7s)
+7:05:00 PM [syzdark] <SERVER> Next shard in 14s
+7:05:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 50s) | ❖ 2x DROPS (1d 3h 51m 6s)
+7:05:00 PM [syzdark] <SERVER> ** Gamer_Diem just beat UmarAhmadPlayz in a Coinflip worth 190,000,000 (Money) (-$10,000,000 5.0% Tax) **
+7:05:01 PM [syzdark] <SERVER> #152 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: ewww
+7:05:01 PM [syzdark] <SERVER> Next shard in 13s
+7:05:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 49s) | ❖ 2x DROPS (1d 3h 51m 5s)
+7:05:02 PM [syzdark] <SERVER> Next shard in 12s
+7:05:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 48s) | ❖ 2x DROPS (1d 3h 51m 4s)
+7:05:03 PM [syzdark] <SERVER> #316 $8.26M  [Iron I] Iheo: should i giveaway swords?
+7:05:03 PM [syzdark] <SERVER> ** itsmetotoy just beat EnderTweaks in a Coinflip worth 3,800,000 (Money) (-$200,000 5.0% Tax) **
+7:05:03 PM [syzdark] <SERVER> Next shard in 11s
+7:05:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 47s) | ❖ 2x DROPS (1d 3h 51m 3s)
+7:05:03 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasy money
+7:05:04 PM [syzdark] <SERVER> Next shard in 10s
+7:05:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 46s) | ❖ 2x DROPS (1d 3h 51m 2s)
+7:05:04 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: protect me
+7:05:05 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruzeenn
+7:05:05 PM [syzdark] <SERVER> Next shard in 9s
+7:05:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 45s) | ❖ 2x DROPS (1d 3h 51m 1s)
+7:05:05 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasy money
+7:05:06 PM [syzdark] <SERVER> Next shard in 8s
+7:05:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 44s) | ❖ 2x DROPS (1d 3h 51m)
+7:05:07 PM [syzdark] <SERVER> ** EnderTweaks just beat Immortal_Rapii in a Coinflip worth 19,000,000 (Money) (-$1,000,000 5.0% Tax) **
+7:05:07 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasy money
+7:05:07 PM [syzdark] <SERVER> Next shard in 7s
+7:05:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 43s) | ❖ 2x DROPS (1d 3h 50m 59s)
+7:05:08 PM [syzdark] <SERVER> Next shard in 6s
+7:05:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 42s) | ❖ 2x DROPS (1d 3h 50m 58s)
+7:05:09 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ayo ruzeen
+7:05:09 PM [syzdark] <SERVER> Next shard in 5s
+7:05:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 41s) | ❖ 2x DROPS (1d 3h 50m 57s)
+7:05:10 PM [syzdark] <SERVER> Next shard in 4s
+7:05:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 40s) | ❖ 2x DROPS (1d 3h 50m 56s)
+7:05:11 PM [syzdark] <SERVER> Next shard in 3s
+7:05:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 39s) | ❖ 2x DROPS (1d 3h 50m 55s)
+7:05:12 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruzeenn
+7:05:12 PM [syzdark] <SERVER> Next shard in 2s
+7:05:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 38s) | ❖ 2x DROPS (1d 3h 50m 54s)
+7:05:13 PM [syzdark] <SERVER> #28 $1.73B BILLIONAIRE [Iron I] UmarAhmadPlayz: cf me
+7:05:13 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: ill gamble UR_Cristiano
+7:05:13 PM [syzdark] <SERVER> Next shard in 1s
+7:05:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 37s) | ❖ 2x DROPS (1d 3h 50m 53s)
+7:05:14 PM [syzdark] <SERVER> + 1 ★
+7:05:15 PM [syzdark] <SERVER> +1 Shard(s)
+7:05:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 36s) | ❖ 2x DROPS (1d 3h 50m 52s)
+7:05:15 PM [syzdark] <SERVER> Next shard in 59s
+7:05:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 35s) | ❖ 2x DROPS (1d 3h 50m 51s)
+7:05:16 PM [syzdark] <SERVER> Next shard in 58s
+7:05:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 34s) | ❖ 2x DROPS (1d 3h 50m 50s)
+7:05:17 PM [syzdark] <SERVER> #33 $587.79M  [Iron I] VeroHardtokilll: check my order for easy money
+7:05:17 PM [syzdark] <SERVER> Next shard in 57s
+7:05:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 33s) | ❖ 2x DROPS (1d 3h 50m 49s)
+7:05:18 PM [syzdark] <SERVER> #33 $587.79M  [Iron I] VeroHardtokilll: check my order for easy money
+7:05:18 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruzee
+7:05:18 PM [syzdark] <SERVER> Next shard in 56s
+7:05:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 32s) | ❖ 2x DROPS (1d 3h 50m 48s)
+7:05:19 PM [syzdark] <SERVER> #33 $587.79M  [Iron I] VeroHardtokilll: check my order for easy money
+7:05:19 PM [syzdark] <SERVER> Next shard in 55s
+7:05:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 31s) | ❖ 2x DROPS (1d 3h 50m 47s)
+7:05:20 PM [syzdark] <SERVER> ✦ usergogo has awakened their NETHERITE SWORD!
+  ⤷ [RARE] ������ Venom +13.6%
+7:05:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 30s) | ❖ 2x DROPS (1d 3h 50m 46s)
+7:05:21 PM [syzdark] <SERVER> Next shard in 54s
+7:05:21 PM [syzdark] <SERVER> brakulis successfully cracked open a RARE meteorite!
+7:05:21 PM [syzdark] <SERVER> Next shard in 53s
+7:05:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 29s) | ❖ 2x DROPS (1d 3h 50m 45s)
+7:05:22 PM [syzdark] <SERVER> Next shard in 52s
+7:05:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 28s) | ❖ 2x DROPS (1d 3h 50m 44s)
+7:05:22 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruzeen
+7:05:23 PM [syzdark] <SERVER> ✦ Ecnav found 2x Rare crate from mining.
+7:05:23 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasy money
+7:05:23 PM [syzdark] <SERVER> Next shard in 51s
+7:05:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 27s) | ❖ 2x DROPS (1d 3h 50m 43s)
+7:05:24 PM [syzdark] <SERVER> #28 $1.73B BILLIONAIRE [Iron I] UmarAhmadPlayz: MexicanDrugLord wanna gamble?
+7:05:24 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasy money
+7:05:24 PM [syzdark] <SERVER> Next shard in 50s
+7:05:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 26s) | ❖ 2x DROPS (1d 3h 50m 42s)
+7:05:25 PM [syzdark] <SERVER> #33 $587.79M  [Iron I] VeroHardtokilll: check my order for easy money
+7:05:25 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasy money
+7:05:25 PM [syzdark] <SERVER> Next shard in 49s
+7:05:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 25s) | ❖ 2x DROPS (1d 3h 50m 41s)
+7:05:25 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasy money
+7:05:25 PM [syzdark] <SERVER> #33 $587.79M  [Iron I] VeroHardtokilll: check my order for easy money
+7:05:26 PM [syzdark] <SERVER> #194 $32.13M  [Iron I] mzncraft: do my order for easy peasy money
+7:05:26 PM [syzdark] <SERVER> Next shard in 48s
+7:05:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 24s) | ❖ 2x DROPS (1d 3h 50m 40s)
+7:05:27 PM [syzdark] <SERVER> Next shard in 47s
+7:05:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 23s) | ❖ 2x DROPS (1d 3h 50m 39s)
+7:05:28 PM [syzdark] <SERVER> Next shard in 46s
+7:05:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 22s) | ❖ 2x DROPS (1d 3h 50m 38s)
+7:05:29 PM [syzdark] <SERVER> Next shard in 45s
+7:05:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 21s) | ❖ 2x DROPS (1d 3h 50m 37s)
+7:05:30 PM [syzdark] <SERVER> #17 $3.84M  [Iron I] SWIFT UR_Cristiano: mexi u just gonna kill me...
+7:05:30 PM [syzdark] <SERVER> Next shard in 44s
+7:05:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 20s) | ❖ 2x DROPS (1d 3h 50m 36s)
+7:05:30 PM [syzdark] <SERVER> ** Immortal_Rapii just beat EnderTweaks in a Coinflip worth 57,000,000 (Money) (-$3,000,000 5.0% Tax) **
+7:05:31 PM [syzdark] <SERVER> Next shard in 43s
+7:05:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 19s) | ❖ 2x DROPS (1d 3h 50m 35s)
+7:05:32 PM [syzdark] <SERVER> Next shard in 42s
+7:05:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 18s) | ❖ 2x DROPS (1d 3h 50m 34s)
+7:05:32 PM [syzdark] <SERVER> ✦ Morgan05 has awakened their NETHERITE SWORD!
+  ⤷ [COMMON] ❄ Frostbite +9.3%
+7:05:33 PM [syzdark] <SERVER> Next shard in 41s
+7:05:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 17s) | ❖ 2x DROPS (1d 3h 50m 33s)
+7:05:34 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: no?
+7:05:34 PM [syzdark] <SERVER> Next shard in 40s
+7:05:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 16s) | ❖ 2x DROPS (1d 3h 50m 32s)
+7:05:34 PM [syzdark] <SERVER> ✦ Morgan05 has awakened their NETHERITE SWORD!
+  ⤷ [RARE] ⚔ PvP Damage +5.6%
+7:05:34 PM [syzdark] <SERVER> #17 $103.84M  [Iron I] SWIFT UR_Cristiano: ok wait rn
+7:05:35 PM [syzdark] <SERVER> Next shard in 39s
+7:05:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 15s) | ❖ 2x DROPS (1d 3h 50m 31s)
+7:05:36 PM [syzdark] <SERVER> #316 $8.26M  [Iron I] Iheo: should i giveaway swords?
+7:05:36 PM [syzdark] <SERVER> #316 $8.26M  [Iron I] Iheo: should i giveaway swords?
+7:05:36 PM [syzdark] <SERVER> Next shard in 38s
+7:05:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 14s) | ❖ 2x DROPS (1d 3h 50m 30s)
+7:05:36 PM [syzdark] <SERVER> ✦ Morgan05 has awakened their NETHERITE SWORD!
+  ⤷ [EPIC] ❄ Frostbite +15.7%
+7:05:37 PM [syzdark] <SERVER> Next shard in 37s
+7:05:37 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 13s) | ❖ 2x DROPS (1d 3h 50m 29s)
+7:05:38 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: why would i kill u
+7:05:38 PM [syzdark] <SERVER> Next shard in 36s
+7:05:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 12s) | ❖ 2x DROPS (1d 3h 50m 28s)
+7:05:39 PM [syzdark] <SERVER> Next shard in 35s
+7:05:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 11s) | ❖ 2x DROPS (1d 3h 50m 27s)
+7:05:40 PM [syzdark] <SERVER> Next shard in 34s
+7:05:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 10s) | ❖ 2x DROPS (1d 3h 50m 26s)
+7:05:41 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: '
+7:05:41 PM [syzdark] <SERVER> Next shard in 33s
+7:05:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 9s) | ❖ 2x DROPS (1d 3h 50m 25s)
+7:05:41 PM [syzdark] <SERVER> Beast_Zen_Kun is searching for a duel! [16 RR - Iron I]
+7:05:42 PM [syzdark] <SERVER> Next shard in 32s
+7:05:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 8s) | ❖ 2x DROPS (1d 3h 50m 24s)
+7:05:43 PM [syzdark] <SERVER> Next shard in 31s
+7:05:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 7s) | ❖ 2x DROPS (1d 3h 50m 23s)
+7:05:43 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: cash
+7:05:44 PM [syzdark] <SERVER> Next shard in 30s
+7:05:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 6s) | ❖ 2x DROPS (1d 3h 50m 22s)
+7:05:45 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: san ka
+7:05:45 PM [syzdark] <SERVER> Next shard in 29s
+7:05:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 5s) | ❖ 2x DROPS (1d 3h 50m 21s)
+7:05:46 PM [syzdark] <SERVER> Next shard in 28s
+7:05:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 4s) | ❖ 2x DROPS (1d 3h 50m 20s)
+7:05:47 PM [syzdark] <SERVER> Next shard in 27s
+7:05:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 3s) | ❖ 2x DROPS (1d 3h 50m 19s)
+7:05:48 PM [syzdark] <SERVER> Next shard in 26s
+7:05:48 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 2s) | ❖ 2x DROPS (1d 3h 50m 18s)
+7:05:49 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: fahh you died in void?
+7:05:49 PM [syzdark] <SERVER> Next shard in 25s
+7:05:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m 1s) | ❖ 2x DROPS (1d 3h 50m 17s)
+7:05:50 PM [syzdark] <SERVER> Next shard in 24s
+7:05:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 50m) | ❖ 2x DROPS (1d 3h 50m 16s)
+7:05:51 PM [syzdark] <SERVER> usergogo turned s7ak into dust
+7:05:51 PM [syzdark] <SERVER> ☠ usergogo killed s7ak and stole 1.6k Bounty!
+7:05:51 PM [syzdark] <SERVER> Next shard in 23s
+7:05:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 59s) | ❖ 2x DROPS (1d 3h 50m 15s)
+7:05:52 PM [syzdark] <SERVER> Next shard in 22s
+7:05:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 58s) | ❖ 2x DROPS (1d 3h 50m 14s)
+7:05:53 PM [syzdark] <SERVER> #28 $1.73B BILLIONAIRE [Iron I] UmarAhmadPlayz: tpa for gambling items or money
+7:05:53 PM [syzdark] <SERVER> Next shard in 21s
+7:05:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 57s) | ❖ 2x DROPS (1d 3h 50m 13s)
+7:05:54 PM [syzdark] <SERVER> Next shard in 20s
+7:05:54 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 56s) | ❖ 2x DROPS (1d 3h 50m 12s)
+7:05:55 PM [syzdark] <SERVER> #33 $590.64M  [Iron I] VeroHardtokilll: check my order for easy money
+7:05:55 PM [syzdark] <SERVER> Next shard in 19s
+7:05:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 55s) | ❖ 2x DROPS (1d 3h 50m 11s)
+7:05:55 PM [syzdark] <SERVER> #33 $590.64M  [Iron I] VeroHardtokilll: check my order for easy money
+7:05:56 PM [syzdark] <SERVER> Next shard in 18s
+7:05:56 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 54s) | ❖ 2x DROPS (1d 3h 50m 10s)
+7:05:56 PM [syzdark] <SERVER> #33 $590.64M  [Iron I] VeroHardtokilll: check my order for easy money
+7:05:57 PM [syzdark] <SERVER> Next shard in 17s
+7:05:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 53s) | ❖ 2x DROPS (1d 3h 50m 9s)
+7:05:58 PM [syzdark] <SERVER> Next shard in 16s
+7:05:58 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 52s) | ❖ 2x DROPS (1d 3h 50m 8s)
+7:05:59 PM [syzdark] <SERVER> Next shard in 15s
+7:05:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 51s) | ❖ 2x DROPS (1d 3h 50m 7s)
+7:06:00 PM [syzdark] <SERVER> ** Immortal_Rapii just beat EnderTweaks in a Coinflip worth 19,000,000 (Money) (-$1,000,000 5.0% Tax) **
+7:06:00 PM [syzdark] <SERVER> Next shard in 14s
+7:06:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 50s) | ❖ 2x DROPS (1d 3h 50m 6s)
+7:06:01 PM [syzdark] <SERVER> Next shard in 13s
+7:06:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 49s) | ❖ 2x DROPS (1d 3h 50m 5s)
+7:06:02 PM [syzdark] <SERVER> Beast_Zen_Kun is searching for a duel! [16 RR - Iron I]
+7:06:02 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: nah in mid of spawn and pvp area
+7:06:02 PM [syzdark] <SERVER> Next shard in 12s
+7:06:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 48s) | ❖ 2x DROPS (1d 3h 50m 4s)
+7:06:03 PM [syzdark] <SERVER> Next shard in 11s
+7:06:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 47s) | ❖ 2x DROPS (1d 3h 50m 3s)
+7:06:04 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: RUZEENNN
+7:06:04 PM [syzdark] <SERVER> #316 $8.26M  [Iron I] Iheo: no one answered so no spine giveaway
+7:06:04 PM [syzdark] <SERVER> TeroTheTerrorist was kicked by Console for 'Unfair Advantage'.
+7:06:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 46s) | ❖ 2x DROPS (1d 3h 50m 2s)
+7:06:04 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: kinsa may kastorya nimo
+7:06:04 PM [syzdark] <SERVER> Next shard in 10s
+7:06:05 PM [syzdark] <SERVER> Next shard in 9s
+7:06:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 45s) | ❖ 2x DROPS (1d 3h 50m 1s)
+7:06:06 PM [syzdark] <SERVER> Next shard in 8s
+7:06:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 44s) | ❖ 2x DROPS (1d 3h 50m)
+7:06:07 PM [syzdark] <SERVER> Next shard in 7s
+7:06:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 43s) | ❖ 2x DROPS (1d 3h 49m 59s)
+7:06:08 PM [syzdark] <SERVER> Next shard in 6s
+7:06:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 42s) | ❖ 2x DROPS (1d 3h 49m 58s)
+7:06:09 PM [syzdark] <SERVER> Next shard in 5s
+7:06:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 41s) | ❖ 2x DROPS (1d 3h 49m 57s)
+7:06:10 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:10 PM [syzdark] <SERVER> Next shard in 4s
+7:06:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 40s) | ❖ 2x DROPS (1d 3h 49m 56s)
+7:06:11 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: quick
+7:06:11 PM [syzdark] <SERVER> Next shard in 3s
+7:06:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 39s) | ❖ 2x DROPS (1d 3h 49m 55s)
+7:06:12 PM [syzdark] <SERVER> s7ak was slain by The Immortal Bandit [850 HP]
+7:06:12 PM [syzdark] <SERVER> Next shard in 2s
+7:06:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 38s) | ❖ 2x DROPS (1d 3h 49m 54s)
+7:06:13 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:13 PM [syzdark] <SERVER> #33 $590.64M  [Iron I] VeroHardtokilll: check my order for easy money
+7:06:13 PM [syzdark] <SERVER> Next shard in 1s
+7:06:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 37s) | ❖ 2x DROPS (1d 3h 49m 53s)
+7:06:14 PM [syzdark] <SERVER> ** EnderTweaks just beat Immortal_Rapii in a Coinflip worth 19,000,000 (Money) (-$1,000,000 5.0% Tax) **
+7:06:14 PM [syzdark] <SERVER> + 1 ★
+7:06:14 PM [syzdark] <SERVER> +1 Shard(s)
+7:06:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 36s) | ❖ 2x DROPS (1d 3h 49m 52s)
+7:06:15 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: i got kick for flying
+7:06:15 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:15 PM [syzdark] <SERVER> Next shard in 59s
+7:06:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 35s) | ❖ 2x DROPS (1d 3h 49m 51s)
+7:06:17 PM [syzdark] <SERVER> Next shard in 58s
+7:06:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 34s) | ❖ 2x DROPS (1d 3h 49m 50s)
+7:06:17 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 33s) | ❖ 2x DROPS (1d 3h 49m 49s)
+7:06:18 PM [syzdark] <SERVER> Next shard in 57s
+7:06:18 PM [syzdark] <SERVER> #421 $1.98M  [Iron I] itsmetotoy: cf 2m EnderTweaks
+7:06:18 PM [syzdark] <SERVER> Next shard in 56s
+7:06:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 32s) | ❖ 2x DROPS (1d 3h 49m 48s)
+7:06:19 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 31s) | ❖ 2x DROPS (1d 3h 49m 47s)
+7:06:19 PM [syzdark] <SERVER> Next shard in 55s
+7:06:20 PM [syzdark] <SERVER> Next shard in 54s
+7:06:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 30s) | ❖ 2x DROPS (1d 3h 49m 46s)
+7:06:20 PM [syzdark] <SERVER> The Humanity's Strongest has dropped in! Type /strongesthuman to engage!
+7:06:21 PM [syzdark] <SERVER> Next shard in 53s
+7:06:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 29s) | ❖ 2x DROPS (1d 3h 49m 45s)
+7:06:22 PM [syzdark] <SERVER> Next shard in 52s
+7:06:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 28s) | ❖ 2x DROPS (1d 3h 49m 44s)
+7:06:22 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:23 PM [syzdark] <SERVER> Next shard in 51s
+7:06:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 27s) | ❖ 2x DROPS (1d 3h 49m 43s)
+7:06:24 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: ur fly with elytra
+7:06:24 PM [syzdark] <SERVER> ** EnderTweaks just beat itsmetotoy in a Coinflip worth 3,800,000 (Money) (-$200,000 5.0% Tax) **
+7:06:24 PM [syzdark] <SERVER> Next shard in 50s
+7:06:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 26s) | ❖ 2x DROPS (1d 3h 49m 42s)
+7:06:25 PM [syzdark] <SERVER> Next shard in 49s
+7:06:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 25s) | ❖ 2x DROPS (1d 3h 49m 41s)
+7:06:26 PM [syzdark] <SERVER> Next shard in 48s
+7:06:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 24s) | ❖ 2x DROPS (1d 3h 49m 40s)
+7:06:27 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:27 PM [syzdark] <SERVER> Next shard in 47s
+7:06:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 23s) | ❖ 2x DROPS (1d 3h 49m 39s)
+7:06:28 PM [syzdark] <SERVER> ** EnderTweaks just beat Gamer_Diem in a Coinflip worth 1,900 (Money) (-$100 5.0% Tax) **
+7:06:28 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:28 PM [syzdark] <SERVER> ** Immortal_Rapii just beat SpectaCore in a Coinflip worth 38,000,000 (Money) (-$2,000,000 5.0% Tax) **
+7:06:28 PM [syzdark] <SERVER> Next shard in 46s
+7:06:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 22s) | ❖ 2x DROPS (1d 3h 49m 38s)
+7:06:29 PM [syzdark] <SERVER> The Rubber Brawler starts pumping his blood... GEAR SECOND!!
+7:06:29 PM [syzdark] <SERVER> Next shard in 45s
+7:06:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 21s) | ❖ 2x DROPS (1d 3h 49m 37s)
+7:06:30 PM [syzdark] <SERVER> [SAIS] #6 $3.59B BILLIONAIRE [Iron I] usergogo: [Ackerman's Vow x1]
+7:06:30 PM [syzdark] <SERVER> Next shard in 44s
+7:06:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 20s) | ❖ 2x DROPS (1d 3h 49m 36s)
+7:06:31 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: rux
+7:06:31 PM [syzdark] <SERVER> Next shard in 43s
+7:06:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 19s) | ❖ 2x DROPS (1d 3h 49m 35s)
+7:06:32 PM [syzdark] <SERVER> Next shard in 42s
+7:06:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 18s) | ❖ 2x DROPS (1d 3h 49m 34s)
+7:06:33 PM [syzdark] <SERVER> #405 $574.75k  [Iron I] HARAGAN: 2304
+7:06:33 PM [syzdark] <SERVER> Next shard in 41s
+7:06:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 17s) | ❖ 2x DROPS (1d 3h 49m 33s)
+7:06:34 PM [syzdark] <SERVER> Next shard in 40s
+7:06:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 16s) | ❖ 2x DROPS (1d 3h 49m 32s)
+7:06:35 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ru
+7:06:35 PM [syzdark] <SERVER> Next shard in 39s
+7:06:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 15s) | ❖ 2x DROPS (1d 3h 49m 31s)
+7:06:36 PM [syzdark] <SERVER> Next shard in 38s
+7:06:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 14s) | ❖ 2x DROPS (1d 3h 49m 30s)
+7:06:37 PM [syzdark] <SERVER> Next shard in 37s
+7:06:37 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 13s) | ❖ 2x DROPS (1d 3h 49m 29s)
+7:06:37 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruz
+7:06:38 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:06:38 PM [syzdark] <SERVER> #17 $73.84M  [Iron I] SWIFT UR_Cristiano: wait mexi
+7:06:38 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: use stash
+7:06:38 PM [syzdark] <SERVER> Next shard in 36s
+7:06:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 12s) | ❖ 2x DROPS (1d 3h 49m 28s)
+7:06:38 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:06:39 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:06:39 PM [syzdark] <SERVER> Next shard in 35s
+7:06:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 11s) | ❖ 2x DROPS (1d 3h 49m 27s)
+7:06:40 PM [syzdark] <SERVER> Next shard in 34s
+7:06:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 10s) | ❖ 2x DROPS (1d 3h 49m 26s)
+7:06:41 PM [syzdark] <SERVER> Next shard in 33s
+7:06:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 9s) | ❖ 2x DROPS (1d 3h 49m 25s)
+7:06:41 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: i was use the spine ability
+7:06:42 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: tpa rn
+7:06:42 PM [syzdark] <SERVER> Next shard in 32s
+7:06:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 8s) | ❖ 2x DROPS (1d 3h 49m 24s)
+7:06:43 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruzeenn
+7:06:43 PM [syzdark] <SERVER> Next shard in 31s
+7:06:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 7s) | ❖ 2x DROPS (1d 3h 49m 23s)
+7:06:44 PM [syzdark] <SERVER> Next shard in 30s
+7:06:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 6s) | ❖ 2x DROPS (1d 3h 49m 22s)
+7:06:45 PM [syzdark] <SERVER> Next shard in 29s
+7:06:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 5s) | ❖ 2x DROPS (1d 3h 49m 21s)
+7:06:46 PM [syzdark] <SERVER> Next shard in 28s
+7:06:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 4s) | ❖ 2x DROPS (1d 3h 49m 20s)
+7:06:47 PM [syzdark] <SERVER> Next shard in 27s
+7:06:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 3s) | ❖ 2x DROPS (1d 3h 49m 19s)
+7:06:48 PM [syzdark] <SERVER> Next shard in 26s
+7:06:48 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 2s) | ❖ 2x DROPS (1d 3h 49m 18s)
+7:06:49 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: Ainaaa
+7:06:49 PM [syzdark] <SERVER> Next shard in 25s
+7:06:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m 1s) | ❖ 2x DROPS (1d 3h 49m 17s)
+7:06:50 PM [syzdark] <SERVER> Next shard in 24s
+7:06:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 49m) | ❖ 2x DROPS (1d 3h 49m 16s)
+7:06:51 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: akin nayun cash
+7:06:51 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: ruzeenn
+7:06:51 PM [syzdark] <SERVER> Next shard in 23s
+7:06:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 59s) | ❖ 2x DROPS (1d 3h 49m 15s)
+7:06:52 PM [syzdark] <SERVER> Next shard in 22s
+7:06:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 58s) | ❖ 2x DROPS (1d 3h 49m 14s)
+7:06:53 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: hig.
+7:06:53 PM [syzdark] <SERVER> Next shard in 21s
+7:06:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 57s) | ❖ 2x DROPS (1d 3h 49m 13s)
+7:06:54 PM [syzdark] <SERVER> Next shard in 20s
+7:06:54 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 56s) | ❖ 2x DROPS (1d 3h 49m 12s)
+7:06:55 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: akin nayun cash
+7:06:55 PM [syzdark] <SERVER> Next shard in 19s
+7:06:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 55s) | ❖ 2x DROPS (1d 3h 49m 11s)
+7:06:55 PM [syzdark] <SERVER> The Cruel World's Blade has arrived! Type /cruelblade to challenge her!
+7:06:55 PM [syzdark] <SERVER> #405 $755.25k  [Iron I] HARAGAN: 2304
+7:06:56 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: akin nayun cash
+7:06:56 PM [syzdark] <SERVER> Next shard in 18s
+7:06:56 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 54s) | ❖ 2x DROPS (1d 3h 49m 10s)
+7:06:57 PM [syzdark] <SERVER> Next shard in 17s
+7:06:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 53s) | ❖ 2x DROPS (1d 3h 49m 9s)
+7:06:58 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 52s) | ❖ 2x DROPS (1d 3h 49m 8s)
+7:06:58 PM [syzdark] <SERVER> Next shard in 16s
+7:06:58 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:06:59 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:06:59 PM [syzdark] <SERVER> Next shard in 15s
+7:06:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 51s) | ❖ 2x DROPS (1d 3h 49m 7s)
+7:07:00 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: and i accidentally use lighting Katana
+7:07:00 PM [syzdark] <SERVER> #683 $4.59k  [Iron I] opi4: oerp
+7:07:00 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:07:00 PM [syzdark] <SERVER> #17 $73.84M  [Iron I] SWIFT UR_Cristiano: mexi, ik hat ud oing
+7:07:00 PM [syzdark] <SERVER> Next shard in 14s
+7:07:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 50s) | ❖ 2x DROPS (1d 3h 49m 6s)
+7:07:00 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: yung sword mo
+7:07:01 PM [syzdark] <SERVER> Next shard in 13s
+7:07:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 49s) | ❖ 2x DROPS (1d 3h 49m 5s)
+7:07:02 PM [syzdark] <SERVER> Next shard in 12s
+7:07:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 48s) | ❖ 2x DROPS (1d 3h 49m 4s)
+7:07:03 PM [syzdark] <SERVER> Next shard in 11s
+7:07:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 47s) | ❖ 2x DROPS (1d 3h 49m 3s)
+7:07:04 PM [syzdark] <SERVER> Next shard in 10s
+7:07:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 46s) | ❖ 2x DROPS (1d 3h 49m 2s)
+7:07:05 PM [syzdark] <SERVER> Next shard in 9s
+7:07:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 45s) | ❖ 2x DROPS (1d 3h 49m 1s)
+7:07:06 PM [syzdark] <SERVER> #17 $73.84M  [Iron I] SWIFT UR_Cristiano: wait rn
+7:07:06 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: hangol
+7:07:06 PM [syzdark] <SERVER> Next shard in 8s
+7:07:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 44s) | ❖ 2x DROPS (1d 3h 49m)
+7:07:07 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: hangol
+7:07:07 PM [syzdark] <SERVER> Next shard in 7s
+7:07:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 43s) | ❖ 2x DROPS (1d 3h 48m 59s)
+7:07:08 PM [syzdark] <SERVER> Next shard in 6s
+7:07:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 42s) | ❖ 2x DROPS (1d 3h 48m 58s)
+7:07:09 PM [syzdark] <SERVER> s7ak has obtained 1x Legendary Crate!
+7:07:09 PM [syzdark] <SERVER> s7ak has obtained 1x Mythical Crate!
+7:07:09 PM [syzdark] <SERVER> s7ak has obtained 1x Aura Crate!
+7:07:09 PM [syzdark] <SERVER> brakulis has obtained 1x Aura Crate!
+7:07:09 PM [syzdark] <SERVER> vhonn has obtained 2x Mythical Crate!
+7:07:09 PM [syzdark] <SERVER> vhonn has obtained 2x Aura Crate!
+7:07:09 PM [syzdark] <SERVER> Iamamonkey67 has obtained 1x Legendary Crate!
+7:07:09 PM [syzdark] <SERVER> Iamamonkey67 has obtained 1x Mythical Crate!
+7:07:09 PM [syzdark] <SERVER> Iamamonkey67 has obtained 1x Aura Crate!
+7:07:09 PM [syzdark] <SERVER> Jameskii has obtained 1x Legendary Crate!
+7:07:09 PM [syzdark] <SERVER> Jameskii has obtained 1x Mythical Crate!
+7:07:09 PM [syzdark] <SERVER> Jameskii has obtained 1x Aura Crate!
+7:07:09 PM [syzdark] <SERVER> ⭐ TOP FIGHTERS:
+7:07:09 PM [syzdark] <SERVER> ������ Jameskii dealt 93% damage!
+7:07:09 PM [syzdark] <SERVER> ������ vhonn dealt 4% damage!
+7:07:09 PM [syzdark] <SERVER> ������ brakulis dealt 1% damage!
+7:07:09 PM [syzdark] <SERVER> 
+7:07:09 PM [syzdark] <SERVER> The The Rubber Brawler has been knocked out!
+7:07:09 PM [syzdark] <SERVER> Next shard in 5s
+7:07:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 41s) | ❖ 2x DROPS (1d 3h 48m 57s)
+7:07:10 PM [syzdark] <SERVER> Next shard in 4s
+7:07:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 40s) | ❖ 2x DROPS (1d 3h 48m 56s)
+7:07:11 PM [syzdark] <SERVER> Next shard in 3s
+7:07:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 39s) | ❖ 2x DROPS (1d 3h 48m 55s)
+7:07:12 PM [syzdark] <SERVER> Next shard in 2s
+7:07:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 38s) | ❖ 2x DROPS (1d 3h 48m 54s)
+7:07:13 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: hangol
+7:07:13 PM [syzdark] <SERVER> Next shard in 1s
+7:07:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 37s) | ❖ 2x DROPS (1d 3h 48m 53s)
+7:07:14 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: fahhh
+7:07:14 PM [syzdark] <SERVER> + 1 ★
+7:07:14 PM [syzdark] <SERVER> +1 Shard(s)
+7:07:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 36s) | ❖ 2x DROPS (1d 3h 48m 52s)
+7:07:15 PM [syzdark] <SERVER> Next shard in 59s
+7:07:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 35s) | ❖ 2x DROPS (1d 3h 48m 51s)
+7:07:16 PM [syzdark] <SERVER> ** Immortal_Rapii just beat EnderTweaks in a Coinflip worth 19,000,000 (Money) (-$1,000,000 5.0% Tax) **
+7:07:16 PM [syzdark] <SERVER> Next shard in 58s
+7:07:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 34s) | ❖ 2x DROPS (1d 3h 48m 50s)
+7:07:17 PM [syzdark] <SERVER> Next shard in 57s
+7:07:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 33s) | ❖ 2x DROPS (1d 3h 48m 49s)
+7:07:17 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: what am i doing
+7:07:17 PM [syzdark] <SERVER> [SLK] #418 $2.29M  [Iron I] HELPER Jameskii: thunderclap and celestial is such a goated combo
+7:07:18 PM [syzdark] <SERVER> #28 $1.73B BILLIONAIRE [Iron I] UmarAhmadPlayz: cf
+7:07:18 PM [syzdark] <SERVER> The Strongest Soldier is moving too fast... BEYBLADE SLASH!
+7:07:18 PM [syzdark] <SERVER> Next shard in 56s
+7:07:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 32s) | ❖ 2x DROPS (1d 3h 48m 48s)
+7:07:19 PM [syzdark] <SERVER> ** EnderTweaks just beat itsmetotoy in a Coinflip worth 1,900,000 (Money) (-$100,000 5.0% Tax) **
+7:07:19 PM [syzdark] <SERVER> Next shard in 55s
+7:07:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 31s) | ❖ 2x DROPS (1d 3h 48m 47s)
+7:07:20 PM [syzdark] <SERVER> #28 $1.73B BILLIONAIRE [Iron I] UmarAhmadPlayz: tpa for gambling items or money
+7:07:20 PM [syzdark] <SERVER> Next shard in 54s
+7:07:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 30s) | ❖ 2x DROPS (1d 3h 48m 46s)
+7:07:21 PM [syzdark] <SERVER> #28 $1.73B BILLIONAIRE [Iron I] UmarAhmadPlayz: tpa for gambling items or money
+7:07:21 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: i punch someone and i got stuck
+7:07:21 PM [syzdark] <SERVER> Next shard in 53s
+7:07:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 29s) | ❖ 2x DROPS (1d 3h 48m 45s)
+7:07:22 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: [Tun TungTungTungSahur's Blade Tun x1]
+7:07:22 PM [syzdark] <SERVER> Next shard in 52s
+7:07:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 28s) | ❖ 2x DROPS (1d 3h 48m 44s)
+7:07:23 PM [syzdark] <SERVER> Next shard in 51s
+7:07:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 27s) | ❖ 2x DROPS (1d 3h 48m 43s)
+7:07:24 PM [syzdark] <SERVER> #28 $1.73B BILLIONAIRE [Iron I] UmarAhmadPlayz: cf with me
+7:07:24 PM [syzdark] <SERVER> Next shard in 50s
+7:07:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 26s) | ❖ 2x DROPS (1d 3h 48m 42s)
+7:07:24 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: jameski
+7:07:25 PM [syzdark] <SERVER> Next shard in 49s
+7:07:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 25s) | ❖ 2x DROPS (1d 3h 48m 41s)
+7:07:26 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: u scammed me
+7:07:26 PM [syzdark] <SERVER> Next shard in 48s
+7:07:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 24s) | ❖ 2x DROPS (1d 3h 48m 40s)
+7:07:27 PM [syzdark] <SERVER> Next shard in 47s
+7:07:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 23s) | ❖ 2x DROPS (1d 3h 48m 39s)
+7:07:28 PM [syzdark] <SERVER> Next shard in 46s
+7:07:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 22s) | ❖ 2x DROPS (1d 3h 48m 38s)
+7:07:29 PM [syzdark] <SERVER> Next shard in 45s
+7:07:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 21s) | ❖ 2x DROPS (1d 3h 48m 37s)
+7:07:30 PM [syzdark] <SERVER> Next shard in 44s
+7:07:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 20s) | ❖ 2x DROPS (1d 3h 48m 36s)
+7:07:31 PM [syzdark] <SERVER> Next shard in 43s
+7:07:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 19s) | ❖ 2x DROPS (1d 3h 48m 35s)
+7:07:32 PM [syzdark] <SERVER> Next shard in 42s
+7:07:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 18s) | ❖ 2x DROPS (1d 3h 48m 34s)
+7:07:32 PM [syzdark] <SERVER> s7ak was slain by The Crimson Fiend [956 HP]
+7:07:33 PM [syzdark] <SERVER> Next shard in 41s
+7:07:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 17s) | ❖ 2x DROPS (1d 3h 48m 33s)
+7:07:34 PM [syzdark] <SERVER> Next shard in 40s
+7:07:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 16s) | ❖ 2x DROPS (1d 3h 48m 32s)
+7:07:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 15s) | ❖ 2x DROPS (1d 3h 48m 31s)
+7:07:35 PM [syzdark] <SERVER> Next shard in 39s
+7:07:36 PM [syzdark] <SERVER> Next shard in 38s
+7:07:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 14s) | ❖ 2x DROPS (1d 3h 48m 30s)
+7:07:37 PM [syzdark] <SERVER> Next shard in 37s
+7:07:37 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 13s) | ❖ 2x DROPS (1d 3h 48m 29s)
+7:07:38 PM [syzdark] <SERVER> Iheo has obtained 1x Legendary Crate!
+7:07:38 PM [syzdark] <SERVER> Iheo has obtained 1x Mythical Crate!
+7:07:38 PM [syzdark] <SERVER> Iheo has obtained 1x Aura Crate!
+7:07:38 PM [syzdark] <SERVER> lovelastlys has obtained 1x Legendary Crate!
+7:07:38 PM [syzdark] <SERVER> lovelastlys has obtained 1x Mythical Crate!
+7:07:38 PM [syzdark] <SERVER> lovelastlys has obtained 1x Aura Crate!
+7:07:38 PM [syzdark] <SERVER> Jameskii has obtained 1x Legendary Crate!
+7:07:38 PM [syzdark] <SERVER> BeesongAndreCool has obtained 1x Legendary Crate!
+7:07:38 PM [syzdark] <SERVER> BeesongAndreCool has obtained 1x Mythical Crate!
+7:07:38 PM [syzdark] <SERVER> BeesongAndreCool has obtained 1x Aura Crate!
+7:07:38 PM [syzdark] <SERVER> Morgan05 has obtained 1x Mythical Crate!
+7:07:38 PM [syzdark] <SERVER> Morgan05 has obtained 1x Aura Crate!
+7:07:38 PM [syzdark] <SERVER> ⭐ TOP FIGHTERS:
+7:07:38 PM [syzdark] <SERVER> ������ Iheo dealt 39% damage!
+7:07:38 PM [syzdark] <SERVER> ������ lovelastlys dealt 28% damage!
+7:07:38 PM [syzdark] <SERVER> ������ Morgan05 dealt 19% damage!
+7:07:38 PM [syzdark] <SERVER> 
+7:07:38 PM [syzdark] <SERVER> The Humanity's Strongest has been defeated!
+7:07:38 PM [syzdark] <SERVER> Next shard in 36s
+7:07:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 12s) | ❖ 2x DROPS (1d 3h 48m 28s)
+7:07:39 PM [syzdark] <SERVER> Next shard in 35s
+7:07:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 11s) | ❖ 2x DROPS (1d 3h 48m 27s)
+7:07:40 PM [syzdark] <SERVER> Next shard in 34s
+7:07:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 10s) | ❖ 2x DROPS (1d 3h 48m 26s)
+7:07:41 PM [syzdark] <SERVER> Next shard in 33s
+7:07:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 9s) | ❖ 2x DROPS (1d 3h 48m 25s)
+7:07:42 PM [syzdark] <SERVER> Next shard in 32s
+7:07:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 8s) | ❖ 2x DROPS (1d 3h 48m 24s)
+7:07:43 PM [syzdark] <SERVER> Next shard in 31s
+7:07:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 7s) | ❖ 2x DROPS (1d 3h 48m 23s)
+7:07:44 PM [syzdark] <SERVER> Next shard in 30s
+7:07:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 6s) | ❖ 2x DROPS (1d 3h 48m 22s)
+7:07:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 5s) | ❖ 2x DROPS (1d 3h 48m 21s)
+7:07:45 PM [syzdark] <SERVER> Next shard in 29s
+7:07:46 PM [syzdark] <SERVER> Next shard in 28s
+7:07:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 4s) | ❖ 2x DROPS (1d 3h 48m 20s)
+7:07:47 PM [syzdark] <SERVER> Next shard in 27s
+7:07:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 3s) | ❖ 2x DROPS (1d 3h 48m 19s)
+7:07:47 PM [syzdark] <SERVER> #142 $40.31M  [Iron I] SpectaCore: tpa for gamble
+7:07:47 PM [syzdark] <SERVER> ** Immortal_Rapii just beat EnderTweaks in a Coinflip worth 19,000,000 (Money) (-$1,000,000 5.0% Tax) **
+7:07:48 PM [syzdark] <SERVER> Next shard in 26s
+7:07:48 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 2s) | ❖ 2x DROPS (1d 3h 48m 18s)
+7:07:49 PM [syzdark] <SERVER> Next shard in 25s
+7:07:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m 1s) | ❖ 2x DROPS (1d 3h 48m 17s)
+7:07:50 PM [syzdark] <SERVER> Beast_Zen_Kun is searching for a duel! [16 RR - Iron I]
+7:07:50 PM [syzdark] <SERVER> Next shard in 24s
+7:07:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 48m) | ❖ 2x DROPS (1d 3h 48m 16s)
+7:07:50 PM [syzdark] <SERVER> ✦ screemieee found 2x Rare crate from mining.
+7:07:51 PM [syzdark] <SERVER> Next shard in 23s
+7:07:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 59s) | ❖ 2x DROPS (1d 3h 48m 15s)
+7:07:52 PM [syzdark] <SERVER> Next shard in 22s
+7:07:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 58s) | ❖ 2x DROPS (1d 3h 48m 14s)
+7:07:53 PM [syzdark] <SERVER> Next shard in 21s
+7:07:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 57s) | ❖ 2x DROPS (1d 3h 48m 13s)
+7:07:54 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: Ruzeenn
+7:07:54 PM [syzdark] <SERVER> Next shard in 20s
+7:07:54 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 56s) | ❖ 2x DROPS (1d 3h 48m 12s)
+7:07:55 PM [syzdark] <SERVER> 1Up is searching for a duel! [0 RR - Iron I]
+7:07:55 PM [syzdark] <SERVER> Next shard in 19s
+7:07:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 55s) | ❖ 2x DROPS (1d 3h 48m 11s)
+7:07:56 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: take 1
+7:07:56 PM [syzdark] <SERVER> Next shard in 18s
+7:07:56 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 54s) | ❖ 2x DROPS (1d 3h 48m 10s)
+7:07:57 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: Hey ruzeennn
+7:07:57 PM [syzdark] <SERVER> Next shard in 17s
+7:07:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 53s) | ❖ 2x DROPS (1d 3h 48m 9s)
+7:07:58 PM [syzdark] <SERVER> Next shard in 16s
+7:07:58 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 52s) | ❖ 2x DROPS (1d 3h 48m 8s)
+7:07:59 PM [syzdark] <SERVER> Next shard in 15s
+7:07:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 51s) | ❖ 2x DROPS (1d 3h 48m 7s)
+7:08:00 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: RUZEENN
+7:08:00 PM [syzdark] <SERVER> Next shard in 14s
+7:08:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 50s) | ❖ 2x DROPS (1d 3h 48m 6s)
+7:08:01 PM [syzdark] <SERVER> Next shard in 13s
+7:08:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 49s) | ❖ 2x DROPS (1d 3h 48m 5s)
+7:08:02 PM [syzdark] <SERVER> Next shard in 12s
+7:08:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 48s) | ❖ 2x DROPS (1d 3h 48m 4s)
+7:08:03 PM [syzdark] <SERVER> Next shard in 11s
+7:08:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 47s) | ❖ 2x DROPS (1d 3h 48m 3s)
+7:08:04 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: RUZEENNNNNN
+7:08:04 PM [syzdark] <SERVER> Next shard in 10s
+7:08:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 46s) | ❖ 2x DROPS (1d 3h 48m 2s)
+7:08:05 PM [syzdark] <SERVER> Next shard in 9s
+7:08:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 45s) | ❖ 2x DROPS (1d 3h 48m 1s)
+7:08:06 PM [syzdark] <SERVER> Next shard in 8s
+7:08:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 44s) | ❖ 2x DROPS (1d 3h 48m)
+7:08:07 PM [syzdark] <SERVER> Beast_Zen_Kun turned 1Up into dust
+7:08:07 PM [syzdark] <SERVER> ☠ Beast_Zen_Kun killed 1Up and stole 15 Bounty!
+7:08:07 PM [syzdark] <SERVER> Beast_Zen_Kun has defeated 1Up in a duel! Winner Rank: Iron I (31 RR)
+7:08:07 PM [syzdark] <SERVER> Next shard in 7s
+7:08:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 43s) | ❖ 2x DROPS (1d 3h 47m 59s)
+7:08:08 PM [syzdark] <SERVER> #155 $57.38M  [Iron I] GeezEman: RUZEEEN
+7:08:08 PM [syzdark] <SERVER> Next shard in 6s
+7:08:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 42s) | ❖ 2x DROPS (1d 3h 47m 58s)
+7:08:09 PM [syzdark] <SERVER> Next shard in 5s
+7:08:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 41s) | ❖ 2x DROPS (1d 3h 47m 57s)
+7:08:10 PM [syzdark] <SERVER> Next shard in 4s
+7:08:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 40s) | ❖ 2x DROPS (1d 3h 47m 56s)
+7:08:11 PM [syzdark] <SERVER> ** EnderTweaks just beat itsmetotoy in a Coinflip worth 1,854,400 (Money) (-$97,600 5.0% Tax) **
+7:08:11 PM [syzdark] <SERVER> Next shard in 3s
+7:08:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 39s) | ❖ 2x DROPS (1d 3h 47m 55s)
+7:08:12 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: alright
+7:08:12 PM [syzdark] <SERVER> Next shard in 2s
+7:08:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 38s) | ❖ 2x DROPS (1d 3h 47m 54s)
+7:08:12 PM [syzdark] <SERVER> 1Up won because Beast_Zen_Kun forfeited! Winner Rank: Iron I
+7:08:13 PM [syzdark] <SERVER> Next shard in 1s
+7:08:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 37s) | ❖ 2x DROPS (1d 3h 47m 53s)
+7:08:14 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: takex1 of my elytra devel
+7:08:14 PM [syzdark] <SERVER> The Blade leaps into the air... THUNDER SPEAR BARRAGE!
+7:08:14 PM [syzdark] <SERVER> + 1 ★
+7:08:14 PM [syzdark] <SERVER> +1 Shard(s)
+7:08:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 36s) | ❖ 2x DROPS (1d 3h 47m 52s)
+7:08:15 PM [syzdark] <SERVER> Next shard in 59s
+7:08:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 35s) | ❖ 2x DROPS (1d 3h 47m 51s)
+7:08:16 PM [syzdark] <SERVER> Next shard in 58s
+7:08:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 34s) | ❖ 2x DROPS (1d 3h 47m 50s)
+7:08:17 PM [syzdark] <SERVER> ** UR_Cristiano just beat Immortal_Rapii in a Coinflip worth 19,000,000 (Money) (-$1,000,000 5.0% Tax) **
+7:08:17 PM [syzdark] <SERVER> Next shard in 57s
+7:08:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 33s) | ❖ 2x DROPS (1d 3h 47m 49s)
+7:08:18 PM [syzdark] <SERVER> Next shard in 56s
+7:08:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 32s) | ❖ 2x DROPS (1d 3h 47m 48s)
+7:08:19 PM [syzdark] <SERVER> Next shard in 55s
+7:08:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 31s) | ❖ 2x DROPS (1d 3h 47m 47s)
+7:08:20 PM [syzdark] <SERVER> Next shard in 54s
+7:08:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 30s) | ❖ 2x DROPS (1d 3h 47m 46s)
+7:08:21 PM [syzdark] <SERVER> Next shard in 53s
+7:08:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 29s) | ❖ 2x DROPS (1d 3h 47m 45s)
+7:08:22 PM [syzdark] <SERVER> Beast_Zen_Kun is searching for a duel! [14 RR - Iron I]
+7:08:22 PM [syzdark] <SERVER> Next shard in 52s
+7:08:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 28s) | ❖ 2x DROPS (1d 3h 47m 44s)
+7:08:23 PM [syzdark] <SERVER> Next shard in 51s
+7:08:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 27s) | ❖ 2x DROPS (1d 3h 47m 43s)
+7:08:24 PM [syzdark] <SERVER> MexicanDrugLord is searching for a duel! [30 RR - Iron I]
+7:08:24 PM [syzdark] <SERVER> Next shard in 50s
+7:08:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 26s) | ❖ 2x DROPS (1d 3h 47m 42s)
+7:08:25 PM [syzdark] <SERVER> Next shard in 49s
+7:08:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 25s) | ❖ 2x DROPS (1d 3h 47m 41s)
+7:08:26 PM [syzdark] <SERVER> Next shard in 48s
+7:08:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 24s) | ❖ 2x DROPS (1d 3h 47m 40s)
+7:08:27 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:08:27 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:08:27 PM [syzdark] <SERVER> Next shard in 47s
+7:08:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 23s) | ❖ 2x DROPS (1d 3h 47m 39s)
+7:08:28 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:08:28 PM [syzdark] <SERVER> Next shard in 46s
+7:08:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 22s) | ❖ 2x DROPS (1d 3h 47m 38s)
+7:08:29 PM [syzdark] <SERVER> #17 $112.84M  [Iron I] SWIFT UR_Cristiano: mexi u can come nw
+7:08:29 PM [syzdark] <SERVER> Ashwagggn has obtained 1x Mythical Crate!
+7:08:29 PM [syzdark] <SERVER> Ashwagggn has obtained 1x Aura Crate!
+7:08:29 PM [syzdark] <SERVER> Iheo has obtained 1x Legendary Crate!
+7:08:29 PM [syzdark] <SERVER> Iheo has obtained 1x Mythical Crate!
+7:08:29 PM [syzdark] <SERVER> Iheo has obtained 1x Aura Crate!
+7:08:29 PM [syzdark] <SERVER> lovelastlys has obtained 1x Legendary Crate!
+7:08:29 PM [syzdark] <SERVER> lovelastlys has obtained 1x Mythical Crate!
+7:08:29 PM [syzdark] <SERVER> lovelastlys has obtained 1x Aura Crate!
+7:08:29 PM [syzdark] <SERVER> Jameskii has obtained 1x Legendary Crate!
+7:08:29 PM [syzdark] <SERVER> Jameskii has obtained 1x Mythical Crate!
+7:08:29 PM [syzdark] <SERVER> Jameskii has obtained 1x Aura Crate!
+7:08:29 PM [syzdark] <SERVER> BeesongAndreCool has obtained 1x Aura Crate!
+7:08:29 PM [syzdark] <SERVER> Morgan05 has obtained 1x Legendary Crate!
+7:08:29 PM [syzdark] <SERVER> Morgan05 has obtained 1x Mythical Crate!
+7:08:29 PM [syzdark] <SERVER> Morgan05 has obtained 1x Aura Crate!
+7:08:29 PM [syzdark] <SERVER> ⭐ TOP FIGHTERS:
+7:08:29 PM [syzdark] <SERVER> ������ lovelastlys dealt 57% damage!
+7:08:29 PM [syzdark] <SERVER> ������ Iheo dealt 18% damage!
+7:08:29 PM [syzdark] <SERVER> ������ Jameskii dealt 15% damage!
+7:08:29 PM [syzdark] <SERVER> 
+7:08:29 PM [syzdark] <SERVER> The Cruel World's Blade has been defeated!
+7:08:29 PM [syzdark] <SERVER> Next shard in 45s
+7:08:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 21s) | ❖ 2x DROPS (1d 3h 47m 37s)
+7:08:30 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: take 1
+7:08:30 PM [syzdark] <SERVER> Next shard in 44s
+7:08:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 20s) | ❖ 2x DROPS (1d 3h 47m 36s)
+7:08:31 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: i have
+7:08:31 PM [syzdark] <SERVER> Next shard in 43s
+7:08:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 19s) | ❖ 2x DROPS (1d 3h 47m 35s)
+7:08:32 PM [syzdark] <SERVER> MexicanDrugLord turned Beast_Zen_Kun into dust
+7:08:32 PM [syzdark] <SERVER> ☠ MexicanDrugLord killed Beast_Zen_Kun and stole 6 Bounty!
+7:08:32 PM [syzdark] <SERVER> MexicanDrugLord has defeated Beast_Zen_Kun in a duel! Winner Rank: Iron I (45 RR)
+7:08:32 PM [syzdark] <SERVER> Next shard in 42s
+7:08:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 18s) | ❖ 2x DROPS (1d 3h 47m 34s)
+7:08:32 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:08:33 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:08:33 PM [syzdark] <SERVER> Next shard in 41s
+7:08:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 17s) | ❖ 2x DROPS (1d 3h 47m 33s)
+7:08:33 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: unsa man uy
+7:08:34 PM [syzdark] <SERVER> Next shard in 40s
+7:08:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 16s) | ❖ 2x DROPS (1d 3h 47m 32s)
+7:08:35 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: wtf
+7:08:35 PM [syzdark] <SERVER> Next shard in 39s
+7:08:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 14s) | ❖ 2x DROPS (1d 3h 47m 30s)
+7:08:36 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: yahay
+7:08:36 PM [syzdark] <SERVER> Next shard in 38s
+7:08:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 14s) | ❖ 2x DROPS (1d 3h 47m 30s)
+7:08:38 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: bala ka
+7:08:39 PM [syzdark] <SERVER> Next shard in 37s
+7:08:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 13s) | ❖ 2x DROPS (1d 3h 47m 29s)
+7:08:39 PM [syzdark] <SERVER> Next shard in 36s
+7:08:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 12s) | ❖ 2x DROPS (1d 3h 47m 28s)
+7:08:39 PM [syzdark] <SERVER> SpectaCore is searching for a duel! [0 RR - Iron I]
+7:08:39 PM [syzdark] <SERVER> Next shard in 35s
+7:08:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 11s) | ❖ 2x DROPS (1d 3h 47m 27s)
+7:08:40 PM [syzdark] <SERVER> Next shard in 34s
+7:08:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 10s) | ❖ 2x DROPS (1d 3h 47m 26s)
+7:08:41 PM [syzdark] <SERVER> Next shard in 33s
+7:08:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 9s) | ❖ 2x DROPS (1d 3h 47m 25s)
+7:08:43 PM [syzdark] <SERVER> Next shard in 32s
+7:08:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 8s) | ❖ 2x DROPS (1d 3h 47m 24s)
+7:08:43 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: yo CHUGGA
+7:08:44 PM [syzdark] <SERVER> Next shard in 31s
+7:08:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 7s) | ❖ 2x DROPS (1d 3h 47m 23s)
+7:08:44 PM [syzdark] <SERVER> Next shard in 30s
+7:08:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 6s) | ❖ 2x DROPS (1d 3h 47m 22s)
+7:08:45 PM [syzdark] <SERVER> Next shard in 29s
+7:08:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 5s) | ❖ 2x DROPS (1d 3h 47m 21s)
+7:08:46 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: taod taod
+7:08:46 PM [syzdark] <SERVER> Next shard in 28s
+7:08:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 4s) | ❖ 2x DROPS (1d 3h 47m 20s)
+7:08:47 PM [syzdark] <SERVER> Next shard in 27s
+7:08:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 3s) | ❖ 2x DROPS (1d 3h 47m 19s)
+7:08:47 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 10s!
+7:08:48 PM [syzdark] <SERVER> Next shard in 26s
+7:08:48 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 2s) | ❖ 2x DROPS (1d 3h 47m 18s)
+7:08:49 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: ay sa ba
+7:08:49 PM [syzdark] <SERVER> Next shard in 25s
+7:08:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m 1s) | ❖ 2x DROPS (1d 3h 47m 17s)
+7:08:50 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: !?
+7:08:50 PM [syzdark] <SERVER> Next shard in 24s
+7:08:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 47m) | ❖ 2x DROPS (1d 3h 47m 16s)
+7:08:51 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: busy pako
+7:08:51 PM [syzdark] <SERVER> Next shard in 23s
+7:08:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 59s) | ❖ 2x DROPS (1d 3h 47m 15s)
+7:08:52 PM [syzdark] <SERVER> Next shard in 22s
+7:08:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 58s) | ❖ 2x DROPS (1d 3h 47m 14s)
+7:08:52 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 5s!
+7:08:53 PM [syzdark] <SERVER> Next shard in 21s
+7:08:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 57s) | ❖ 2x DROPS (1d 3h 47m 13s)
+7:08:53 PM [syzdark] <SERVER> #17 $112.84M  [Iron I] SWIFT UR_Cristiano: mexi now u can come
+7:08:53 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 4s!
+7:08:54 PM [syzdark] <SERVER> #46 $94.47M  [Iron I] Dark_Slayer2491: Dayum
+7:08:54 PM [syzdark] <SERVER> Next shard in 20s
+7:08:54 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 56s) | ❖ 2x DROPS (1d 3h 47m 12s)
+7:08:54 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 3s!
+7:08:55 PM [syzdark] <SERVER> Next shard in 19s
+7:08:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 55s) | ❖ 2x DROPS (1d 3h 47m 11s)
+7:08:55 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 2s!
+7:08:56 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: ;(
+7:08:56 PM [syzdark] <SERVER> Next shard in 18s
+7:08:56 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 54s) | ❖ 2x DROPS (1d 3h 47m 10s)
+7:08:56 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 1s!
+7:08:57 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: ;(
+7:08:57 PM [syzdark] <SERVER> Next shard in 17s
+7:08:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 53s) | ❖ 2x DROPS (1d 3h 47m 9s)
+7:08:57 PM [syzdark] <SERVER> A Meteorite has crashed at X: 10569 Z: 10708 in the Nether!
+7:08:58 PM [syzdark] <SERVER> #17 $112.84M  [Iron I] SWIFT UR_Cristiano: no customer here
+7:08:58 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 52s) | ❖ 2x DROPS (1d 3h 47m 8s)
+7:08:58 PM [syzdark] <SERVER> Next shard in 16s
+7:08:58 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: ;(
+7:08:58 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: ;(
+7:08:59 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: ;(
+7:08:59 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: sorry!!
+7:08:59 PM [syzdark] <SERVER> Next shard in 15s
+7:08:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 51s) | ❖ 2x DROPS (1d 3h 47m 7s)
+7:09:00 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: ay sa ba
+7:09:00 PM [syzdark] <SERVER> Next shard in 14s
+7:09:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 50s) | ❖ 2x DROPS (1d 3h 47m 6s)
+7:09:01 PM [syzdark] <SERVER> Next shard in 13s
+7:09:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 49s) | ❖ 2x DROPS (1d 3h 47m 5s)
+7:09:02 PM [syzdark] <SERVER> #4 $4.20B BILLIONAIRE [Iron I] FROST GrimmRepa: busy pako
+7:09:02 PM [syzdark] <SERVER> An abandoned Meteorite has decayed into dust.
+7:09:02 PM [syzdark] <SERVER> Next shard in 12s
+7:09:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 48s) | ❖ 2x DROPS (1d 3h 47m 4s)
+7:09:03 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: go back
+7:09:03 PM [syzdark] <SERVER> Next shard in 11s
+7:09:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 47s) | ❖ 2x DROPS (1d 3h 47m 3s)
+7:09:04 PM [syzdark] <SERVER> Next shard in 10s
+7:09:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 46s) | ❖ 2x DROPS (1d 3h 47m 2s)
+7:09:04 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 10s!
+7:09:05 PM [syzdark] <SERVER> Next shard in 9s
+7:09:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 45s) | ❖ 2x DROPS (1d 3h 47m 1s)
+7:09:06 PM [syzdark] <SERVER> Next shard in 8s
+7:09:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 44s) | ❖ 2x DROPS (1d 3h 47m)
+7:09:07 PM [syzdark] <SERVER> Jameskii is unlocking a Meteorite at X: 10569 Z: 10708!
+7:09:07 PM [syzdark] <SERVER> Next shard in 7s
+7:09:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 43s) | ❖ 2x DROPS (1d 3h 46m 59s)
+7:09:08 PM [syzdark] <SERVER> Next shard in 6s
+7:09:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 42s) | ❖ 2x DROPS (1d 3h 46m 58s)
+7:09:09 PM [syzdark] <SERVER> ✦ Nonn_Pro found 2x Rare crate from mining.
+7:09:09 PM [syzdark] <SERVER> Next shard in 5s
+7:09:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 41s) | ❖ 2x DROPS (1d 3h 46m 57s)
+7:09:09 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 5s!
+7:09:10 PM [syzdark] <SERVER> Next shard in 4s
+7:09:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 40s) | ❖ 2x DROPS (1d 3h 46m 56s)
+7:09:10 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 4s!
+7:09:11 PM [syzdark] <SERVER> Next shard in 3s
+7:09:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 39s) | ❖ 2x DROPS (1d 3h 46m 55s)
+7:09:11 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 3s!
+7:09:12 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: gear me up :(
+7:09:12 PM [syzdark] <SERVER> Next shard in 2s
+7:09:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 38s) | ❖ 2x DROPS (1d 3h 46m 54s)
+7:09:12 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 2s!
+7:09:13 PM [syzdark] <SERVER> [77K] #87 $79.47M  [Iron I] PRO Immortal_Rapii: cf 20m
+7:09:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 37s) | ❖ 2x DROPS (1d 3h 46m 53s)
+7:09:13 PM [syzdark] <SERVER> Next shard in 1s
+7:09:13 PM [syzdark] <SERVER> A Meteorite is entering the atmosphere in 1s!
+7:09:14 PM [syzdark] <SERVER> [77K] #87 $79.47M  [Iron I] PRO Immortal_Rapii: cf 20m
+7:09:14 PM [syzdark] <SERVER> + 1 ★
+7:09:14 PM [syzdark] <SERVER> +1 Shard(s)
+7:09:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 36s) | ❖ 2x DROPS (1d 3h 46m 52s)
+7:09:14 PM [syzdark] <SERVER> A Meteorite has crashed at X: -8142 Z: 2928 in the Overworld!
+7:09:15 PM [syzdark] <SERVER> [77K] #87 $79.47M  [Iron I] PRO Immortal_Rapii: cf 20m
+7:09:15 PM [syzdark] <SERVER> Next shard in 59s
+7:09:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 35s) | ❖ 2x DROPS (1d 3h 46m 51s)
+7:09:16 PM [syzdark] <SERVER> #17 $112.84M  [Iron I] SWIFT UR_Cristiano: tpa for gamble every111
+7:09:16 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: i sad for i did
+7:09:16 PM [syzdark] <SERVER> Next shard in 58s
+7:09:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 34s) | ❖ 2x DROPS (1d 3h 46m 50s)
+7:09:17 PM [syzdark] <SERVER> ✦ screemieee found 2x Rare crate from mining.
+7:09:17 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: owh wait
+7:09:17 PM [syzdark] <SERVER> ✦ screemieee found 2x Rare crate from mining.
+7:09:17 PM [syzdark] <SERVER> Next shard in 57s
+7:09:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 33s) | ❖ 2x DROPS (1d 3h 46m 49s)
+7:09:18 PM [syzdark] <SERVER> Beast_Zen_Kun won because MexicanDrugLord forfeited! Winner Rank: Iron I
+7:09:18 PM [syzdark] <SERVER> Next shard in 56s
+7:09:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 32s) | ❖ 2x DROPS (1d 3h 46m 48s)
+7:09:19 PM [syzdark] <SERVER> Next shard in 55s
+7:09:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 31s) | ❖ 2x DROPS (1d 3h 46m 47s)
+7:09:20 PM [syzdark] <SERVER> Next shard in 54s
+7:09:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 30s) | ❖ 2x DROPS (1d 3h 46m 46s)
+7:09:21 PM [syzdark] <SERVER> s7ak is unlocking a Meteorite at X: -8142 Z: 2928!
+7:09:21 PM [syzdark] <SERVER> Next shard in 53s
+7:09:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 29s) | ❖ 2x DROPS (1d 3h 46m 45s)
+7:09:22 PM [syzdark] <SERVER> Next shard in 52s
+7:09:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 28s) | ❖ 2x DROPS (1d 3h 46m 44s)
+7:09:23 PM [syzdark] <SERVER> ** Gamer_Diem just beat UR_Cristiano in a Coinflip worth 171,000,000 (Money) (-$9,000,000 5.0% Tax) **
+7:09:24 PM [syzdark] <SERVER> Next shard in 51s
+7:09:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 27s) | ❖ 2x DROPS (1d 3h 46m 43s)
+7:09:24 PM [syzdark] <SERVER> #46 $92.97M  [Iron I] Dark_Slayer2491: fr
+7:09:24 PM [syzdark] <SERVER> Next shard in 50s
+7:09:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 26s) | ❖ 2x DROPS (1d 3h 46m 42s)
+7:09:25 PM [syzdark] <SERVER> Next shard in 49s
+7:09:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 25s) | ❖ 2x DROPS (1d 3h 46m 41s)
+7:09:26 PM [syzdark] <SERVER> Next shard in 48s
+7:09:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 24s) | ❖ 2x DROPS (1d 3h 46m 40s)
+7:09:27 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: tpa zen
+7:09:27 PM [syzdark] <SERVER> Next shard in 47s
+7:09:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 23s) | ❖ 2x DROPS (1d 3h 46m 39s)
+7:09:28 PM [syzdark] <SERVER> Next shard in 46s
+7:09:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 22s) | ❖ 2x DROPS (1d 3h 46m 38s)
+7:09:28 PM [syzdark] <SERVER> [SAIS] #6 $3.59B BILLIONAIRE [Iron I] usergogo: yp CashMane332
+7:09:29 PM [syzdark] <SERVER> Next shard in 45s
+7:09:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 21s) | ❖ 2x DROPS (1d 3h 46m 37s)
+7:09:30 PM [syzdark] <SERVER> Next shard in 44s
+7:09:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 20s) | ❖ 2x DROPS (1d 3h 46m 36s)
+7:09:31 PM [syzdark] <SERVER> #4 $3.70B BILLIONAIRE [Iron I] FROST GrimmRepa: cash
+7:09:31 PM [syzdark] <SERVER> Next shard in 43s
+7:09:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 19s) | ❖ 2x DROPS (1d 3h 46m 35s)
+7:09:32 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: ou sht
+7:09:32 PM [syzdark] <SERVER> Next shard in 42s
+7:09:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 18s) | ❖ 2x DROPS (1d 3h 46m 34s)
+7:09:33 PM [syzdark] <SERVER> Next shard in 41s
+7:09:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 17s) | ❖ 2x DROPS (1d 3h 46m 33s)
+7:09:34 PM [syzdark] <SERVER> #4 $3.70B BILLIONAIRE [Iron I] FROST GrimmRepa: gi palit nako
+7:09:35 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:09:35 PM [syzdark] <SERVER> ** UR_Cristiano just beat Immortal_Rapii in a Coinflip worth 38,000,000 (Money) (-$2,000,000 5.0% Tax) **
+7:09:35 PM [syzdark] <SERVER> Next shard in 40s
+7:09:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 16s) | ❖ 2x DROPS (1d 3h 46m 32s)
+7:09:35 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:09:35 PM [syzdark] <SERVER> #4 $3.70B BILLIONAIRE [Iron I] FROST GrimmRepa: [Valentine Boots x1]
+7:09:35 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:09:35 PM [syzdark] <SERVER> Next shard in 39s
+7:09:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 15s) | ❖ 2x DROPS (1d 3h 46m 31s)
+7:09:36 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:09:36 PM [syzdark] <SERVER> Next shard in 38s
+7:09:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 14s) | ❖ 2x DROPS (1d 3h 46m 30s)
+7:09:37 PM [syzdark] <SERVER> Next shard in 37s
+7:09:37 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 13s) | ❖ 2x DROPS (1d 3h 46m 29s)
+7:09:37 PM [syzdark] <SERVER> Jameskii successfully cracked open a RARE meteorite!
+7:09:38 PM [syzdark] <SERVER> Next shard in 36s
+7:09:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 12s) | ❖ 2x DROPS (1d 3h 46m 28s)
+7:09:39 PM [syzdark] <SERVER> Next shard in 35s
+7:09:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 11s) | ❖ 2x DROPS (1d 3h 46m 27s)
+7:09:40 PM [syzdark] <SERVER> Next shard in 34s
+7:09:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 10s) | ❖ 2x DROPS (1d 3h 46m 26s)
+7:09:41 PM [syzdark] <SERVER> Next shard in 33s
+7:09:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 9s) | ❖ 2x DROPS (1d 3h 46m 25s)
+7:09:42 PM [syzdark] <SERVER> #4 $3.70B BILLIONAIRE [Iron I] FROST GrimmRepa: valentine bootws
+7:09:42 PM [syzdark] <SERVER> Next shard in 32s
+7:09:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 8s) | ❖ 2x DROPS (1d 3h 46m 24s)
+7:09:43 PM [syzdark] <SERVER> Next shard in 31s
+7:09:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 7s) | ❖ 2x DROPS (1d 3h 46m 23s)
+7:09:44 PM [syzdark] <SERVER> Next shard in 30s
+7:09:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 6s) | ❖ 2x DROPS (1d 3h 46m 22s)
+7:09:45 PM [syzdark] <SERVER> Next shard in 29s
+7:09:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 5s) | ❖ 2x DROPS (1d 3h 46m 21s)
+7:09:46 PM [syzdark] <SERVER> [77K] #87 $39.85M  [Iron I] PRO Immortal_Rapii: cf 40m
+7:09:46 PM [syzdark] <SERVER> Next shard in 28s
+7:09:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 4s) | ❖ 2x DROPS (1d 3h 46m 20s)
+7:09:47 PM [syzdark] <SERVER> [77K] #87 $39.85M  [Iron I] PRO Immortal_Rapii: cf 40m
+7:09:47 PM [syzdark] <SERVER> [77K] #87 $39.85M  [Iron I] PRO Immortal_Rapii: cf 40m
+7:09:47 PM [syzdark] <SERVER> Next shard in 27s
+7:09:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 3s) | ❖ 2x DROPS (1d 3h 46m 19s)
+7:09:48 PM [syzdark] <SERVER> [77K] #87 $39.85M  [Iron I] PRO Immortal_Rapii: cf 40m
+7:09:48 PM [syzdark] <SERVER> [77K] #87 $39.85M  [Iron I] PRO Immortal_Rapii: cf 40m
+7:09:48 PM [syzdark] <SERVER> #17 $2.84M  [Iron I] SWIFT UR_Cristiano: TPA FOR GAMBLE EVERY111
+7:09:48 PM [syzdark] <SERVER> Next shard in 26s
+7:09:48 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 2s) | ❖ 2x DROPS (1d 3h 46m 18s)
+7:09:49 PM [syzdark] <SERVER> Next shard in 25s
+7:09:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m 1s) | ❖ 2x DROPS (1d 3h 46m 17s)
+7:09:50 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: gear me up :(
+7:09:50 PM [syzdark] <SERVER> Next shard in 24s
+7:09:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 46m) | ❖ 2x DROPS (1d 3h 46m 16s)
+7:09:51 PM [syzdark] <SERVER> s7ak successfully cracked open a COMMON meteorite!
+7:09:51 PM [syzdark] <SERVER> Next shard in 23s
+7:09:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 59s) | ❖ 2x DROPS (1d 3h 46m 15s)
+7:09:52 PM [syzdark] <SERVER> Next shard in 22s
+7:09:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 58s) | ❖ 2x DROPS (1d 3h 46m 14s)
+7:09:53 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: uh
+7:09:53 PM [syzdark] <SERVER> Next shard in 21s
+7:09:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 57s) | ❖ 2x DROPS (1d 3h 46m 13s)
+7:09:54 PM [syzdark] <SERVER> Next shard in 20s
+7:09:54 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 56s) | ❖ 2x DROPS (1d 3h 46m 12s)
+7:09:55 PM [syzdark] <SERVER> Next shard in 19s
+7:09:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 55s) | ❖ 2x DROPS (1d 3h 46m 11s)
+7:09:56 PM [syzdark] <SERVER> Next shard in 18s
+7:09:56 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 54s) | ❖ 2x DROPS (1d 3h 46m 10s)
+7:09:56 PM [syzdark] <SERVER> #28 $1.63B BILLIONAIRE [Iron I] UmarAhmadPlayz: TPA FOR GAMBLE
+7:09:57 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: waitt
+7:09:57 PM [syzdark] <SERVER> Next shard in 17s
+7:09:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 53s) | ❖ 2x DROPS (1d 3h 46m 9s)
+7:09:58 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:09:58 PM [syzdark] <SERVER> Next shard in 16s
+7:09:58 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 52s) | ❖ 2x DROPS (1d 3h 46m 8s)
+7:09:59 PM [syzdark] <SERVER> #28 $1.63B BILLIONAIRE [Iron I] UmarAhmadPlayz: CF WITH ME
+7:09:59 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:09:59 PM [syzdark] <SERVER> Next shard in 15s
+7:09:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 51s) | ❖ 2x DROPS (1d 3h 46m 7s)
+7:10:00 PM [syzdark] <SERVER> #142 $140.06M  [Iron I] SpectaCore: tpa for gamble
+7:10:00 PM [syzdark] <SERVER> ✦ screemieee found 2x Epic crate from mining.
+7:10:00 PM [syzdark] <SERVER> #33 $590.80M  [Iron I] VeroHardtokilll: check my order for easy money
+7:10:00 PM [syzdark] <SERVER> Next shard in 14s
+7:10:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 50s) | ❖ 2x DROPS (1d 3h 46m 6s)
+7:10:01 PM [syzdark] <SERVER> Next shard in 13s
+7:10:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 49s) | ❖ 2x DROPS (1d 3h 46m 5s)
+7:10:02 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: ill just give you an op sword zen
+7:10:02 PM [syzdark] <SERVER> Next shard in 12s
+7:10:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 48s) | ❖ 2x DROPS (1d 3h 46m 4s)
+7:10:03 PM [syzdark] <SERVER> Next shard in 11s
+7:10:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 47s) | ❖ 2x DROPS (1d 3h 46m 3s)
+7:10:04 PM [syzdark] <SERVER> Next shard in 10s
+7:10:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 46s) | ❖ 2x DROPS (1d 3h 46m 2s)
+7:10:05 PM [syzdark] <SERVER> Next shard in 9s
+7:10:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 45s) | ❖ 2x DROPS (1d 3h 46m 1s)
+7:10:06 PM [syzdark] <SERVER> Next shard in 8s
+7:10:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 44s) | ❖ 2x DROPS (1d 3h 46m)
+7:10:07 PM [syzdark] <SERVER> Next shard in 7s
+7:10:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 43s) | ❖ 2x DROPS (1d 3h 45m 59s)
+7:10:08 PM [syzdark] <SERVER> Next shard in 6s
+7:10:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 42s) | ❖ 2x DROPS (1d 3h 45m 58s)
+7:10:09 PM [syzdark] <SERVER> ** Immortal_Rapii just beat UR_Cristiano in a Coinflip worth 72,200,000 (Money) (-$3,800,000 5.0% Tax) **
+7:10:09 PM [syzdark] <SERVER> Next shard in 5s
+7:10:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 41s) | ❖ 2x DROPS (1d 3h 45m 57s)
+7:10:10 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: selling [item}
+7:10:10 PM [syzdark] <SERVER> Next shard in 4s
+7:10:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 40s) | ❖ 2x DROPS (1d 3h 45m 56s)
+7:10:11 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: i need gear too bero
+7:10:11 PM [syzdark] <SERVER> Next shard in 3s
+7:10:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 39s) | ❖ 2x DROPS (1d 3h 45m 55s)
+7:10:12 PM [syzdark] <SERVER> Next shard in 2s
+7:10:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 38s) | ❖ 2x DROPS (1d 3h 45m 54s)
+7:10:13 PM [syzdark] <SERVER> Next shard in 1s
+7:10:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 37s) | ❖ 2x DROPS (1d 3h 45m 53s)
+7:10:14 PM [syzdark] <SERVER> + 1 ★
+7:10:14 PM [syzdark] <SERVER> +1 Shard(s)
+7:10:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 36s) | ❖ 2x DROPS (1d 3h 45m 52s)
+7:10:15 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: hm
+7:10:15 PM [syzdark] <SERVER> Next shard in 59s
+7:10:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 35s) | ❖ 2x DROPS (1d 3h 45m 51s)
+7:10:16 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: alright
+7:10:16 PM [syzdark] <SERVER> Next shard in 58s
+7:10:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 34s) | ❖ 2x DROPS (1d 3h 45m 50s)
+7:10:17 PM [syzdark] <SERVER> Next shard in 57s
+7:10:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 33s) | ❖ 2x DROPS (1d 3h 45m 49s)
+7:10:18 PM [syzdark] <SERVER> Next shard in 56s
+7:10:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 32s) | ❖ 2x DROPS (1d 3h 45m 48s)
+7:10:19 PM [syzdark] <SERVER> Next shard in 55s
+7:10:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 31s) | ❖ 2x DROPS (1d 3h 45m 47s)
+7:10:20 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: selling [Limitless Katana x1]
+7:10:20 PM [syzdark] <SERVER> Next shard in 54s
+7:10:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 30s) | ❖ 2x DROPS (1d 3h 45m 46s)
+7:10:21 PM [syzdark] <SERVER> Next shard in 53s
+7:10:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 29s) | ❖ 2x DROPS (1d 3h 45m 45s)
+7:10:22 PM [syzdark] <SERVER> Next shard in 52s
+7:10:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 28s) | ❖ 2x DROPS (1d 3h 45m 44s)
+7:10:23 PM [syzdark] <SERVER> Next shard in 51s
+7:10:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 27s) | ❖ 2x DROPS (1d 3h 45m 43s)
+7:10:24 PM [syzdark] <SERVER> Next shard in 50s
+7:10:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 26s) | ❖ 2x DROPS (1d 3h 45m 42s)
+7:10:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 25s) | ❖ 2x DROPS (1d 3h 45m 41s)
+7:10:25 PM [syzdark] <SERVER> Next shard in 49s
+7:10:26 PM [syzdark] <SERVER> Next shard in 48s
+7:10:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 24s) | ❖ 2x DROPS (1d 3h 45m 40s)
+7:10:27 PM [syzdark] <SERVER> Next shard in 47s
+7:10:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 23s) | ❖ 2x DROPS (1d 3h 45m 39s)
+7:10:28 PM [syzdark] <SERVER> #246 $16.36M  [Iron I] Nonn_Pro: what
+7:10:28 PM [syzdark] <SERVER> Next shard in 46s
+7:10:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 22s) | ❖ 2x DROPS (1d 3h 45m 38s)
+7:10:29 PM [syzdark] <SERVER> ✦ sevenaura44234 has awakened their NETHERITE SWORD!
+  ⤷ [LEGENDARY] ������ Venom +23.6%
+7:10:29 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: hello
+7:10:29 PM [syzdark] <SERVER> [SAIS] #6 $3.59B BILLIONAIRE [Iron I] usergogo: WHO HAS WINTER MACE
+7:10:29 PM [syzdark] <SERVER> Next shard in 45s
+7:10:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 21s) | ❖ 2x DROPS (1d 3h 45m 37s)
+7:10:30 PM [syzdark] <SERVER> Next shard in 44s
+7:10:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 20s) | ❖ 2x DROPS (1d 3h 45m 36s)
+7:10:31 PM [syzdark] <SERVER> Next shard in 43s
+7:10:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 19s) | ❖ 2x DROPS (1d 3h 45m 35s)
+7:10:32 PM [syzdark] <SERVER> #420 $2.29M  [Iron I] happybdayDANIEL: usergogo
+7:10:32 PM [syzdark] <SERVER> Next shard in 42s
+7:10:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 18s) | ❖ 2x DROPS (1d 3h 45m 34s)
+7:10:33 PM [syzdark] <SERVER> Next shard in 41s
+7:10:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 17s) | ❖ 2x DROPS (1d 3h 45m 33s)
+7:10:34 PM [syzdark] <SERVER> Next shard in 40s
+7:10:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 16s) | ❖ 2x DROPS (1d 3h 45m 32s)
+7:10:35 PM [syzdark] <SERVER> #420 $2.29M  [Iron I] happybdayDANIEL: i have easter mace
+7:10:35 PM [syzdark] <SERVER> Next shard in 39s
+7:10:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 15s) | ❖ 2x DROPS (1d 3h 45m 31s)
+7:10:36 PM [syzdark] <SERVER> Next shard in 38s
+7:10:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 14s) | ❖ 2x DROPS (1d 3h 45m 30s)
+7:10:37 PM [syzdark] <SERVER> ✦ sevenaura44234 has awakened their NETHERITE SWORD!
+  ⤷ [RARE] ������ Venom +14.5%
+7:10:37 PM [syzdark] <SERVER> Next shard in 37s
+7:10:37 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 12s) | ❖ 2x DROPS (1d 3h 45m 28s)
+7:10:38 PM [syzdark] <SERVER> Next shard in 36s
+7:10:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 12s) | ❖ 2x DROPS (1d 3h 45m 28s)
+7:10:39 PM [syzdark] <SERVER> Next shard in 35s
+7:10:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 11s) | ❖ 2x DROPS (1d 3h 45m 27s)
+7:10:40 PM [syzdark] <SERVER> Next shard in 34s
+7:10:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 10s) | ❖ 2x DROPS (1d 3h 45m 26s)
+7:10:42 PM [syzdark] <SERVER> Next shard in 33s
+7:10:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 9s) | ❖ 2x DROPS (1d 3h 45m 25s)
+7:10:42 PM [syzdark] <SERVER> #46 $86.97M  [Iron I] Dark_Slayer2491: [Mace x1]
+7:10:42 PM [syzdark] <SERVER> Next shard in 32s
+7:10:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 8s) | ❖ 2x DROPS (1d 3h 45m 24s)
+7:10:43 PM [syzdark] <SERVER> ✦ sevenaura44234 has awakened their NETHERITE SWORD!
+  ⤷ [RARE] ⚔ PvP Damage +5.4%
+7:10:43 PM [syzdark] <SERVER> Next shard in 31s
+7:10:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 7s) | ❖ 2x DROPS (1d 3h 45m 23s)
+7:10:44 PM [syzdark] <SERVER> [SAIS] #6 $3.59B BILLIONAIRE [Iron I] usergogo: How much happybdayDANIEL
+7:10:44 PM [syzdark] <SERVER> Next shard in 30s
+7:10:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 6s) | ❖ 2x DROPS (1d 3h 45m 22s)
+7:10:45 PM [syzdark] <SERVER> Next shard in 29s
+7:10:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 5s) | ❖ 2x DROPS (1d 3h 45m 21s)
+7:10:45 PM [syzdark] <SERVER> The The Gale Sovereign has awakened! Type /galesovereign to fight him!
+7:10:46 PM [syzdark] <SERVER> Next shard in 28s
+7:10:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 4s) | ❖ 2x DROPS (1d 3h 45m 20s)
+7:10:47 PM [syzdark] <SERVER> Next shard in 27s
+7:10:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 3s) | ❖ 2x DROPS (1d 3h 45m 19s)
+7:10:48 PM [syzdark] <SERVER> Next shard in 26s
+7:10:48 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 2s) | ❖ 2x DROPS (1d 3h 45m 18s)
+7:10:49 PM [syzdark] <SERVER> #420 $2.29M  [Iron I] happybdayDANIEL: 3b
+7:10:49 PM [syzdark] <SERVER> #406 $738.45k  [Iron I] HARAGAN: cf 1m
+7:10:49 PM [syzdark] <SERVER> Next shard in 25s
+7:10:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m 1s) | ❖ 2x DROPS (1d 3h 45m 17s)
+7:10:50 PM [syzdark] <SERVER> #406 $738.45k  [Iron I] HARAGAN: cf 1m
+7:10:50 PM [syzdark] <SERVER> #406 $738.45k  [Iron I] HARAGAN: cf 1m
+7:10:50 PM [syzdark] <SERVER> Next shard in 24s
+7:10:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 45m) | ❖ 2x DROPS (1d 3h 45m 16s)
+7:10:51 PM [syzdark] <SERVER> Next shard in 23s
+7:10:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 59s) | ❖ 2x DROPS (1d 3h 45m 15s)
+7:10:52 PM [syzdark] <SERVER> Next shard in 22s
+7:10:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 58s) | ❖ 2x DROPS (1d 3h 45m 14s)
+7:10:53 PM [syzdark] <SERVER> Next shard in 21s
+7:10:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 57s) | ❖ 2x DROPS (1d 3h 45m 13s)
+7:10:54 PM [syzdark] <SERVER> #46 $86.97M  [Iron I] Dark_Slayer2491: this is only best mace i hava
+7:10:54 PM [syzdark] <SERVER> Next shard in 20s
+7:10:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 56s) | ❖ 2x DROPS (1d 3h 45m 12s)
+7:10:55 PM [syzdark] <SERVER> Next shard in 19s
+7:10:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 55s) | ❖ 2x DROPS (1d 3h 45m 11s)
+7:10:56 PM [syzdark] <SERVER> [SAIS] #6 $3.59B BILLIONAIRE [Iron I] usergogo: holy scam
+7:10:57 PM [syzdark] <SERVER> Next shard in 18s
+7:10:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 54s) | ❖ 2x DROPS (1d 3h 45m 10s)
+7:10:57 PM [syzdark] <SERVER> Next shard in 17s
+7:10:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 53s) | ❖ 2x DROPS (1d 3h 45m 9s)
+7:10:58 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: gEAR ME UP
+7:10:58 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: gEAR ME UP
+7:10:58 PM [syzdark] <SERVER> Next shard in 16s
+7:10:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 52s) | ❖ 2x DROPS (1d 3h 45m 8s)
+7:10:59 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: 0 - 0
+7:10:59 PM [syzdark] <SERVER> Next shard in 15s
+7:10:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 51s) | ❖ 2x DROPS (1d 3h 45m 7s)
+7:11:00 PM [syzdark] <SERVER> Next shard in 14s
+7:11:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 50s) | ❖ 2x DROPS (1d 3h 45m 6s)
+7:11:01 PM [syzdark] <SERVER> ** SpectaCore just beat Gamer_Diem in a Coinflip worth 1,900 (Money) (-$100 5.0% Tax) **
+7:11:01 PM [syzdark] <SERVER> Next shard in 13s
+7:11:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 49s) | ❖ 2x DROPS (1d 3h 45m 5s)
+7:11:02 PM [syzdark] <SERVER> Next shard in 12s
+7:11:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 48s) | ❖ 2x DROPS (1d 3h 45m 4s)
+7:11:03 PM [syzdark] <SERVER> #420 $2.29M  [Iron I] happybdayDANIEL: idi wag
+7:11:03 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: magma
+7:11:03 PM [syzdark] <SERVER> Next shard in 11s
+7:11:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 47s) | ❖ 2x DROPS (1d 3h 45m 3s)
+7:11:04 PM [syzdark] <SERVER> ** SpectaCore just beat HARAGAN in a Coinflip worth 1,900,000 (Money) (-$100,000 5.0% Tax) **
+7:11:04 PM [syzdark] <SERVER> #420 $2.29M  [Iron I] happybdayDANIEL: noob
+7:11:04 PM [syzdark] <SERVER> Next shard in 10s
+7:11:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 46s) | ❖ 2x DROPS (1d 3h 45m 2s)
+7:11:04 PM [syzdark] <SERVER> ✦ SameXz found 2x Rare crate from mining.
+7:11:05 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: pluh
+7:11:05 PM [syzdark] <SERVER> Next shard in 9s
+7:11:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 45s) | ❖ 2x DROPS (1d 3h 45m 1s)
+7:11:06 PM [syzdark] <SERVER> Next shard in 8s
+7:11:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 44s) | ❖ 2x DROPS (1d 3h 45m)
+7:11:07 PM [syzdark] <SERVER> Next shard in 7s
+7:11:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 43s) | ❖ 2x DROPS (1d 3h 44m 59s)
+7:11:08 PM [syzdark] <SERVER> Next shard in 6s
+7:11:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 42s) | ❖ 2x DROPS (1d 3h 44m 58s)
+7:11:09 PM [syzdark] <SERVER> Next shard in 5s
+7:11:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 41s) | ❖ 2x DROPS (1d 3h 44m 57s)
+7:11:10 PM [syzdark] <SERVER> Next shard in 4s
+7:11:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 40s) | ❖ 2x DROPS (1d 3h 44m 56s)
+7:11:11 PM [syzdark] <SERVER> [SAIS] #6 $3.59B BILLIONAIRE [Iron I] usergogo: WHO GOT WINTER MACE I DROPPED
+7:11:11 PM [syzdark] <SERVER> Next shard in 3s
+7:11:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 39s) | ❖ 2x DROPS (1d 3h 44m 55s)
+7:11:12 PM [syzdark] <SERVER> Next shard in 2s
+7:11:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 38s) | ❖ 2x DROPS (1d 3h 44m 54s)
+7:11:13 PM [syzdark] <SERVER> ** SpectaCore just beat Immortal_Rapii in a Coinflip worth 19,000,000 (Money) (-$1,000,000 5.0% Tax) **
+7:11:13 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: gEAR ME UP
+7:11:13 PM [syzdark] <SERVER> Next shard in 1s
+7:11:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 37s) | ❖ 2x DROPS (1d 3h 44m 53s)
+7:11:14 PM [syzdark] <SERVER> + 1 ★
+7:11:14 PM [syzdark] <SERVER> +1 Shard(s)
+7:11:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 36s) | ❖ 2x DROPS (1d 3h 44m 52s)
+7:11:15 PM [syzdark] <SERVER> Next shard in 59s
+7:11:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 35s) | ❖ 2x DROPS (1d 3h 44m 51s)
+7:11:16 PM [syzdark] <SERVER> Next shard in 58s
+7:11:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 34s) | ❖ 2x DROPS (1d 3h 44m 50s)
+7:11:17 PM [syzdark] <SERVER> Next shard in 57s
+7:11:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 33s) | ❖ 2x DROPS (1d 3h 44m 49s)
+7:11:18 PM [syzdark] <SERVER> Next shard in 56s
+7:11:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 32s) | ❖ 2x DROPS (1d 3h 44m 48s)
+7:11:19 PM [syzdark] <SERVER> Next shard in 55s
+7:11:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 31s) | ❖ 2x DROPS (1d 3h 44m 47s)
+7:11:20 PM [syzdark] <SERVER> Next shard in 54s
+7:11:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 30s) | ❖ 2x DROPS (1d 3h 44m 46s)
+7:11:21 PM [syzdark] <SERVER> #4 $3.70B BILLIONAIRE [Iron I] FROST GrimmRepa: usergogo i have easter mace aswell
+7:11:21 PM [syzdark] <SERVER> Next shard in 53s
+7:11:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 29s) | ❖ 2x DROPS (1d 3h 44m 45s)
+7:11:22 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: magma
+7:11:22 PM [syzdark] <SERVER> Next shard in 52s
+7:11:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 28s) | ❖ 2x DROPS (1d 3h 44m 44s)
+7:11:23 PM [syzdark] <SERVER> Next shard in 51s
+7:11:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 27s) | ❖ 2x DROPS (1d 3h 44m 43s)
+7:11:24 PM [syzdark] <SERVER> Next shard in 50s
+7:11:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 26s) | ❖ 2x DROPS (1d 3h 44m 42s)
+7:11:25 PM [syzdark] <SERVER> Next shard in 49s
+7:11:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 25s) | ❖ 2x DROPS (1d 3h 44m 41s)
+7:11:26 PM [syzdark] <SERVER> ** UR_Cristiano just beat GLX_warden2844 in a Coinflip worth 3,800,000 (Money) (-$200,000 5.0% Tax) **
+7:11:26 PM [syzdark] <SERVER> Next shard in 48s
+7:11:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 24s) | ❖ 2x DROPS (1d 3h 44m 40s)
+7:11:27 PM [syzdark] <SERVER> Next shard in 47s
+7:11:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 23s) | ❖ 2x DROPS (1d 3h 44m 39s)
+7:11:28 PM [syzdark] <SERVER> Next shard in 46s
+7:11:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 22s) | ❖ 2x DROPS (1d 3h 44m 38s)
+7:11:29 PM [syzdark] <SERVER> Next shard in 45s
+7:11:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 21s) | ❖ 2x DROPS (1d 3h 44m 37s)
+7:11:30 PM [syzdark] <SERVER> #74 $200.34M  [Iron I] Zyroth_YT: GLX_warden2844
+7:11:30 PM [syzdark] <SERVER> Next shard in 44s
+7:11:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 20s) | ❖ 2x DROPS (1d 3h 44m 36s)
+7:11:31 PM [syzdark] <SERVER> Next shard in 43s
+7:11:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 19s) | ❖ 2x DROPS (1d 3h 44m 35s)
+7:11:32 PM [syzdark] <SERVER> [SAIS] #6 $3.59B BILLIONAIRE [Iron I] usergogo: WHO GOT WINTER MACE I DROPPED
+7:11:32 PM [syzdark] <SERVER> Next shard in 42s
+7:11:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 18s) | ❖ 2x DROPS (1d 3h 44m 34s)
+7:11:33 PM [syzdark] <SERVER> [SAIS] #6 $3.59B BILLIONAIRE [Iron I] usergogo: WHO GOT WINTER MACE I DROPPED
+7:11:33 PM [syzdark] <SERVER> Next shard in 41s
+7:11:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 17s) | ❖ 2x DROPS (1d 3h 44m 33s)
+7:11:34 PM [syzdark] <SERVER> Next shard in 40s
+7:11:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 16s) | ❖ 2x DROPS (1d 3h 44m 32s)
+7:11:35 PM [syzdark] <SERVER> #4 $3.70B BILLIONAIRE [Iron I] FROST GrimmRepa: me
+7:11:35 PM [syzdark] <SERVER> ** SpectaCore just beat Immortal_Rapii in a Coinflip worth 38,000,000 (Money) (-$2,000,000 5.0% Tax) **
+7:11:35 PM [syzdark] <SERVER> Next shard in 39s
+7:11:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 15s) | ❖ 2x DROPS (1d 3h 44m 31s)
+7:11:36 PM [syzdark] <SERVER> Next shard in 38s
+7:11:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 14s) | ❖ 2x DROPS (1d 3h 44m 30s)
+7:11:37 PM [syzdark] <SERVER> Next shard in 37s
+7:11:37 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 13s) | ❖ 2x DROPS (1d 3h 44m 29s)
+7:11:38 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: real good sword
+7:11:38 PM [syzdark] <SERVER> Next shard in 36s
+7:11:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 12s) | ❖ 2x DROPS (1d 3h 44m 28s)
+7:11:39 PM [syzdark] <SERVER> Next shard in 35s
+7:11:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 11s) | ❖ 2x DROPS (1d 3h 44m 27s)
+7:11:40 PM [syzdark] <SERVER> Next shard in 34s
+7:11:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 10s) | ❖ 2x DROPS (1d 3h 44m 26s)
+7:11:41 PM [syzdark] <SERVER> Next shard in 33s
+7:11:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 9s) | ❖ 2x DROPS (1d 3h 44m 25s)
+7:11:42 PM [syzdark] <SERVER> Next shard in 32s
+7:11:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 8s) | ❖ 2x DROPS (1d 3h 44m 24s)
+7:11:43 PM [syzdark] <SERVER> Next shard in 31s
+7:11:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 7s) | ❖ 2x DROPS (1d 3h 44m 23s)
+7:11:44 PM [syzdark] <SERVER> Next shard in 30s
+7:11:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 6s) | ❖ 2x DROPS (1d 3h 44m 22s)
+7:11:45 PM [syzdark] <SERVER> Next shard in 29s
+7:11:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 5s) | ❖ 2x DROPS (1d 3h 44m 21s)
+7:11:46 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: magma
+7:11:46 PM [syzdark] <SERVER> Next shard in 28s
+7:11:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 4s) | ❖ 2x DROPS (1d 3h 44m 20s)
+7:11:47 PM [syzdark] <SERVER> Next shard in 27s
+7:11:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 3s) | ❖ 2x DROPS (1d 3h 44m 19s)
+7:11:49 PM [syzdark] <SERVER> Next shard in 26s
+7:11:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 2s) | ❖ 2x DROPS (1d 3h 44m 18s)
+7:11:49 PM [syzdark] <SERVER> Next shard in 25s
+7:11:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m 1s) | ❖ 2x DROPS (1d 3h 44m 17s)
+7:11:50 PM [syzdark] <SERVER> Next shard in 24s
+7:11:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 44m) | ❖ 2x DROPS (1d 3h 44m 16s)
+7:11:51 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: how to use this shi
+7:11:51 PM [syzdark] <SERVER> Next shard in 23s
+7:11:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 59s) | ❖ 2x DROPS (1d 3h 44m 15s)
+7:11:52 PM [syzdark] <SERVER> Next shard in 22s
+7:11:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 58s) | ❖ 2x DROPS (1d 3h 44m 14s)
+7:11:53 PM [syzdark] <SERVER> #17 $4.64M  [Iron I] SWIFT UR_Cristiano: egap aint rare enough btw
+7:11:53 PM [syzdark] <SERVER> Next shard in 21s
+7:11:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 57s) | ❖ 2x DROPS (1d 3h 44m 13s)
+7:11:54 PM [syzdark] <SERVER> Next shard in 20s
+7:11:54 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 56s) | ❖ 2x DROPS (1d 3h 44m 12s)
+7:11:55 PM [syzdark] <SERVER> Next shard in 19s
+7:11:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 55s) | ❖ 2x DROPS (1d 3h 44m 11s)
+7:11:56 PM [syzdark] <SERVER> ** SpectaCore just beat Immortal_Rapii in a Coinflip worth 76,000,000 (Money) (-$4,000,000 5.0% Tax) **
+7:11:56 PM [syzdark] <SERVER> Next shard in 18s
+7:11:56 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 54s) | ❖ 2x DROPS (1d 3h 44m 10s)
+7:11:57 PM [syzdark] <SERVER> ✦ Iamamonkey67 has awakened their NETHERITE SWORD!
+  ⤷ [LEGENDARY] ������ Lifesteal +2.9%
+7:11:57 PM [syzdark] <SERVER> Next shard in 17s
+7:11:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 53s) | ❖ 2x DROPS (1d 3h 44m 9s)
+7:11:58 PM [syzdark] <SERVER> Next shard in 16s
+7:11:58 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 52s) | ❖ 2x DROPS (1d 3h 44m 8s)
+7:11:59 PM [syzdark] <SERVER> Next shard in 15s
+7:11:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 51s) | ❖ 2x DROPS (1d 3h 44m 7s)
+7:12:00 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: magma
+7:12:00 PM [syzdark] <SERVER> Next shard in 14s
+7:12:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 50s) | ❖ 2x DROPS (1d 3h 44m 6s)
+7:12:01 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: spam right click rn
+7:12:01 PM [syzdark] <SERVER> Next shard in 13s
+7:12:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 49s) | ❖ 2x DROPS (1d 3h 44m 5s)
+7:12:02 PM [syzdark] <SERVER> Next shard in 12s
+7:12:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 48s) | ❖ 2x DROPS (1d 3h 44m 4s)
+7:12:03 PM [syzdark] <SERVER> Next shard in 11s
+7:12:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 47s) | ❖ 2x DROPS (1d 3h 44m 3s)
+7:12:04 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: ig*
+7:12:04 PM [syzdark] <SERVER> Next shard in 10s
+7:12:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 46s) | ❖ 2x DROPS (1d 3h 44m 2s)
+7:12:05 PM [syzdark] <SERVER> Next shard in 9s
+7:12:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 45s) | ❖ 2x DROPS (1d 3h 44m 1s)
+7:12:06 PM [syzdark] <SERVER> #246 $16.36M  [Iron I] Nonn_Pro: guys where do i get mending
+7:12:06 PM [syzdark] <SERVER> Next shard in 8s
+7:12:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 44s) | ❖ 2x DROPS (1d 3h 44m)
+7:12:07 PM [syzdark] <SERVER> Next shard in 7s
+7:12:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 43s) | ❖ 2x DROPS (1d 3h 43m 59s)
+7:12:08 PM [syzdark] <SERVER> Next shard in 6s
+7:12:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 42s) | ❖ 2x DROPS (1d 3h 43m 58s)
+7:12:10 PM [syzdark] <SERVER> Next shard in 5s
+7:12:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 41s) | ❖ 2x DROPS (1d 3h 43m 57s)
+7:12:10 PM [syzdark] <SERVER> Next shard in 4s
+7:12:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 40s) | ❖ 2x DROPS (1d 3h 43m 56s)
+7:12:11 PM [syzdark] <SERVER> Next shard in 3s
+7:12:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 39s) | ❖ 2x DROPS (1d 3h 43m 55s)
+7:12:12 PM [syzdark] <SERVER> Next shard in 2s
+7:12:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 38s) | ❖ 2x DROPS (1d 3h 43m 54s)
+7:12:13 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: yep
+7:12:13 PM [syzdark] <SERVER> Next shard in 1s
+7:12:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 37s) | ❖ 2x DROPS (1d 3h 43m 53s)
+7:12:14 PM [syzdark] <SERVER> ** Immortal_Rapii just beat SpectaCore in a Coinflip worth 95,000,000 (Money) (-$5,000,000 5.0% Tax) **
+7:12:14 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: how much dmage
+7:12:14 PM [syzdark] <SERVER> + 1 ★
+7:12:14 PM [syzdark] <SERVER> +1 Shard(s)
+7:12:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 36s) | ❖ 2x DROPS (1d 3h 43m 52s)
+7:12:15 PM [syzdark] <SERVER> Next shard in 59s
+7:12:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 35s) | ❖ 2x DROPS (1d 3h 43m 51s)
+7:12:16 PM [syzdark] <SERVER> Next shard in 58s
+7:12:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 34s) | ❖ 2x DROPS (1d 3h 43m 50s)
+7:12:17 PM [syzdark] <SERVER> Next shard in 57s
+7:12:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 33s) | ❖ 2x DROPS (1d 3h 43m 49s)
+7:12:18 PM [syzdark] <SERVER> Next shard in 56s
+7:12:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 32s) | ❖ 2x DROPS (1d 3h 43m 48s)
+7:12:19 PM [syzdark] <SERVER> Next shard in 55s
+7:12:19 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 31s) | ❖ 2x DROPS (1d 3h 43m 47s)
+7:12:20 PM [syzdark] <SERVER> Next shard in 54s
+7:12:20 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 30s) | ❖ 2x DROPS (1d 3h 43m 46s)
+7:12:20 PM [syzdark] <SERVER> The True Enhancer has awakened! Type /trueenhancer to fight him!
+7:12:21 PM [syzdark] <SERVER> [Shop] Your stock for Spider Spawner has been replenished!
+7:12:21 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: uh you cant dmg here
+7:12:21 PM [syzdark] <SERVER> Next shard in 53s
+7:12:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 29s) | ❖ 2x DROPS (1d 3h 43m 45s)
+7:12:22 PM [syzdark] <SERVER> Next shard in 52s
+7:12:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 28s) | ❖ 2x DROPS (1d 3h 43m 44s)
+7:12:23 PM [syzdark] <SERVER> Next shard in 51s
+7:12:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 27s) | ❖ 2x DROPS (1d 3h 43m 43s)
+7:12:24 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: ?
+7:12:24 PM [syzdark] <SERVER> Next shard in 50s
+7:12:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 26s) | ❖ 2x DROPS (1d 3h 43m 42s)
+7:12:25 PM [syzdark] <SERVER> Next shard in 49s
+7:12:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 25s) | ❖ 2x DROPS (1d 3h 43m 41s)
+7:12:26 PM [syzdark] <SERVER> Next shard in 48s
+7:12:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 24s) | ❖ 2x DROPS (1d 3h 43m 40s)
+7:12:27 PM [syzdark] <SERVER> Next shard in 47s
+7:12:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 23s) | ❖ 2x DROPS (1d 3h 43m 39s)
+7:12:27 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: i didn't say
+7:12:28 PM [syzdark] <SERVER> #17 $4.64M  [Iron I] SWIFT UR_Cristiano: idk
+7:12:28 PM [syzdark] <SERVER> Next shard in 46s
+7:12:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 22s) | ❖ 2x DROPS (1d 3h 43m 38s)
+7:12:29 PM [syzdark] <SERVER> Next shard in 45s
+7:12:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 21s) | ❖ 2x DROPS (1d 3h 43m 37s)
+7:12:30 PM [syzdark] <SERVER> Next shard in 44s
+7:12:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 20s) | ❖ 2x DROPS (1d 3h 43m 36s)
+7:12:31 PM [syzdark] <SERVER> Next shard in 43s
+7:12:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 19s) | ❖ 2x DROPS (1d 3h 43m 35s)
+7:12:31 PM [syzdark] <SERVER> #67 $221.48M  [Iron I] DEVELXBGMI: let's make hall
+7:12:32 PM [syzdark] <SERVER> MexicanDrugLord was kicked by Console for 'Unfair Advantage'.
+7:12:32 PM [syzdark] <SERVER> Next shard in 42s
+7:12:32 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 18s) | ❖ 2x DROPS (1d 3h 43m 34s)
+7:12:33 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: im missing pants gng
+7:12:33 PM [syzdark] <SERVER> Next shard in 41s
+7:12:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 17s) | ❖ 2x DROPS (1d 3h 43m 33s)
+7:12:34 PM [syzdark] <SERVER> Next shard in 40s
+7:12:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 16s) | ❖ 2x DROPS (1d 3h 43m 32s)
+7:12:35 PM [syzdark] <SERVER> Next shard in 39s
+7:12:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 15s) | ❖ 2x DROPS (1d 3h 43m 31s)
+7:12:36 PM [syzdark] <SERVER> Next shard in 38s
+7:12:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 14s) | ❖ 2x DROPS (1d 3h 43m 30s)
+7:12:37 PM [syzdark] <SERVER> Next shard in 37s
+7:12:37 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 13s) | ❖ 2x DROPS (1d 3h 43m 29s)
+7:12:38 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: crying
+7:12:38 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: aligh
+7:12:38 PM [syzdark] <SERVER> Next shard in 36s
+7:12:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 12s) | ❖ 2x DROPS (1d 3h 43m 28s)
+7:12:39 PM [syzdark] <SERVER> Next shard in 35s
+7:12:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 11s) | ❖ 2x DROPS (1d 3h 43m 27s)
+7:12:40 PM [syzdark] <SERVER> Next shard in 34s
+7:12:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 10s) | ❖ 2x DROPS (1d 3h 43m 26s)
+7:12:41 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: kicked
+7:12:41 PM [syzdark] <SERVER> Next shard in 33s
+7:12:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 9s) | ❖ 2x DROPS (1d 3h 43m 25s)
+7:12:42 PM [syzdark] <SERVER> #4 $3.70B BILLIONAIRE [Iron I] FROST GrimmRepa: selling boss swords
+7:12:43 PM [syzdark] <SERVER> Next shard in 32s
+7:12:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 8s) | ❖ 2x DROPS (1d 3h 43m 24s)
+7:12:43 PM [syzdark] <SERVER> Next shard in 31s
+7:12:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 7s) | ❖ 2x DROPS (1d 3h 43m 23s)
+7:12:44 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: L server
+7:12:45 PM [syzdark] <SERVER> Next shard in 30s
+7:12:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 6s) | ❖ 2x DROPS (1d 3h 43m 22s)
+7:12:45 PM [syzdark] <SERVER> Next shard in 29s
+7:12:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 5s) | ❖ 2x DROPS (1d 3h 43m 21s)
+7:12:46 PM [syzdark] <SERVER> #17 $4.64M  [Iron I] SWIFT UR_Cristiano: u wonnnn
+7:12:46 PM [syzdark] <SERVER> Next shard in 28s
+7:12:46 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 4s) | ❖ 2x DROPS (1d 3h 43m 20s)
+7:12:47 PM [syzdark] <SERVER> Next shard in 27s
+7:12:47 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 3s) | ❖ 2x DROPS (1d 3h 43m 19s)
+7:12:48 PM [syzdark] <SERVER> Next shard in 26s
+7:12:48 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 2s) | ❖ 2x DROPS (1d 3h 43m 18s)
+7:12:49 PM [syzdark] <SERVER> Next shard in 25s
+7:12:49 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m 1s) | ❖ 2x DROPS (1d 3h 43m 17s)
+7:12:50 PM [syzdark] <SERVER> ** DEVELXBGMI just beat Immortal_Rapii in a Coinflip worth 190,000,000 (Money) (-$10,000,000 5.0% Tax) **
+7:12:50 PM [syzdark] <SERVER> Next shard in 24s
+7:12:50 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 43m) | ❖ 2x DROPS (1d 3h 43m 16s)
+7:12:51 PM [syzdark] <SERVER> Next shard in 23s
+7:12:51 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 59s) | ❖ 2x DROPS (1d 3h 43m 15s)
+7:12:52 PM [syzdark] <SERVER> Next shard in 22s
+7:12:52 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 58s) | ❖ 2x DROPS (1d 3h 43m 14s)
+7:12:53 PM [syzdark] <SERVER> Next shard in 21s
+7:12:53 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 57s) | ❖ 2x DROPS (1d 3h 43m 13s)
+7:12:54 PM [syzdark] <SERVER> Next shard in 20s
+7:12:54 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 56s) | ❖ 2x DROPS (1d 3h 43m 12s)
+7:12:55 PM [syzdark] <SERVER> Next shard in 19s
+7:12:55 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 55s) | ❖ 2x DROPS (1d 3h 43m 11s)
+7:12:56 PM [syzdark] <SERVER> Next shard in 18s
+7:12:56 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 54s) | ❖ 2x DROPS (1d 3h 43m 10s)
+7:12:57 PM [syzdark] <SERVER> #17 $4.64M  [Iron I] SWIFT UR_Cristiano: wait
+7:12:57 PM [syzdark] <SERVER> Next shard in 17s
+7:12:57 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 53s) | ❖ 2x DROPS (1d 3h 43m 9s)
+7:12:58 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 52s) | ❖ 2x DROPS (1d 3h 43m 8s)
+7:12:58 PM [syzdark] <SERVER> Next shard in 16s
+7:12:59 PM [syzdark] <SERVER> The Crimson Fiend is burning her own blood... EXPLODING BLOOD!
+7:12:59 PM [syzdark] <SERVER> Next shard in 15s
+7:12:59 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 51s) | ❖ 2x DROPS (1d 3h 43m 7s)
+7:13:00 PM [syzdark] <SERVER> #17 $4.64M  [Iron I] SWIFT UR_Cristiano: that isnt rare enough
+7:13:00 PM [syzdark] <SERVER> Next shard in 14s
+7:13:00 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 49s) | ❖ 2x DROPS (1d 3h 43m 5s)
+7:13:01 PM [syzdark] <SERVER> Next shard in 13s
+7:13:01 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 49s) | ❖ 2x DROPS (1d 3h 43m 5s)
+7:13:02 PM [syzdark] <SERVER> #4 $3.70B BILLIONAIRE [Iron I] FROST GrimmRepa: selling boss swords
+7:13:02 PM [syzdark] <SERVER> #17 $4.64M  [Iron I] SWIFT UR_Cristiano: do smth else
+7:13:02 PM [syzdark] <SERVER> Next shard in 12s
+7:13:02 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 48s) | ❖ 2x DROPS (1d 3h 43m 4s)
+7:13:03 PM [syzdark] <SERVER> Next shard in 11s
+7:13:03 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 47s) | ❖ 2x DROPS (1d 3h 43m 3s)
+7:13:04 PM [syzdark] <SERVER> Next shard in 10s
+7:13:04 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 46s) | ❖ 2x DROPS (1d 3h 43m 2s)
+7:13:05 PM [syzdark] <SERVER> Next shard in 9s
+7:13:05 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 45s) | ❖ 2x DROPS (1d 3h 43m 1s)
+7:13:06 PM [syzdark] <SERVER> Next shard in 8s
+7:13:06 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 44s) | ❖ 2x DROPS (1d 3h 43m)
+7:13:07 PM [syzdark] <SERVER> #33 $591.21M  [Iron I] VeroHardtokilll: guys check my order
+7:13:07 PM [syzdark] <SERVER> Next shard in 7s
+7:13:07 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 43s) | ❖ 2x DROPS (1d 3h 42m 59s)
+7:13:08 PM [syzdark] <SERVER> #9 $2.42B BILLIONAIRE [Iron I] VIP GLX_warden2844: guys do my order for easy money
+7:13:08 PM [syzdark] <SERVER> Next shard in 6s
+7:13:08 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 42s) | ❖ 2x DROPS (1d 3h 42m 58s)
+7:13:09 PM [syzdark] <SERVER> Next shard in 5s
+7:13:09 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 41s) | ❖ 2x DROPS (1d 3h 42m 57s)
+7:13:10 PM [syzdark] <SERVER> #158 $54.75M  [Iron I] SwiftTiers Manager Beast_Zen_Kun: im missing pants gng
+7:13:10 PM [syzdark] <SERVER> Next shard in 4s
+7:13:10 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 40s) | ❖ 2x DROPS (1d 3h 42m 56s)
+7:13:11 PM [syzdark] <SERVER> Next shard in 3s
+7:13:11 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 39s) | ❖ 2x DROPS (1d 3h 42m 55s)
+7:13:12 PM [syzdark] <SERVER> Next shard in 2s
+7:13:12 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 38s) | ❖ 2x DROPS (1d 3h 42m 54s)
+7:13:13 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: sould
+7:13:13 PM [syzdark] <SERVER> #33 $591.21M  [Iron I] VeroHardtokilll: guys check my order for easy money
+7:13:13 PM [syzdark] <SERVER> Next shard in 1s
+7:13:13 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 37s) | ❖ 2x DROPS (1d 3h 42m 53s)
+7:13:14 PM [syzdark] <SERVER> + 1 ★
+7:13:14 PM [syzdark] <SERVER> +1 Shard(s)
+7:13:14 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 36s) | ❖ 2x DROPS (1d 3h 42m 52s)
+7:13:15 PM [syzdark] <SERVER> Next shard in 59s
+7:13:15 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 35s) | ❖ 2x DROPS (1d 3h 42m 51s)
+7:13:15 PM [syzdark] <SERVER> [SLK] #8 $3.00B BILLIONAIRE [Iron I] MexicanDrugLord: hold on
+7:13:16 PM [syzdark] <SERVER> #124 $82.70M  [Iron I] VIP kitty_lover: Shop
+7:13:16 PM [syzdark] <SERVER> #142 $153.97M  [Iron I] SpectaCore: tpa for gamblkeeeeee
+7:13:16 PM [syzdark] <SERVER> Next shard in 58s
+7:13:16 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 34s) | ❖ 2x DROPS (1d 3h 42m 50s)
+7:13:17 PM [syzdark] <SERVER> Next shard in 57s
+7:13:17 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 33s) | ❖ 2x DROPS (1d 3h 42m 49s)
+7:13:18 PM [syzdark] <SERVER> Next shard in 56s
+7:13:18 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 32s) | ❖ 2x DROPS (1d 3h 42m 48s)
+7:13:21 PM [syzdark] <SERVER> Next shard in 55s
+7:13:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 31s) | ❖ 2x DROPS (1d 3h 42m 47s)
+7:13:21 PM [syzdark] <SERVER> Next shard in 54s
+7:13:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 30s) | ❖ 2x DROPS (1d 3h 42m 46s)
+7:13:21 PM [syzdark] <SERVER> #67 $311.48M  [Iron I] DEVELXBGMI: selling [Limitless Katana x1]
+7:13:21 PM [syzdark] <SERVER> Next shard in 53s
+7:13:21 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 29s) | ❖ 2x DROPS (1d 3h 42m 45s)
+7:13:22 PM [syzdark] <SERVER> Next shard in 52s
+7:13:22 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 28s) | ❖ 2x DROPS (1d 3h 42m 44s)
+7:13:23 PM [syzdark] <SERVER> Next shard in 51s
+7:13:23 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 27s) | ❖ 2x DROPS (1d 3h 42m 43s)
+7:13:24 PM [syzdark] <SERVER> Next shard in 50s
+7:13:24 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 26s) | ❖ 2x DROPS (1d 3h 42m 42s)
+7:13:25 PM [syzdark] <SERVER> Next shard in 49s
+7:13:25 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 25s) | ❖ 2x DROPS (1d 3h 42m 41s)
+7:13:26 PM [syzdark] <SERVER> #33 $591.21M  [Iron I] VeroHardtokilll: guys check my order for easy money
+7:13:26 PM [syzdark] <SERVER> Next shard in 48s
+7:13:26 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 24s) | ❖ 2x DROPS (1d 3h 42m 40s)
+7:13:26 PM [syzdark] <SERVER> #33 $591.21M  [Iron I] VeroHardtokilll: guys check my order for easy money
+7:13:27 PM [syzdark] <SERVER> Next shard in 47s
+7:13:27 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 23s) | ❖ 2x DROPS (1d 3h 42m 39s)
+7:13:28 PM [syzdark] <SERVER> Next shard in 46s
+7:13:28 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 22s) | ❖ 2x DROPS (1d 3h 42m 38s)
+7:13:29 PM [syzdark] <SERVER> Next shard in 45s
+7:13:29 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 21s) | ❖ 2x DROPS (1d 3h 42m 37s)
+7:13:30 PM [syzdark] <SERVER> Next shard in 44s
+7:13:30 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 20s) | ❖ 2x DROPS (1d 3h 42m 36s)
+7:13:31 PM [syzdark] <SERVER> Next shard in 43s
+7:13:31 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 19s) | ❖ 2x DROPS (1d 3h 42m 35s)
+7:13:32 PM [syzdark] <SERVER> Next shard in 42s
+7:13:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 18s) | ❖ 2x DROPS (1d 3h 42m 34s)
+7:13:33 PM [syzdark] <SERVER> Next shard in 41s
+7:13:33 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 17s) | ❖ 2x DROPS (1d 3h 42m 33s)
+7:13:34 PM [syzdark] <SERVER> Next shard in 40s
+7:13:34 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 16s) | ❖ 2x DROPS (1d 3h 42m 32s)
+7:13:35 PM [syzdark] <SERVER> Next shard in 39s
+7:13:35 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 15s) | ❖ 2x DROPS (1d 3h 42m 31s)
+7:13:36 PM [syzdark] <SERVER> Next shard in 38s
+7:13:36 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 14s) | ❖ 2x DROPS (1d 3h 42m 30s)
+7:13:37 PM [syzdark] <SERVER> Next shard in 37s
+7:13:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 13s) | ❖ 2x DROPS (1d 3h 42m 29s)
+7:13:38 PM [syzdark] <SERVER> Next shard in 36s
+7:13:38 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 12s) | ❖ 2x DROPS (1d 3h 42m 28s)
+7:13:39 PM [syzdark] <SERVER> Next shard in 35s
+7:13:39 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 11s) | ❖ 2x DROPS (1d 3h 42m 27s)
+7:13:40 PM [syzdark] <SERVER> #547 $571.06M  [Iron I] Gamer_Diem: soul
+7:13:40 PM [syzdark] <SERVER> Next shard in 34s
+7:13:40 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 10s) | ❖ 2x DROPS (1d 3h 42m 26s)
+7:13:40 PM [syzdark] <SERVER> #9 $2.42B BILLIONAIRE [Iron I] VIP GLX_warden2844: idk bruh
+7:13:41 PM [syzdark] <SERVER> #67 $311.48M  [Iron I] DEVELXBGMI: sell [Sword of the Dragon Goddess x1]
+7:13:41 PM [syzdark] <SERVER> Next shard in 33s
+7:13:41 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 9s) | ❖ 2x DROPS (1d 3h 42m 25s)
+7:13:42 PM [syzdark] <SERVER> Next shard in 32s
+7:13:42 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 8s) | ❖ 2x DROPS (1d 3h 42m 24s)
+7:13:43 PM [syzdark] <SERVER> Next shard in 31s
+7:13:43 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 7s) | ❖ 2x DROPS (1d 3h 42m 23s)
+7:13:44 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 6s) | ❖ 2x DROPS (1d 3h 42m 22s)
+7:13:44 PM [syzdark] <SERVER> Next shard in 30s
+7:13:45 PM [syzdark] <SERVER> Next shard in 29s
+7:13:45 PM [syzdark] <SERVER> ✦ 2x LUCK (1d 3h 42m 5s) | ❖ 2x DROPS (1d 3h 42m 21s)

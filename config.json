@@ -1,10 +1,11 @@
 {
-  "version": "2.1.0",
+  "version": "2.1.1",
   "web": {
     "enabled": false,
     "port": 3000
   },
   "autoUpdate": true,
+  "_setup": true,
   "bots": {
     "syzclark": {
       "host": "play.voidsmp.space",
@@ -59,7 +60,7 @@
       }
     },
     "syzdark": {
-      "host": "play.voidsmp.space",
+      "host": "play.swiftsmp.com",
       "port": "25565",
       "autoAfk": false,
       "autoJump": false,
