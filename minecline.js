@@ -339,7 +339,6 @@ function createBot(name, host, port) {
     }, 1500)
   }
   cfg.autoJumpInterval = autoJumpInterval
-  logInfo(name, `Connecting to ${host}:${port}...`)
   scheduleSave()
 }
 
