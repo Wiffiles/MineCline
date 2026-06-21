@@ -3,6 +3,9 @@ const fs = require('fs')
 const path = require('path')
 const readline = require('readline')
 const https = require('https')
+const express = require('express')
+const http = require('http')
+const { WebSocketServer } = require('ws')
 
 const VERSION = '2.0.0'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
@@ -19,6 +22,11 @@ const C = {
   bgB: '\x1b[44m', bgM: '\x1b[45m',
 }
 
+const DEFAULT_CONFIG = {
+  web: { enabled: true, port: 3000 },
+  autoUpdate: true,
+}
+
 const DEFAULT_BOT_CONFIG = {
   host: 'localhost', port: 25565,
   autoAfk: false, autoJump: false, autoShift: false, autoEat: false, resourcePack: 'accept',
@@ -29,6 +37,11 @@ const bots = {}
 let activeBot = null, activeBots = new Set(), selMode = 'single'
 let logLines = [], input = '', cursor = 0, history = [], histIdx = -1
 let exitFlag = false, saveTimer = null, discordBridge = null
+let appConfig = { ...DEFAULT_CONFIG }
+let commandHistory = [], alertLog = [], playerCountHistory = {}, serverCounts = {}
+let botGroups = {}, savedCommands = [], savedScripts = {}
+let webApp = null, webServer = null, wss = null, wsClients = new Set()
+let broadcastInterval = null
 
 function stripAnsi(s) { return s.replace(/\x1b\[[0-9;]*m/g, '') } // kill the escape codes
 
@@ -44,6 +57,11 @@ function loadConfig() {
     if (fs.existsSync(CONFIG_PATH)) {
       const raw = fs.readFileSync(CONFIG_PATH, 'utf8')
       const data = JSON.parse(raw)
+      if (data.web) appConfig.web = { ...DEFAULT_CONFIG.web, ...data.web }
+      if (data.autoUpdate !== undefined) appConfig.autoUpdate = data.autoUpdate
+      if (data.groups) botGroups = data.groups
+      if (data.savedCommands) savedCommands = data.savedCommands
+      if (data.savedScripts) savedScripts = data.savedScripts
       if (data && data.bots) {
         for (const [name, cfg] of Object.entries(data.bots)) {
           const { autoReconnect: _, ...rest } = cfg
@@ -55,7 +73,7 @@ function loadConfig() {
 }
 
 function saveConfig() {
-  const data = { version: VERSION, bots: {} }
+  const data = { version: VERSION, web: appConfig.web, autoUpdate: appConfig.autoUpdate, bots: {}, groups: botGroups, savedCommands, savedScripts }
   for (const [name, b] of Object.entries(bots)) {
     data.bots[name] = {
       host: b.host, port: b.port,
@@ -274,11 +292,30 @@ function createBot(name, host, port) {
   b.on('end', (reason) => {
     cfg.connected = false; cfg.joined = false; cfg.bot = null
     if (cfg.autoJumpInterval) { clearInterval(cfg.autoJumpInterval); cfg.autoJumpInterval = null }
+    if (cfg.playerTrackInterval) { clearInterval(cfg.playerTrackInterval); cfg.playerTrackInterval = null }
     stopAfk(name); logWarn(name, `Disconnected: ${reason}`)
+    alertLog.push({ t: ts(), bot: name, type: 'warn', message: `Disconnected: ${reason}` })
+    if (alertLog.length > 500) alertLog.splice(0, alertLog.length - 500)
+    // decrement server count
+    const srvKey = `${cfg.host}:${cfg.port}`
+    if (serverCounts[srvKey]) {
+      serverCounts[srvKey].count = Math.max(0, serverCounts[srvKey].count - 1)
+      const idx = serverCounts[srvKey].bots.indexOf(name)
+      if (idx > -1) serverCounts[srvKey].bots.splice(idx, 1)
+      if (serverCounts[srvKey].count === 0) delete serverCounts[srvKey]
+    }
   })
 
-  b.on('error', (err) => { if (bots[name]) cfg.error = err.message; logErr(name, err.message) })
-  b.on('kicked', (reason) => { cfg.kickedReason = String(reason).slice(0, 120); logErr(name, `Kicked: ${cfg.kickedReason}`) })
+  b.on('error', (err) => {
+    if (bots[name]) cfg.error = err.message; logErr(name, err.message)
+    alertLog.push({ t: ts(), bot: name, type: 'error', message: err.message })
+    if (alertLog.length > 500) alertLog.splice(0, alertLog.length - 500)
+  })
+  b.on('kicked', (reason) => {
+    cfg.kickedReason = String(reason).slice(0, 120); logErr(name, `Kicked: ${cfg.kickedReason}`)
+    alertLog.push({ t: ts(), bot: name, type: 'warn', message: `Kicked: ${cfg.kickedReason}` })
+    if (alertLog.length > 500) alertLog.splice(0, alertLog.length - 500)
+  })
 
   b.on('message', (msg) => {
     if (msg.fromMob) return
@@ -330,6 +367,24 @@ function createBot(name, host, port) {
       }
     }
   })
+
+  // track player count every 30s for graphs
+  const playerTrackInterval = setInterval(() => {
+    if (!cfg.connected || !cfg.joined) return
+    const count = Object.keys(cfg.players || {}).length
+    if (!playerCountHistory[name]) playerCountHistory[name] = []
+    playerCountHistory[name].push({ t: Date.now(), count })
+    if (playerCountHistory[name].length > 200) playerCountHistory[name].splice(0, playerCountHistory[name].length - 200)
+  }, 30000)
+  cfg.playerTrackInterval = playerTrackInterval
+
+  // track server counts
+  const srvKey = `${cfg.host}:${cfg.port}`
+  if (!serverCounts[srvKey]) serverCounts[srvKey] = { count: 0, bots: [] }
+  if (!serverCounts[srvKey].bots.includes(name)) {
+    serverCounts[srvKey].count++
+    serverCounts[srvKey].bots.push(name)
+  }
 
   let autoJumpInterval = null
   if (cfg.autoJump) {
@@ -488,6 +543,7 @@ const CMD_LIST = [
   'afk', 'jump', 'shift', 'eat', 'reconnect', 'respack',
   'chat', 'inv', 'mcbridge', 'bridge',
   'config', 'onjoin', 'clear', 'help', 'quit', 'exit',
+  'update', 'web', 'group', 'savecmd', 'script',
 ]
 
 function forTargets(name, fn) {
@@ -534,6 +590,11 @@ function printHelp() {
   logRaw('', `  ${C.g}config${C.reset} [name] [set k v]        — View/change config`)
   logRaw('', `  ${C.g}onjoin${C.reset} <name> add cmd|chat     — Join actions`)
   logRaw('', `  ${C.g}clear${C.reset}, ${C.g}save${C.reset}, ${C.g}quit${C.reset} — Utility`)
+  logRaw('', `  ${C.g}update${C.reset} — Check for updates`)
+  logRaw('', `  ${C.g}web${C.reset} [port|on|off] — Web dashboard config`)
+  logRaw('', `  ${C.g}group${C.reset} list|create|delete|add|remove — Bot groups`)
+  logRaw('', `  ${C.g}savecmd${C.reset} list|add|remove|run — Saved commands`)
+  logRaw('', `  ${C.g}script${C.reset} list|create|delete|addstep|run — Script runner`)
 }
 
 function execCmd(raw) {
@@ -843,6 +904,127 @@ function execCmd(raw) {
     return
   }
 
+  //  update ══
+  if (cmd === 'update') { checkAutoUpdate(); return }
+
+  //  web ══
+  if (cmd === 'web') {
+    if (args[0] === 'port') {
+      appConfig.web.port = parseInt(args[1], 10) || 3000
+      logInfo('', `Web port set to ${appConfig.web.port} (restart required)`)
+    } else if (args[0] === 'on') {
+      appConfig.web.enabled = true; scheduleSave(); logInfo('', 'Web server enabled (restart required)')
+    } else if (args[0] === 'off') {
+      appConfig.web.enabled = false; scheduleSave(); logInfo('', 'Web server disabled')
+    } else {
+      logRaw('', `Web dashboard: ${appConfig.web.enabled ? C.g + 'enabled' : C.r + 'disabled'}${C.reset} on port ${C.c}${appConfig.web.port}${C.reset}`)
+    }
+    scheduleSave(); return
+  }
+
+  //  group ══
+  if (cmd === 'group') {
+    if (args[0] === 'list') {
+      const entries = Object.entries(botGroups)
+      if (entries.length === 0) logInfo('', 'No groups')
+      else for (const [g, members] of entries) logRaw('', `${C.b}${g}${C.reset}: ${members.join(', ')}`)
+      return
+    }
+    if (args[0] === 'create' && args[1]) {
+      if (botGroups[args[1]]) { logErr('', 'Group already exists'); return }
+      botGroups[args[1]] = []; logInfo('', `Group "${args[1]}" created`); scheduleSave(); return
+    }
+    if (args[0] === 'delete' && args[1]) {
+      if (!botGroups[args[1]]) { logErr('', 'No such group'); return }
+      delete botGroups[args[1]]; logInfo('', `Group "${args[1]}" deleted`); scheduleSave(); return
+    }
+    if (args[0] === 'add' && args[1] && args[2]) {
+      if (!botGroups[args[1]]) { logErr('', 'No such group'); return }
+      if (!bots[args[2]]) { logErr('', 'No such bot'); return }
+      if (botGroups[args[1]].includes(args[2])) { logErr('', 'Bot already in group'); return }
+      botGroups[args[1]].push(args[2]); logInfo('', `Added ${args[2]} to ${args[1]}`); scheduleSave(); return
+    }
+    if (args[0] === 'remove' && args[1] && args[2]) {
+      if (!botGroups[args[1]]) { logErr('', 'No such group'); return }
+      const idx = botGroups[args[1]].indexOf(args[2])
+      if (idx === -1) { logErr('', 'Bot not in group'); return }
+      botGroups[args[1]].splice(idx, 1); logInfo('', `Removed ${args[2]} from ${args[1]}`); scheduleSave(); return
+    }
+    logErr('', 'Usage: group list | create <name> | delete <name> | add <group> <bot> | remove <group> <bot>')
+    return
+  }
+
+  //  savecmd ══
+  if (cmd === 'savecmd') {
+    if (args[0] === 'list') {
+      if (savedCommands.length === 0) logInfo('', 'No saved commands')
+      else savedCommands.forEach((c, i) => logRaw('', `${C.b}${i}${C.reset}. ${c.label}: ${c.command}`))
+      return
+    }
+    if (args[0] === 'add' && args[1] && args[2]) {
+      savedCommands.push({ label: args[1], command: args.slice(2).join(' ') })
+      logInfo('', `Saved command "${args[1]}"`); scheduleSave(); return
+    }
+    if (args[0] === 'remove' && args[1]) {
+      const idx = parseInt(args[1], 10)
+      if (isNaN(idx) || idx < 0 || idx >= savedCommands.length) { logErr('', 'Invalid index'); return }
+      savedCommands.splice(idx, 1); logInfo('', 'Removed'); scheduleSave(); return
+    }
+    if (args[0] === 'run' && args[1]) {
+      const idx = parseInt(args[1], 10)
+      if (isNaN(idx) || idx < 0 || idx >= savedCommands.length) { logErr('', 'Invalid index'); return }
+      const cmd = savedCommands[idx]
+      if (!forTargets(null, (t) => {
+        if (!t.bot || !t.connected) { logErr(t.name, 'Not connected'); return }
+        t.bot.chat(cmd.command); logChat(t.name, `[saved] ${cmd.command}`)
+      })) return
+      return
+    }
+    logErr('', 'Usage: savecmd list | add <label> <cmd> | remove <idx> | run <idx>')
+    return
+  }
+
+  //  script ══
+  if (cmd === 'script') {
+    if (args[0] === 'list') {
+      const entries = Object.entries(savedScripts)
+      if (entries.length === 0) logInfo('', 'No scripts')
+      else for (const [s, steps] of entries) logRaw('', `${C.b}${s}${C.reset}: ${steps.length} steps`)
+      return
+    }
+    if (args[0] === 'create' && args[1]) {
+      if (savedScripts[args[1]]) { logErr('', 'Script already exists'); return }
+      savedScripts[args[1]] = []; logInfo('', `Script "${args[1]}" created`); scheduleSave(); return
+    }
+    if (args[0] === 'delete' && args[1]) {
+      if (!savedScripts[args[1]]) { logErr('', 'No such script'); return }
+      delete savedScripts[args[1]]; logInfo('', 'Deleted'); scheduleSave(); return
+    }
+    if (args[0] === 'addstep' && args[1] && args[2] && args[3]) {
+      if (!savedScripts[args[1]]) { logErr('', 'No such script'); return }
+      savedScripts[args[1]].push({ delay: parseInt(args[2], 10) || 1000, content: args.slice(3).join(' ') })
+      logInfo('', 'Step added'); scheduleSave(); return
+    }
+    if (args[0] === 'run' && args[1]) {
+      const script = savedScripts[args[1]]
+      if (!script) { logErr('', 'No such script'); return }
+      let totalDelay = 0
+      for (const step of script) {
+        totalDelay += step.delay
+        setTimeout(() => {
+          if (!forTargets(null, (t) => {
+            if (!t.bot || !t.connected) { logErr(t.name, 'Not connected'); return }
+            t.bot.chat(step.content); logChat(t.name, `[script] ${step.content}`)
+          })) return
+        }, totalDelay)
+      }
+      logInfo('', `Running script "${args[1]}" (${script.length} steps)`)
+      return
+    }
+    logErr('', 'Usage: script list | create <name> | delete <name> | addstep <name> <delay> <cmd> | run <name>')
+    return
+  }
+
   //  save ══
   if (cmd === 'save') { saveConfig(); logInfo('', 'Config saved'); return }
 
@@ -917,6 +1099,196 @@ function onKeypress(str, key) {
   }
 }
 
+//  web server
+
+function getState() {
+  const state = {
+    bots: {}, groups: botGroups, serverCounts,
+    commandHistory: commandHistory.slice(-100), alertLog: alertLog.slice(-100),
+    playerHistory: playerCountHistory,
+    savedCommands, logLines: logLines.slice(-100).map(e => ({ ...e, text: stripAnsi(e.text) })),
+  }
+  for (const [name, cfg] of Object.entries(bots)) {
+    state.bots[name] = {
+      name, host: cfg.host, port: cfg.port, connected: !!cfg.connected,
+      joined: !!cfg.joined, health: cfg.health, food: cfg.food,
+      x: cfg.x, y: cfg.y, z: cfg.z, ping: cfg.ping, dimension: cfg.dimension,
+      error: cfg.error, kickedReason: cfg.kickedReason,
+      connectedAt: cfg.connectedAt, afkEnabled: !!cfg.afkEnabled,
+      players: cfg.players,
+    }
+  }
+  return state
+}
+
+function broadcast() {
+  if (!wss) return
+  const data = JSON.stringify(getState())
+  for (const ws of wsClients) {
+    if (ws.readyState === 1) { try { ws.send(data) } catch {} }
+  }
+}
+
+function startBroadcast() {
+  if (broadcastInterval) clearInterval(broadcastInterval)
+  broadcastInterval = setInterval(broadcast, 1000)
+}
+
+function startWebServer(port) {
+  try {
+    webApp = express()
+    webServer = http.createServer(webApp)
+    wss = new WebSocketServer({ server: webServer })
+
+    webApp.use(express.static(path.join(__dirname, 'public')))
+
+    wss.on('connection', (ws) => {
+      wsClients.add(ws)
+      ws.send(JSON.stringify(getState()))
+      ws.on('message', (data) => {
+        try {
+          const msg = JSON.parse(data.toString())
+          handleWSCommand(msg)
+        } catch {}
+      })
+      ws.on('close', () => { wsClients.delete(ws) })
+    })
+
+    webServer.listen(port, () => {
+      logInfo('', `Web dashboard at ${C.c}http://localhost:${port}${C.reset}`)
+    })
+    startBroadcast()
+  } catch (e) {
+    logErr('', `Web server failed: ${e.message}`)
+  }
+}
+
+function handleWSCommand(msg) {
+  if (msg.type === 'command') {
+    const names = msg.targets ? msg.targets.split(',').filter(Boolean) : []
+    const text = msg.content || ''
+    for (const n of names) {
+      const cfg = bots[n]
+      if (!cfg || !cfg.bot || !cfg.connected) continue
+      if (text.startsWith('/')) {
+        cfg.bot.chat(text)
+        logInfo(n, `Cmd: ${text.slice(0, 60)}`)
+      } else {
+        cfg.bot.chat(text)
+        logChat(n, `> ${text}`)
+      }
+    }
+    commandHistory.push({ t: ts(), bots: names.join(','), type: text.startsWith('/') ? 'cmd' : 'chat', content: text })
+    if (commandHistory.length > 500) commandHistory.splice(0, commandHistory.length - 500)
+    broadcast()
+  }
+  if (msg.type === 'preset') {
+    const names = msg.targets ? msg.targets.split(',').filter(Boolean) : []
+    const action = msg.action
+    for (const n of names) {
+      const cfg = bots[n]
+      if (!cfg) continue
+      if (action === 'afk') {
+        if (cfg.afkEnabled) stopAfk(n)
+        else startAfk(n)
+      }
+      if (action === 'jump' || action === 'eat' || action === 'shift') {
+        if (!cfg.bot || !cfg.connected) continue
+        cfg[`auto${action.charAt(0).toUpperCase() + action.slice(1)}`] = !cfg[`auto${action.charAt(0).toUpperCase() + action.slice(1)}`]
+      }
+    }
+    scheduleSave()
+    broadcast()
+  }
+}
+
+//  auto-update
+
+function promptUpdate(currentVer, remoteVer) {
+  const msg = `\n${C.c}Hello. We detected you are using version ${C.bold}${currentVer}${C.reset}${C.c}.${C.reset}\n` +
+    `${C.c}Would you like us to automatically update to the latest version ${C.bold}${remoteVer}${C.reset}${C.c}?${C.reset}\n` +
+    `${C.g}[Y]es${C.reset}  ${C.y}[N]o${C.reset}  ${C.dim}[Never] ask again${C.reset}\n> `
+  process.stdout.write(msg)
+  process.stdin.once('data', (buf) => {
+    const answer = buf.toString().trim().toLowerCase()
+    if (answer === 'y' || answer === 'yes') {
+      doUpdate(remoteVer)
+    } else if (answer === 'never' || answer === 'n') {
+      appConfig.autoUpdate = false
+      scheduleSave()
+      logInfo('', 'Auto-update disabled.')
+      redrawPrompt()
+    } else {
+      logInfo('', 'Update skipped.')
+      redrawPrompt()
+    }
+  })
+}
+
+function doUpdate(remoteVer) {
+  logInfo('', `Downloading v${remoteVer}...`)
+  const url = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main/minecline.js'
+  https.get(url, (res) => {
+    if (res.statusCode !== 200) { logErr('', 'Update download failed'); redrawPrompt(); return }
+    let data = ''
+    res.on('data', (chunk) => { data += chunk })
+    res.on('end', () => {
+      try {
+        const backup = __filename + '.bak'
+        if (fs.existsSync(__filename)) fs.copyFileSync(__filename, backup)
+        fs.writeFileSync(__filename, data, 'utf8')
+        logInfo('', `${C.g}Updated to v${remoteVer}! Restarting...${C.reset}`)
+        setTimeout(() => { process.exit(0) }, 1000)
+      } catch (e) { logErr('', `Update failed: ${e.message}`); redrawPrompt() }
+    })
+  }).on('error', (e) => { logErr('', `Update error: ${e.message}`); redrawPrompt() })
+}
+
+function checkForceUpdate() {
+  return new Promise((resolve) => {
+    const url = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main/UPDATENOW.txt'
+    https.get(url, (res) => {
+      let data = ''
+      res.on('data', (chunk) => { data += chunk })
+      res.on('end', () => {
+        const lines = data.trim().split('\n')
+        const isForce = lines[0]?.trim().toUpperCase() === 'TRUE'
+        resolve(isForce)
+      })
+      res.on('error', () => resolve(false))
+    }).on('error', () => resolve(false))
+  })
+}
+
+function checkAutoUpdate() {
+  if (!appConfig.autoUpdate && !exitFlag) return
+  const url = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main/minecline.js'
+  https.get(url, (res) => {
+    let data = ''
+    res.on('data', (chunk) => { data += chunk })
+    res.on('end', async () => {
+      const match = data.match(/const VERSION = '([^']+)'/)
+      if (!match) return
+      const remoteVer = match[1]
+      if (remoteVer === VERSION) return
+
+      setTimeout(async () => {
+        const forced = await checkForceUpdate()
+        if (forced) {
+          const msg = `\n${C.bgR}${C.bold} FORCE UPDATE AVAILABLE ${C.reset}\n${C.r}Critical update: v${VERSION} → v${remoteVer}${C.reset}\n${C.y}Updating automatically...${C.reset}\n`
+          process.stdout.write(msg)
+          setTimeout(() => doUpdate(remoteVer), 1500)
+        } else if (appConfig.autoUpdate) {
+          promptUpdate(VERSION, remoteVer)
+        } else {
+          logInfo('', `Update available: v${VERSION} → ${C.c}v${remoteVer}${C.reset} (use "update" to install)`)
+          redrawPrompt()
+        }
+      }, 500)
+    })
+  }).on('error', () => {})
+}
+
 //  lifecycle / init
 
 function cleanup() {
@@ -972,6 +1344,9 @@ function init() {
     const left = Math.floor(dash / 2); const right = dash - left
     process.stdout.write(`┌${'─'.repeat(left)}${title}${'─'.repeat(right)}┐\n`)
     logInfo('', `${C.dim}ready — type ${C.c}help${C.dim} for commands${C.reset}`)
+
+    if (appConfig.web.enabled) startWebServer(appConfig.web.port)
+    setTimeout(checkAutoUpdate, 2000)
 
     readline.emitKeypressEvents(process.stdin)
     if (process.stdin.isTTY) process.stdin.setRawMode(true)

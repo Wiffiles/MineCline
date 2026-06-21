@@ -1,0 +1,23 @@
+{
+  "name": "minecline",
+  "version": "2.0.0",
+  "description": "Multi-bot Minecraft AFK Manager",
+  "main": "minecline.js",
+  "scripts": {
+    "start": "node minecline.js"
+  },
+  "keywords": [
+    "minecraft",
+    "afk",
+    "bot",
+    "cli"
+  ],
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "mineflayer": "^4.37.1",
+    "mineflayer-pathfinder": "^2.4.5",
+    "ws": "^8.21.0"
+  }
+}

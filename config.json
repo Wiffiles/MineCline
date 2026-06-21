@@ -1,0 +1,78 @@
+{
+  "version": "2.0.0",
+  "web": {
+    "enabled": true,
+    "port": 3000
+  },
+  "autoUpdate": true,
+  "bots": {
+    "syzclark": {
+      "host": "play.voidsmp.space",
+      "port": "25565",
+      "autoAfk": false,
+      "autoJump": true,
+      "autoShift": false,
+      "autoEat": false,
+      "resourcePack": "accept",
+      "onJoin": {
+        "commands": [],
+        "chat": []
+      }
+    },
+    "ItzMeJoem": {
+      "host": "play.voidsmp.space",
+      "port": "25565",
+      "autoAfk": false,
+      "autoJump": false,
+      "autoShift": false,
+      "autoEat": false,
+      "resourcePack": "accept",
+      "onJoin": {
+        "commands": [],
+        "chat": []
+      }
+    },
+    "WaitWHoAreU": {
+      "host": "play.voidsmp.space",
+      "port": "25565",
+      "autoAfk": false,
+      "autoJump": false,
+      "autoShift": false,
+      "autoEat": false,
+      "resourcePack": "accept",
+      "onJoin": {
+        "commands": [],
+        "chat": []
+      }
+    },
+    "ItzJoem": {
+      "host": "play.voidsmp.space",
+      "port": "25565",
+      "autoAfk": false,
+      "autoJump": false,
+      "autoShift": false,
+      "autoEat": false,
+      "resourcePack": "accept",
+      "onJoin": {
+        "commands": [],
+        "chat": []
+      }
+    },
+    "syzdark": {
+      "host": "play.voidsmp.space",
+      "port": "25565",
+      "autoAfk": false,
+      "autoJump": false,
+      "autoShift": false,
+      "autoEat": false,
+      "resourcePack": "accept",
+      "onJoin": {
+        "commands": [],
+        "chat": []
+      }
+    }
+  },
+  "groups": {},
+  "savedCommands": [],
+  "savedScripts": {}
+}

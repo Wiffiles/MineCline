@@ -1,0 +1,2 @@
+5:00:53 PM [] ◆ ready — type help for commands
+5:00:53 PM [] ◆ Web dashboard at http://localhost:3000
