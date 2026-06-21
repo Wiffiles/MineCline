@@ -37,10 +37,12 @@
 ## 🚀 Quick Start
 
 ```bash
-# Install
+git clone https://github.com/Wiffiles/MineCline
+
+cd MineCline
+
 npm install
 
-# Run
 npm start
 
 # Connect a bot
