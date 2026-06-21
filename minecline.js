@@ -8,6 +8,8 @@ const http = require('http')
 const { WebSocketServer } = require('ws')
 
 const VERSION = '2.0.0'
+const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
+const REPO_BASE_REF = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
 const MAX_LOG = 500
@@ -1227,26 +1229,44 @@ function promptUpdate(currentVer, remoteVer) {
 
 function doUpdate(remoteVer) {
   logInfo('', `Downloading v${remoteVer}...`)
-  const url = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main/minecline.js'
-  https.get(url, (res) => {
-    if (res.statusCode !== 200) { logErr('', 'Update download failed'); redrawPrompt(); return }
-    let data = ''
-    res.on('data', (chunk) => { data += chunk })
-    res.on('end', () => {
-      try {
-        const backup = __filename + '.bak'
-        if (fs.existsSync(__filename)) fs.copyFileSync(__filename, backup)
-        fs.writeFileSync(__filename, data, 'utf8')
-        logInfo('', `${C.g}Updated to v${remoteVer}! Restarting...${C.reset}`)
-        setTimeout(() => { process.exit(0) }, 1000)
-      } catch (e) { logErr('', `Update failed: ${e.message}`); redrawPrompt() }
-    })
-  }).on('error', (e) => { logErr('', `Update error: ${e.message}`); redrawPrompt() })
+  const mainUrl = `${REPO_BASE}/minecline.js`
+  const publicFiles = ['index.html', 'style.css', 'app.js']
+  let completed = 0; const total = 1 + publicFiles.length; let hadError = false
+
+  function dl(url, dest) {
+    https.get(url, (res) => {
+      if (res.statusCode !== 200) { logErr('', `Download failed: ${url}`); hadError = true; checkDone(); return }
+      let data = ''
+      res.on('data', (chunk) => { data += chunk })
+      res.on('end', () => {
+        try {
+          if (dest) {
+            const dir = path.dirname(dest)
+            if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true })
+            fs.writeFileSync(dest, data, 'utf8')
+          }
+          completed++; checkDone()
+        } catch (e) { logErr('', `Write failed: ${dest}: ${e.message}`); hadError = true; checkDone() }
+      })
+    }).on('error', (e) => { logErr('', `Download error: ${e.message}`); hadError = true; checkDone() })
+  }
+
+  function checkDone() {
+    if (completed < total) return
+    if (hadError) { logErr('', 'Update completed with errors'); redrawPrompt(); return }
+    logInfo('', `${C.g}Updated to v${remoteVer}! Restarting...${C.reset}`)
+    setTimeout(() => process.exit(0), 1000)
+  }
+
+  const bak = __filename + '.bak'
+  if (fs.existsSync(__filename)) fs.copyFileSync(__filename, bak)
+  dl(mainUrl, __filename)
+  for (const f of publicFiles) dl(`${REPO_BASE}/public/${f}`, path.join(__dirname, 'public', f))
 }
 
 function checkForceUpdate() {
   return new Promise((resolve) => {
-    const url = 'https://raw.githubusercontent.com/Wiffiles/MineCline/refs/heads/main/UPDATENOW.txt'
+    const url = `${REPO_BASE_REF}/UPDATENOW.txt`
     https.get(url, (res) => {
       let data = ''
       res.on('data', (chunk) => { data += chunk })
@@ -1262,7 +1282,7 @@ function checkForceUpdate() {
 
 function checkAutoUpdate() {
   if (!appConfig.autoUpdate && !exitFlag) return
-  const url = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main/minecline.js'
+  const url = `${REPO_BASE}/minecline.js`
   https.get(url, (res) => {
     let data = ''
     res.on('data', (chunk) => { data += chunk })

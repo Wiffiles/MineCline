@@ -1,78 +1,90 @@
 # Auto-Update & Force Update
 
-## How it works (overview)
+## How it works
 
-The auto-update system checks GitHub for a newer version of `minecline.js`.
-If found, it prompts to update. Force update silently installs without
-prompting — useful for critical fixes.
+The auto-update system checks GitHub for a newer version of `minecline.js`
+**and** the `public/` folder (HTML, CSS, JS). When an update is found:
 
-## Step 1 — Fork or create your GitHub repo
+1. Backs up `minecline.js` → `minecline.js.bak`
+2. Downloads new `minecline.js`, `index.html`, `style.css`, `app.js` from GitHub
+3. Replaces all four files in place
+4. Exits for restart
 
-You need a GitHub repository that hosts `minecline.js` (default URLs point
-to `Wiffiles/MineCline`). Either fork it or create your own repo.
+---
 
-## Step 2 — Change the URLs (if using your own repo)
+## Step 1 — Fork or use the repo
 
-In `minecline.js`, update these three URLs to point to your repo:
+The default URLs point to `Wiffiles/MineCline`. To use your own:
 
-**Line ~1230** (doUpdate):
+1. Fork the repo: https://github.com/Wiffiles/MineCline
+2. Or create your own repo with the same file structure
+
+---
+
+## Step 2 — Point the URLs to your repo
+
+In `minecline.js` (near the top), change these two constants:
+
 ```js
-const url = 'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/minecline.js'
-```
-
-**Line ~1249** (checkForceUpdate):
-```js
-const url = 'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/refs/heads/main/UPDATENOW.txt'
-```
-
-**Line ~1265** (checkAutoUpdate):
-```js
-const url = 'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main/minecline.js'
+const REPO_BASE = 'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/main'
+const REPO_BASE_REF = 'https://raw.githubusercontent.com/YOUR_USER/YOUR_REPO/refs/heads/main'
 ```
 
 Replace `YOUR_USER/YOUR_REPO` with your GitHub username and repo name.
 
-## Step 3 — Set up the files on GitHub
+---
 
-In your GitHub repo, commit and push:
+## Step 3 — Push files to GitHub
 
-- **`minecline.js`** — the main bot file. Make sure its `VERSION` constant
-  (near the top) matches the release:
-  ```js
-  const VERSION = '2.0.0'
-  ```
-- **`UPDATENOW.txt`** — force-update flag (one word, no extra spaces):
-  ```
-  FALSE
-  ```
+Your repo needs this structure:
 
-## Step 4 — How force update works
+```
+minecline.js         ← main bot file (must have a VERSION constant)
+UPDATENOW.txt        ← force-update flag (content: "FALSE" or "TRUE")
+public/
+  index.html
+  style.css
+  app.js
+```
 
-1. Set `UPDATENOW.txt` on GitHub to `TRUE` and push.
-2. Every running instance will detect it on its next update check,
-   download the latest `minecline.js` automatically, back up the old one
-   as `minecline.js.bak`, and exit for restart.
-3. Set it back to `FALSE` when done to stop the force push.
+Each `minecline.js` release should have its `VERSION` bumped:
 
-Only the file **on GitHub** matters — the local copy is ignored.
+```js
+const VERSION = '2.0.0'
+```
 
-## Step 5 — How auto-update works
+---
+
+## Step 4 — Force update (critical fixes)
+
+1. On GitHub, set `UPDATENOW.txt` content to `TRUE` and push.
+2. Every running instance fetches this file on each update check.  
+   If it reads `TRUE`, it **silently** downloads and applies the update  
+   with no user prompt — then exits for restart.
+3. Set it back to `FALSE` when done.
+
+Only the file **on GitHub** matters; the local copy is ignored.
+
+---
+
+## Step 5 — Normal auto-update
 
 On startup (2s delay), the app fetches `minecline.js` from GitHub, reads
-the remote `VERSION`, and compares it to the local one:
+the remote `VERSION`, and compares:
 
 ```
 [Y]es   [N]o   [Never] ask again
 ```
 
-- **Y** — downloads the update, creates `minecline.js.bak`, overwrites,
-        then exits. Restart manually.
+- **Y** — downloads everything, backs up, overwrites, exits.
 - **N** — skips this once.
 - **Never** — sets `autoUpdate: false` in `config.json`.
 
-You can also run `update` in the CLI at any time.
+You can also type `update` in the CLI at any time.
 
-## Config reference
+---
+
+## Config
 
 In `config.json`:
 
@@ -83,8 +95,18 @@ In `config.json`:
 }
 ```
 
-Set `"autoUpdate": false` to disable startup checks (manual `update` still
-works).
+Set `"autoUpdate": false` to disable startup checks. The manual `update`
+command still works.
+
+---
 
 ## Rollback
-Sadly i cant offord cloud backup :(. so no roll backs
+
+Each update creates `minecline.js.bak`. To revert the main file:
+
+```bash
+copy minecline.js.bak minecline.js
+```
+
+For the public files, restore from your Git history or re-download
+from GitHub manually.

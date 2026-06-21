@@ -1,2 +1,51 @@
 5:00:53 PM [] ◆ ready — type help for commands
 5:00:53 PM [] ◆ Web dashboard at http://localhost:3000
+5:16:19 PM [] ✖ Unknown: "connnect". Type help.
+5:16:24 PM [] ── MineCline v2.0.0 Commands ──
+5:16:24 PM []   connect <name,names...> <host> [port] — Connect bot(s) (8s delay)
+5:16:24 PM []   disconnect [name | all]          — Disconnect bot(s)
+5:16:24 PM []   select <name>                  — Select single bot
+5:16:24 PM []   control <name1,name2|all>        — Multi-select bots
+5:16:24 PM []   global                         — Clear selection
+5:16:24 PM []   bots                           — List all bots
+5:16:24 PM []   Toggles: afk, jump, shift, eat, respack
+5:16:24 PM []   reconnect — Reconnect all saved bots (8s delay)
+5:16:24 PM []   chat <text>                    — Send chat
+5:16:24 PM []   /<cmd>                         — Server command
+5:16:24 PM []   inv [name]                     — Show inventory
+5:16:24 PM []   mcbridge <bot> <token> <chan> — MC↔Discord bridge
+5:16:24 PM []   bridge stop                    — Stop bridge
+5:16:24 PM []   config [name] [set k v]        — View/change config
+5:16:24 PM []   onjoin <name> add cmd|chat     — Join actions
+5:16:24 PM []   clear, save, quit — Utility
+5:16:24 PM []   update — Check for updates
+5:16:24 PM []   web [port|on|off] — Web dashboard config
+5:16:24 PM []   group list|create|delete|add|remove — Bot groups
+5:16:24 PM []   savecmd list|add|remove|run — Saved commands
+5:16:24 PM []   script list|create|delete|addstep|run — Script runner
+5:16:27 PM [] ✖ Usage: connect <name,names...> <host> [port]
+5:17:08 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+5:17:08 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
+5:17:11 PM [syzdark] ✖ Kicked: {"text":"DDoS Mitigation: ","color":"red","extra":[{"text":"Please Reconnect to the server.","color":"white"}]}
+5:17:11 PM [syzdark] ⚠ Disconnected: socketClosed
+5:17:45 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+5:17:45 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
+5:17:47 PM [syzdark] ✖ Kicked: {"text":"DDoS Mitigation: ","color":"red","extra":[{"text":"Please Reconnect to the server.","color":"white"}]}
+5:17:47 PM [syzdark] ⚠ Disconnected: socketClosed
+5:17:49 PM [] ◆ Connecting 1 bot(s) with 8s delay...
+5:17:49 PM [syzdark] ◆ Connecting to play.voidsmp.space:25565...
+5:17:55 PM [syzdark] ◆ Logged in as syzdark
+5:17:58 PM [syzdark] ◆ Resource pack accepted
+5:18:00 PM [syzdark] ◆ Spawned into world
+5:18:00 PM [syzdark] <SERVER> Your IP has been changed and your session data has expired!
+5:18:02 PM [syzdark] <SERVER> /login <password>
+5:18:02 PM [syzdark] <SERVER> gab gab u can give to me then me lunge 4 dash mace HT1 runner= unstoppable
+5:18:04 PM [syzdark] <SERVER> i also have leggins
+5:18:05 PM [syzdark] <SERVER> I'm on fakas phone
+5:18:05 PM [syzdark] <SERVER> /login <password>
+5:18:07 PM [syzdark] ◆ Cmd: /login JoemModz
+5:18:07 PM [syzdark] <SERVER> /login <password>
+5:18:07 PM [syzdark] <SERVER> Successful login!
+5:18:12 PM [syzdark] ⚠ Disconnected
+5:18:12 PM [syzdark] <SERVER> _DaCat_ LMAOO
+5:18:12 PM [syzdark] ⚠ Disconnected: socketClosed
