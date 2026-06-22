@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.2.2'
+const VERSION = '2.2.3'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -598,10 +598,10 @@ function execCmd(raw) {
     }
     const rawNames = args.join(',')
     if (rawNames === 'all') {
-      const all = Object.keys(bots)
-      if (all.length === 0) { logErr('', 'No bots'); return }
+      const all = Object.entries(bots).filter(([, b]) => b.connected).map(([n]) => n)
+      if (all.length === 0) { logErr('', 'No bots connected'); return }
       activeBots = new Set(all); selMode = 'multi'; activeBot = null
-      logInfo('', `Selected all ${all.length} bots`); return
+      logInfo('', `Selected ${all.length} connected bot(s)`); return
     }
     if (rawNames === 'none' || rawNames === 'global') {
       activeBot = null; activeBots.clear(); selMode = 'single'
@@ -1268,6 +1268,12 @@ function showLogo() {
 }
 
 function registerLifecycle() {
+  process.on('uncaughtException', (err) => {
+    if (err.code === 'EPIPE') return
+    logErr('', `Fatal: ${err.message}`)
+    cleanup()
+    process.exit(1)
+  })
   process.on('SIGINT', () => { process.exit(0) })
   process.on('SIGTERM', () => { process.exit(0) })
   process.on('exit', () => {
