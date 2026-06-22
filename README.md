@@ -13,7 +13,9 @@
 <p align="center">
   <code>connect</code> •
   <code>afk</code> •
-  <code>mcbridge</code> •
+  <code>afkbot</code> •
+  <code>CLI</code> •
+  <code>mineflayer</code> •
   <code>reconnect</code>
 </p>
 
