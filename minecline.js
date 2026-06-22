@@ -1,4 +1,4 @@
-﻿const mineflayer = require('mineflayer')
+const mineflayer = require('mineflayer')
 const fs = require('fs')
 const path = require('path')
 const readline = require('readline')
@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.6'
+const VERSION = '2.1.7'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -36,6 +36,7 @@ const C = {
 
 const DEFAULT_CONFIG = {
   autoUpdate: true,
+  autoRegister: '',
 }
 
 const DEFAULT_BOT_CONFIG = {
@@ -67,6 +68,7 @@ function loadConfig() {
       const raw = fs.readFileSync(CONFIG_PATH, 'utf8')
       const data = JSON.parse(raw)
       if (data._setup) appConfig._setup = true
+      if (data.autoRegister) appConfig.autoRegister = data.autoRegister
       if (data.autoUpdate !== undefined) appConfig.autoUpdate = data.autoUpdate
       if (data.groups) botGroups = data.groups
       if (data.savedCommands) savedCommands = data.savedCommands
@@ -82,7 +84,7 @@ function loadConfig() {
 }
 
 function saveConfig() {
-  const data = { version: VERSION, autoUpdate: appConfig.autoUpdate, _setup: appConfig._setup || true, bots: {}, groups: botGroups, savedCommands, savedScripts }
+  const data = { version: VERSION, autoUpdate: appConfig.autoUpdate, autoRegister: appConfig.autoRegister || '', _setup: appConfig._setup || true, bots: {}, groups: botGroups, savedCommands, savedScripts }
   for (const [name, b] of Object.entries(bots)) {
     data.bots[name] = {
       host: b.host, port: b.port,
@@ -282,18 +284,29 @@ function createBot(name, host, port) {
   logInfo(name, `Connecting to ${host}:${port}...`)
 
   b.on('login', () => {
-    cfg.connected = true; cfg.joined = false; cfg.error = null; cfg.onJoinExecuted = false
+    cfg.connected = true; cfg.error = null; cfg.onJoinExecuted = false
     cfg.dimension = b.game?.dimension || 'unknown'; cfg.kickedReason = null
     updateInv(cfg, b); logInfo(name, `Logged in as ${b.username}`)
-  })
-
-  b.on('spawn', () => {
-    cfg.joined = true; updateInv(cfg, b); logInfo(name, 'Spawned into world')
+    const pw = appConfig.autoRegister
+    if (pw) {
+      setTimeout(() => {
+        if (!cfg.connected) return
+        b.chat(`/register ${pw} ${pw}`); logChat(name, `Auto: /register ***`)
+        setTimeout(() => {
+          if (!cfg.connected) return
+          b.chat(`/login ${pw}`); logChat(name, `Auto: /login ***`)
+        }, 2000)
+      }, 500)
+    }
     if (cfg.onJoin && !cfg.onJoinExecuted) {
       cfg.onJoinExecuted = true
       if (cfg.onJoin.commands) for (const c of cfg.onJoin.commands) { try { b.chat(`/${c}`); logChat(name, `Auto-cmd: /${c}`) } catch {} }
       if (cfg.onJoin.chat) for (const msg of cfg.onJoin.chat) { try { b.chat(msg); logChat(name, `Auto-chat: ${msg}`) } catch {} }
     }
+  })
+
+  b.on('spawn', () => {
+    cfg.joined = true; updateInv(cfg, b); logInfo(name, 'Spawned into world')
     if (cfg.autoShift) { try { b.setControlState('sneak', true) } catch {} }
     if (cfg.autoAfk) startAfk(name)
   })
@@ -321,7 +334,22 @@ function createBot(name, host, port) {
     if (alertLog.length > 500) alertLog.splice(0, alertLog.length - 500)
   })
   b.on('kicked', (reason) => {
-    cfg.kickedReason = String(reason).slice(0, 120); logErr(name, `Kicked: ${cfg.kickedReason}`)
+    let msg
+    if (typeof reason === 'object' && reason !== null) {
+      const flatten = (obj) => {
+        if (!obj) return ''
+        if (typeof obj === 'string') return obj
+        if (Array.isArray(obj)) return obj.map(flatten).join('')
+        let s = obj.text || obj.bold || ''
+        if (obj.extra) s += flatten(obj.extra)
+        if (obj.color) s += ''
+        return s
+      }
+      msg = flatten(reason).trim() || JSON.stringify(reason)
+    } else {
+      msg = String(reason)
+    }
+    cfg.kickedReason = msg.slice(0, 200); logErr(name, `Kicked: ${cfg.kickedReason}`)
     alertLog.push({ t: ts(), bot: name, type: 'warn', message: `Kicked: ${cfg.kickedReason}` })
     if (alertLog.length > 500) alertLog.splice(0, alertLog.length - 500)
   })
@@ -554,6 +582,7 @@ const CMD_LIST = [
   'chat', 'msg', 'inv', 'mcbridge', 'bridge',
   'config', 'onjoin', 'clear', 'help', 'quit', 'exit',
   'update', 'group', 'savecmd', 'script', 'players', 'save',
+  'mcpwd',
 ]
 
 function forTargets(name, fn) {
@@ -591,7 +620,7 @@ function printHelp() {
   logRaw('', `  ${C.g}global${C.reset}                         - Clear selection`)
   logRaw('', `  ${C.g}bots${C.reset}                           - List all bots`)
   logRaw('', `  ${C.y}Toggles:${C.reset} ${C.g}afk${C.reset}, ${C.g}jump${C.reset}, ${C.g}shift${C.reset}, ${C.g}eat${C.reset}, ${C.g}respack${C.reset}`)
-  logRaw('', `  ${C.g}reconnect${C.reset} - Reconnect all saved bots (8s delay)`)
+  logRaw('', `  ${C.g}reconnect${C.reset} - Reconnect selected bot(s) (8s delay)`)
   logRaw('', `  ${C.g}chat/msg${C.reset} <text>                - Send chat`)
   logRaw('', `  ${C.g}/<cmd>${C.reset}                         - Server command`)
   logRaw('', `  ${C.g}inv${C.reset} [name]                     - Show inventory`)
@@ -606,6 +635,7 @@ function printHelp() {
   logRaw('', `  ${C.g}script${C.reset} list|create|delete|addstep|run - Script runner`)
   logRaw('', `  ${C.g}players${C.reset} [name] - List players seen by a bot`)
   logRaw('', `  ${C.g}save${C.reset} - Save config to disk`)
+  logRaw('', `  ${C.g}mcpwd${C.reset} [password] - View/set auto-login password`)
 }
 
 function execCmd(raw) {
@@ -644,7 +674,7 @@ function execCmd(raw) {
         shift:      'shift [name]\n  Toggle auto-shift (sneak).',
         eat:        'eat [name]\n  Toggle auto-eat when hungry.',
         respack:    'respack [name]\n  Toggle resource-pack auto-accept on/off.',
-        reconnect:  'reconnect\n  Reconnect all saved bots with 8s delay between each.',
+        reconnect:  'reconnect\n  Reconnect selected bot(s) with 8s delay between each.',
         chat:       'chat/msg <text>\n  Send a chat message as the selected bot(s).',
         inv:        'inv [name]\n  Show a bot\'s inventory (held item, armor, hotbar).',
         mcbridge:   'mcbridge <bot> <token> <channel>\n  Bridge Minecraft chat to a Discord channel.',
@@ -656,6 +686,7 @@ function execCmd(raw) {
         group:      'group list | create <name> | delete <name> | rename <old> <new> | add <group> <bot> | remove <group> <bot>\n  Manage bot groups.',
         savecmd:    'savecmd list | add <label> <cmd> | remove <idx> | run <idx>\n  Manage saved commands (quick-run from web/CLI).',
         script:     'script list | create <name> | delete <name> | addstep <name> <delay> <cmd> | run <name>\n  Run multi-step scripts with delays.',
+        mcpwd:      'mcpwd [password]\n  View or set the auto-login password for /register and /login.',
         clear:      'clear\n  Clear the on-screen log.',
         save:       'save\n  Force-save config to disk immediately.',
         quit:       'quit\n  Disconnect all bots and exit.',
@@ -797,10 +828,11 @@ function execCmd(raw) {
 
   //  reconnect ----
   if (cmd === 'reconnect') {
-    const all = Object.keys(bots).filter(n => bots[n].host)
-    if (all.length === 0) { logErr('', 'No saved bots'); return }
-    logInfo('', `Reconnecting ${all.length} saved bot(s) with 8s delay...`)
-    all.forEach((name, i) => setTimeout(() => createBot(name, bots[name].host, bots[name].port), i * 8000))
+    const targets = getTargets(null)
+    if (targets.length === 0) return
+    const names = targets.map(t => t.name)
+    logInfo('', `Reconnecting ${names.length} bot(s) with 8s delay...`)
+    names.forEach((name, i) => setTimeout(() => createBot(name, bots[name].host, bots[name].port), i * 8000))
     return
   }
 
@@ -1079,6 +1111,20 @@ function execCmd(raw) {
   //  save ----
   if (cmd === 'save') { saveConfig(); logInfo('', 'Config saved'); return }
 
+  //  mcpwd ----
+  if (cmd === 'mcpwd') {
+    if (args[0]) {
+      appConfig.autoRegister = args[0]
+      scheduleSave()
+      logInfo('', 'MC password updated.')
+    } else if (appConfig.autoRegister) {
+      logInfo('', `MC password is set (${'*'.repeat(appConfig.autoRegister.length)})`)
+    } else {
+      logWarn('', 'No MC password set. Use "mcpwd <password>" to set one.')
+    }
+    return
+  }
+
   logErr('', `Unknown: "${cmd}". Type ${C.bold}help${C.reset}.`)
 }
 
@@ -1151,17 +1197,23 @@ function onKeypress(str, key) {
 }
 
 function promptUpdate(currentVer, remoteVer) {
+  process.stdin.removeAllListeners('keypress')
+  try { process.stdin.setRawMode(false) } catch {}
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
   const ask = () => {
     rl.question(`\n${C.c}Hello. We detected you are using version ${C.bold}${currentVer}${C.reset}${C.c}.${C.reset}\n` +
       `${C.c}Would you like us to automatically update to the latest version ${C.bold}${remoteVer}${C.reset}${C.c}?${C.reset}\n` +
       `${C.g}[Y]es${C.reset}  ${C.y}[N]o${C.reset}  ${C.dim}[Never] ask again${C.reset}\n> `, (answer) => {
       const a = answer.trim().toLowerCase()
+      rl.close()
+      readline.emitKeypressEvents(process.stdin)
+      if (process.stdin.isTTY) process.stdin.setRawMode(true)
+      process.stdin.on('keypress', onKeypress)
       if (a === 'y' || a === 'yes') {
-        rl.close(); doUpdate(remoteVer)
+        doUpdate(remoteVer)
       } else if (a === 'never' || a === 'n') {
         appConfig.autoUpdate = false; scheduleSave()
-        logInfo('', 'Auto-update disabled.'); rl.close(); redrawPrompt()
+        logInfo('', 'Auto-update disabled.'); redrawPrompt()
       } else {
         logWarn('', 'Please answer Y, N, or Never.')
         ask()
@@ -1336,8 +1388,27 @@ function showLogo() {
     process.stdout.write(` ${'='.repeat(Math.max(0, left - 1))}${title}${'='.repeat(Math.max(0, right - 1))} \n`)
     logInfo('', `${C.dim}ready - type ${C.c}help${C.dim} for commands${C.reset}`)
 
-    setTimeout(checkAutoUpdate, 2000)
+    if (!appConfig.autoRegister) {
+      process.stdin.removeAllListeners('keypress')
+      try { process.stdin.setRawMode(false) } catch {}
+      const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+      rl.question(`${C.y}No MC password set. Enter password for auto /register & /login:${C.reset} `, (answer) => {
+        const pw = answer.trim()
+        if (pw) {
+          appConfig.autoRegister = pw
+          scheduleSave()
+          logInfo('', 'Password saved to config.')
+        }
+        rl.close()
+        setupStdin()
+      })
+      return
+    }
 
+    setupStdin()
+  }
+
+  function setupStdin() {
     readline.emitKeypressEvents(process.stdin)
     if (process.stdin.isTTY) process.stdin.setRawMode(true)
     process.stdin.resume()
