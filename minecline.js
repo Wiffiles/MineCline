@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.9'
+const VERSION = '2.2.0'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -1118,7 +1118,7 @@ function doUpdate(remoteVer) {
 function checkForceUpdate() {
   return new Promise((resolve) => {
     const url = `${REPO_BASE}/UPDATENOW.txt`
-    https.get(url, (res) => {
+    https.get(url, { headers: { 'User-Agent': 'MineCline/2.1' } }, (res) => {
       let data = ''
       res.on('data', (chunk) => { data += chunk })
       res.on('end', () => {
@@ -1134,37 +1134,46 @@ function checkForceUpdate() {
 function checkAutoUpdate() {
   if (!appConfig.autoUpdate && !exitFlag) return
   logInfo('', `${C.dim}Checking for updates...${C.reset}`)
-  const url = `${REPO_BASE}/minecline.js`
-  let timedOut = false
-  const timer = setTimeout(() => { timedOut = true; req.destroy(); logWarn('', 'Update check timed out') }, 10000)
-  const req = https.get(url, (res) => {
-    let data = ''
-    res.on('data', (chunk) => { data += chunk })
-    res.on('end', async () => {
-      clearTimeout(timer)
-      if (timedOut) return
-      const match = data.match(/const VERSION = '([^']+)'/)
-      if (!match) { logWarn('', 'Could not check version (bad response)'); return }
-      const remoteVer = match[1]
-      if (remoteVer === VERSION) {
-        logInfo('', `${C.dim}Already up to date (v${VERSION})${C.reset}`)
-        return
-      }
+  const urls = [
+    `${REPO_BASE}/minecline.js`,
+    `https://github.com/Wiffiles/MineCline/raw/main/minecline.js`,
+  ]
+  tryFetch(0)
 
-      setTimeout(async () => {
-        const forced = await checkForceUpdate()
-        if (forced) {
-          setTimeout(() => doUpdate(remoteVer), 500)
-        } else if (appConfig.autoUpdate) {
-          promptUpdate(VERSION, remoteVer)
-        } else {
-          logInfo('', `Update available: v${VERSION} -> ${C.c}v${remoteVer}${C.reset} (use "update" to install)`)
-          redrawPrompt()
+  function tryFetch(idx) {
+    if (idx >= urls.length) { logWarn('', 'All update sources unreachable'); return }
+    const url = urls[idx]
+    let timedOut = false
+    const timer = setTimeout(() => { timedOut = true; req.destroy(); tryFetch(idx + 1) }, 10000)
+    const req = https.get(url, { headers: { 'User-Agent': 'MineCline/2.1' } }, (res) => {
+      let data = ''
+      res.on('data', (chunk) => { data += chunk })
+      res.on('end', async () => {
+        clearTimeout(timer)
+        if (timedOut) return
+        const match = data.match(/const VERSION = '([^']+)'/)
+        if (!match) { logWarn('', 'Could not check version (bad response)'); return }
+        const remoteVer = match[1]
+        if (remoteVer === VERSION) {
+          logInfo('', `${C.dim}Already up to date (v${VERSION})${C.reset}`)
+          return
         }
-      }, 500)
+
+        setTimeout(async () => {
+          const forced = await checkForceUpdate()
+          if (forced) {
+            setTimeout(() => doUpdate(remoteVer), 500)
+          } else if (appConfig.autoUpdate) {
+            promptUpdate(VERSION, remoteVer)
+          } else {
+            logInfo('', `Update available: v${VERSION} -> ${C.c}v${remoteVer}${C.reset} (use "update" to install)`)
+            redrawPrompt()
+          }
+        }, 500)
+      })
     })
-  })
-  req.on('error', (e) => { clearTimeout(timer); if (!timedOut) logWarn('', `Update check failed: ${e.message}`) })
+    req.on('error', (e) => { clearTimeout(timer); if (!timedOut) { logWarn('', `Update check failed (${idx + 1}/${urls.length}): ${e.message}`); tryFetch(idx + 1) } })
+  }
 }
 
 //  lifecycle / init
