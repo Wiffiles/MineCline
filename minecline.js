@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.2.1'
+const VERSION = '2.2.2'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -124,6 +124,7 @@ function createBot(name, host, port) {
   b.on('login', () => {
     cfg.connected = true; cfg.error = null; cfg.onJoinExecuted = false
     cfg.dimension = b.game?.dimension || 'unknown'; cfg.kickedReason = null
+    cfg.health = Math.round(b.health ?? 20); cfg.food = Math.round(b.food ?? 20)
     updateInv(cfg, b); logInfo(name, `Logged in as ${b.username}`)
     const pw = appConfig.autoRegister
     if (pw) {
@@ -926,7 +927,7 @@ function execCmd(raw) {
   //  mcpwd ----
   if (cmd === 'mcpwd') {
     if (args[0]) {
-      appConfig.autoRegister = args[0]
+      appConfig.autoRegister = args.join(' ')
       scheduleSave()
       logInfo('', 'MC password updated.')
     } else if (appConfig.autoRegister) {
@@ -1040,7 +1041,7 @@ function promptUpdate(currentVer, remoteVer) {
       process.stdin.on('keypress', onKeypress)
       if (a === 'y' || a === 'yes') {
         doUpdate(remoteVer)
-      } else if (a === 'never' || a === 'n') {
+      } else if (a === 'never') {
         appConfig.autoUpdate = false; scheduleSave()
         logInfo('', 'Auto-update disabled.'); redrawPrompt()
       } else {
@@ -1112,12 +1113,12 @@ function doUpdate(remoteVer) {
 
   const bak = __filename + '.bak'
   if (fs.existsSync(__filename)) fs.copyFileSync(__filename, bak)
-  dl(`${REPO_BASE}/minecline.js`, __filename)
+  dl(`${REPO_BASE}/minecline.js?t=${Date.now()}`, __filename)
 }
 
 function checkForceUpdate() {
   return new Promise((resolve) => {
-    const url = `${REPO_BASE}/UPDATENOW.txt`
+    const url = `${REPO_BASE}/UPDATENOW.txt?t=${Date.now()}`
     https.get(url, { headers: { 'User-Agent': 'MineCline/2.1' } }, (res) => {
       let data = ''
       res.on('data', (chunk) => { data += chunk })
@@ -1134,9 +1135,10 @@ function checkForceUpdate() {
 function checkAutoUpdate() {
   if (!appConfig.autoUpdate && !exitFlag) return
   logInfo('', `${C.dim}Checking for updates...${C.reset}`)
+  const cb = Date.now()
   const urls = [
-    `${REPO_BASE}/minecline.js`,
-    `https://github.com/Wiffiles/MineCline/raw/main/minecline.js`,
+    `${REPO_BASE}/minecline.js?t=${cb}`,
+    `https://github.com/Wiffiles/MineCline/raw/main/minecline.js?t=${cb}`,
   ]
   tryFetch(0)
 
