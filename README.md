@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/29203190/README.md)
 <p align="center">
   <img src="https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white" alt="Node">
   <img src="https://img.shields.io/badge/minecraft-1.20-4CAF50" alt="Minecraft">
