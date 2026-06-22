@@ -279,7 +279,7 @@ function createBot(name, host, port) {
   cfg.resourcePack = cfg.resourcePack || 'accept'
   bots[name] = cfg
 
-  const b = mineflayer.createBot({ host, port: parseInt(port, 10), username: name, timeout: 30000, checkTimeoutInterval: 5000 })
+  const b = mineflayer.createBot({ host, port: parseInt(port, 10), username: name, version: '1.21.5', timeout: 30000, checkTimeoutInterval: 5000 })
   cfg.bot = b; cfg.connectedAt = Date.now(); cfg.uptime = 0
   logInfo(name, `Connecting to ${host}:${port}...`)
 
@@ -339,17 +339,19 @@ function createBot(name, host, port) {
       const flatten = (obj) => {
         if (!obj) return ''
         if (typeof obj === 'string') return obj
-        if (Array.isArray(obj)) return obj.map(flatten).join('')
-        let s = obj.text || obj.bold || ''
-        if (obj.extra) s += flatten(obj.extra)
-        if (obj.color) s += ''
-        return s
+        if (Array.isArray(obj)) return obj.map(f => typeof f === 'string' ? f : flatten(f)).join('')
+        if (obj.value && typeof obj.value === 'object') return flatten(obj.value)
+        if (obj.value && typeof obj.value === 'string') return obj.value
+        if (obj.text && typeof obj.text === 'string') return obj.text
+        if (obj.text && typeof obj.text === 'object') return flatten(obj.text)
+        if (obj.extra) return flatten(obj.extra)
+        return JSON.stringify(obj)
       }
-      msg = flatten(reason).trim() || JSON.stringify(reason)
+      msg = flatten(reason) || JSON.stringify(reason)
     } else {
       msg = String(reason)
     }
-    cfg.kickedReason = msg.slice(0, 200); logErr(name, `Kicked: ${cfg.kickedReason}`)
+    cfg.kickedReason = msg.slice(0, 200).replace(/\n/g, ' | '); logErr(name, `Kicked: ${cfg.kickedReason}`)
     alertLog.push({ t: ts(), bot: name, type: 'warn', message: `Kicked: ${cfg.kickedReason}` })
     if (alertLog.length > 500) alertLog.splice(0, alertLog.length - 500)
   })
