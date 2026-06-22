@@ -1,3 +1,4 @@
+[README.md](https://github.com/user-attachments/files/29203190/README.md)
 <p align="center">
   <img src="https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white" alt="Node">
   <img src="https://img.shields.io/badge/minecraft-1.20-4CAF50" alt="Minecraft">
@@ -37,13 +38,14 @@
 ## 🚀 Quick Start
 
 ```bash
-# Install
+git clone https://github.com/Wiffiles/MineCline
+
+cd MineCline
+
 npm install
 
-# Run
 npm start
 
-# Connect a bot
 connect ItzMeJoel play.example.com
 ```
 
@@ -85,13 +87,6 @@ connect ItzMeJoel play.example.com
 | `chat <text>` | Send a message |
 | `/<command>` | Run a server command |
 | `inv [name]` | Show inventory |
-
-### Discord
-
-| Command | Does |
-|---|---|
-| `mcbridge <bot> <token> <channel>` | Link MC ↔ Discord |
-| `bridge stop` | Kill the bridge |
 
 ### Config
 
@@ -136,16 +131,6 @@ Set via the CLI:
 ```bash
 config ItzMeJoel set autoEat true
 config ItzMeJoel set host play.otherserver.com
-```
-
----
-
-## 🔌 Discord Bridge
-
-Links one bot's in-game chat to a Discord channel. Messages from Discord get relayed to the server and vice versa.
-
-```bash
-mcbridge ItzMeJoel <bot-token> <channel-id>
 ```
 
 ---
