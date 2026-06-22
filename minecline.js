@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.7'
+const VERSION = '2.1.8'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -48,7 +48,7 @@ const DEFAULT_BOT_CONFIG = {
 const bots = {}
 let activeBot = null, activeBots = new Set(), selMode = 'single'
 let logLines = [], input = '', cursor = 0, history = [], histIdx = -1
-let exitFlag = false, saveTimer = null, discordBridge = null
+let exitFlag = false, saveTimer = null
 let appConfig = { ...DEFAULT_CONFIG }
 let commandHistory = [], alertLog = [], playerCountHistory = {}, serverCounts = {}
 let botGroups = {}, savedCommands = [], savedScripts = {}
@@ -99,169 +99,6 @@ function saveConfig() {
 function scheduleSave() {
   if (saveTimer) clearTimeout(saveTimer)
   saveTimer = setTimeout(() => { saveConfig(); saveTimer = null }, DEBOUNCE_MS)
-}
-
-class DiscordBridge {
-  constructor(botName, token, channelId) {
-    this.botName = botName
-    this.token = token
-    this.channelId = channelId
-    this.ws = null
-    this.heartbeatTimer = null
-    this.seq = null
-    this.sessionId = null
-    this.connected = false
-    this.lastHeartbeatAck = true
-    this.reconnectAttempts = 0
-    this.onDiscordMessage = null
-
-    if (!bots[botName]) { logErr('', `Bot "${botName}" not found`); return }
-    try {
-      const wsModule = require('ws') // hope this is installed lol
-      this.Ws = wsModule
-      this.connect()
-    } catch { logErr('', 'ws module not available, cannot create bridge') }
-  }
-
-  connect() {
-    if (!this.Ws) return
-    const url = 'wss://gateway.discord.gg/?v=10&encoding=json'
-    this.ws = new this.Ws(url)
-    this.ws.on('open', () => {
-      this.reconnectAttempts = 0
-      logInfo(this.botName, 'Discord gateway connected')
-    })
-    this.ws.on('message', (data) => this.handleWS(data))
-    this.ws.on('close', (code) => {
-      this.connected = false
-      if (this.heartbeatTimer) { clearInterval(this.heartbeatTimer); this.heartbeatTimer = null }
-      logWarn(this.botName, `Discord WS closed (${code}), reconnecting...`)
-      if (!exitFlag) {
-        this.reconnectAttempts++
-        const delay = Math.min(5000 * this.reconnectAttempts, 30000)
-        setTimeout(() => this.connect(), delay)
-      }
-    })
-    this.ws.on('error', (err) => {
-      logErr(this.botName, `Discord WS error: ${err.message}`)
-    })
-  }
-
-  handleWS(data) {
-    try {
-      const p = JSON.parse(data.toString())
-      const op = p.op
-      const d = p.d
-      const s = p.s
-      const t = p.t
-
-      if (s) this.seq = s
-
-      switch (op) {
-        case 10: // Hello
-          this.heartbeatInterval = d.heartbeat_interval
-          this.identify()
-          this.startHeartbeat()
-          break
-        case 0: // Dispatch
-          if (t === 'READY') {
-            this.sessionId = d.session_id
-            this.connected = true
-            logInfo(this.botName, `Discord bridge connected as ${d.user?.username}`)
-          }
-          if (t === 'MESSAGE_CREATE') {
-            if (d.channel_id === this.channelId && d.author?.id !== d.webhook_id) {
-              if (this.onDiscordMessage) {
-                this.onDiscordMessage(d.author?.username || 'Unknown', d.content)
-              }
-            }
-          }
-          break
-        case 7: // Reconnect
-          logWarn(this.botName, 'Discord requested reconnect')
-          this.disconnect()
-          setTimeout(() => this.connect(), 1000)
-          break
-        case 9: // Invalid session
-          logErr(this.botName, 'Discord invalid session, reconnecting...')
-          this.sessionId = null
-          setTimeout(() => this.connect(), 2000)
-          break
-      }
-    } catch (e) { logErr(this.botName, `Discord WS parse: ${e.message}`) }
-  }
-
-  identify() {
-    const payload = {
-      op: 2,
-      d: {
-        token: this.token,
-        intents: 33280, // GUILD_MESSAGES + MESSAGE_CONTENT
-        properties: { os: 'windows', browser: 'MineCline', device: 'MineCline' },
-      },
-    }
-    if (this.sessionId) {
-      payload.d.session_id = this.sessionId
-      payload.d.seq = this.seq
-    }
-    this.send(payload)
-  }
-
-  startHeartbeat() {
-    if (this.heartbeatTimer) clearInterval(this.heartbeatTimer)
-    this.heartbeatTimer = setInterval(() => {
-      if (this.ws?.readyState === this.Ws?.OPEN) {
-        this.send({ op: 1, d: this.seq })
-      }
-    }, this.heartbeatInterval)
-  }
-
-  send(payload) {
-    if (this.ws?.readyState === this.Ws?.OPEN) {
-      this.ws.send(JSON.stringify(payload))
-    }
-  }
-
-  sendMessage(content) {
-    const data = JSON.stringify({ content })
-    const opts = {
-      hostname: 'discord.com',
-      path: `/api/v10/channels/${this.channelId}/messages`,
-      method: 'POST',
-      headers: {
-        'Authorization': `Bot ${this.token}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(data),
-      },
-    }
-    const req = https.request(opts, (res) => {
-      let body = ''
-      res.on('data', (chunk) => { body += chunk })
-      res.on('end', () => {
-        if (res.statusCode >= 400) {
-          try {
-            const j = JSON.parse(body)
-            logErr(this.botName, `Discord send failed: ${j.message || body}`)
-          } catch { logErr(this.botName, `Discord HTTP ${res.statusCode}`) }
-        }
-      })
-    })
-    req.on('error', (e) => logErr(this.botName, `Discord HTTP error: ${e.message}`))
-    req.write(data)
-    req.end()
-  }
-
-  disconnect() {
-    if (this.heartbeatTimer) { clearInterval(this.heartbeatTimer); this.heartbeatTimer = null }
-    if (this.ws) { try { this.ws.close(1000) } catch {} this.ws = null }
-    this.connected = false
-  }
-
-  stop() {
-    this.disconnect()
-    discordBridge = null
-    logInfo(this.botName, 'Discord bridge stopped')
-  }
 }
 
 function createBot(name, host, port) {
@@ -361,16 +198,10 @@ function createBot(name, host, port) {
     const from = msg.to?.username || 'SERVER'
     const text = msg.toString().replace(/\xA7[0-9a-fk-or]/gi, '').trim()
     logMsg(name, `<${from}> ${text}`)
-    if (discordBridge && discordBridge.botName === name && discordBridge.connected) {
-      discordBridge.sendMessage(`**${from}**: ${text}`)
-    }
   })
 
   b.on('whisper', (from, msg) => {
     logMsg(name, `[whisper] ${from}: ${msg}`)
-    if (discordBridge && discordBridge.botName === name && discordBridge.connected) {
-      discordBridge.sendMessage(`*whisper ${from}*: ${msg}`)
-    }
   })
 
   b.on('health', () => {
@@ -439,7 +270,6 @@ function createBot(name, host, port) {
 function disconnectBot(name) {
   const cfg = bots[name]
   if (!cfg) { logErr('', `No bot "${name}"`); return }
-  if (discordBridge && discordBridge.botName === name) { discordBridge.stop(); logInfo('', 'Bridge stopped') }
   stopAfk(name)
   if (cfg.autoJumpInterval) { clearInterval(cfg.autoJumpInterval); cfg.autoJumpInterval = null }
   if (cfg.bot) { try { cfg.bot.end() } catch {} }
@@ -581,7 +411,7 @@ function getTargets(name) {
 const CMD_LIST = [
   'connect', 'disconnect', 'bots', 'select', 'global', 'control',
   'afk', 'jump', 'shift', 'eat', 'reconnect', 'respack',
-  'chat', 'msg', 'inv', 'mcbridge', 'bridge',
+  'chat', 'msg', 'inv',
   'config', 'onjoin', 'clear', 'help', 'quit', 'exit',
   'update', 'group', 'savecmd', 'script', 'players', 'save',
   'mcpwd',
@@ -626,8 +456,6 @@ function printHelp() {
   logRaw('', `  ${C.g}chat/msg${C.reset} <text>                - Send chat`)
   logRaw('', `  ${C.g}/<cmd>${C.reset}                         - Server command`)
   logRaw('', `  ${C.g}inv${C.reset} [name]                     - Show inventory`)
-  logRaw('', `  ${C.g}mcbridge${C.reset} <bot> <token> <chan> - MC-Discord bridge`)
-  logRaw('', `  ${C.g}bridge stop${C.reset}                    - Stop bridge`)
   logRaw('', `  ${C.g}config${C.reset} [name] [set k v]        - View/change config`)
   logRaw('', `  ${C.g}onjoin${C.reset} <name> add cmd|chat     - Join actions`)
   logRaw('', `  ${C.g}clear${C.reset}, ${C.g}save${C.reset}, ${C.g}quit${C.reset} - Utility`)
@@ -655,7 +483,6 @@ function execCmd(raw) {
   //  quit / exit ----
   if (cmd === 'quit' || cmd === 'exit') {
     exitFlag = true
-    if (discordBridge) discordBridge.stop()
     for (const n of Object.keys(bots)) disconnectBot(n)
     setTimeout(() => process.exit(0), 200)
     return
@@ -679,8 +506,7 @@ function execCmd(raw) {
         reconnect:  'reconnect\n  Reconnect selected bot(s) with 8s delay between each.',
         chat:       'chat/msg <text>\n  Send a chat message as the selected bot(s).',
         inv:        'inv [name]\n  Show a bot\'s inventory (held item, armor, hotbar).',
-        mcbridge:   'mcbridge <bot> <token> <channel>\n  Bridge Minecraft chat to a Discord channel.',
-        'bridge stop': 'bridge stop\n  Stop the active Discord bridge.',
+
         config:     'config [name] [set <key> <val>]\n  View or change bot config (host, port, autoAfk, etc.).',
         onjoin:     'onjoin <name> add command|chat <text> | list | remove <idx>\n  Manage commands that run when a bot joins a server.',
         players:    'players [name]\n  List online players seen by the selected or named bot.',
@@ -905,35 +731,6 @@ function execCmd(raw) {
       }
       logRaw(cfg.name, `  Total: ${cfg.inventoryCount} items | ${cfg.armor.length} armor pieces`)
     }
-    return
-  }
-
-  //  mcbridge / bridge ----
-  if (cmd === 'mcbridge' || cmd === 'bridge') {
-    if (args[0] === 'stop') {
-      if (discordBridge) { discordBridge.stop(); logInfo('', 'Discord bridge stopped') }
-      else logWarn('', 'No bridge active')
-      return
-    }
-    if (args.length < 3) { logErr('', 'Usage: mcbridge <botname> <discord_token> <channel_id>'); return }
-    const botName = args[0]; const token = args[1]; const channelId = args[2]
-    if (!bots[botName]) { logErr('', `No bot "${botName}"`); return }
-    if (discordBridge) { discordBridge.stop(); logInfo('', 'Replacing existing bridge...') }
-    discordBridge = new DiscordBridge(botName, token, channelId)
-    if (!discordBridge.Ws) { discordBridge = null; return }
-    // Forward from Discord to MC
-    discordBridge.onDiscordMessage = (username, content) => {
-      if (!bots[botName]?.bot || !bots[botName]?.connected) {
-        logWarn('', 'Bot disconnected, bridge paused')
-        return
-      }
-      // Ignore bot's own messages
-      if (username.toLowerCase() === botName.toLowerCase()) return
-      // Strip @mentions to prevent pings
-      const clean = content.replace(/@/g, '@\u200b')
-      try { bots[botName].bot.chat(clean); logChat(botName, `[Discord] ${username}: ${clean}`) } catch {}
-    }
-    logInfo(botName, `Bridge started -> channel ${channelId}`)
     return
   }
 
@@ -1178,7 +975,7 @@ function onKeypress(str, key) {
       if (matches.length === 1) { input = matches[0] + ' '; cursor = input.length; redrawPrompt() }
       else if (matches.length > 1) { logInfo('', C.gry + matches.join('  ') + C.reset) }
     } else if (parts.length >= 2) {
-      const botCmds = ['select', 'control', 'disconnect', 'config', 'onjoin', 'afk', 'jump', 'eat', 'reconnect', 'respack', 'inv', 'mcbridge', 'bridge', 'players', 'group']
+      const botCmds = ['select', 'control', 'disconnect', 'config', 'onjoin', 'afk', 'jump', 'eat', 'reconnect', 'respack', 'inv', 'players', 'group']
       if (botCmds.includes(parts[0])) {
         const lastPart = parts[parts.length - 1]
         const prefix = lastPart.includes(',') ? lastPart.slice(0, lastPart.lastIndexOf(',') + 1) : ''
@@ -1424,7 +1221,6 @@ function registerLifecycle() {
   process.on('SIGTERM', () => { process.exit(0) })
   process.on('exit', () => {
     exitFlag = true
-    if (discordBridge) discordBridge.stop()
     for (const n of Object.keys(bots)) {
       const cfg = bots[n]
       if (cfg && cfg.bot) { try { cfg.bot.end() } catch {} }
