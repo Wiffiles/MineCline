@@ -29,8 +29,6 @@
 | ![afk](https://img.shields.io/badge/-AFK%20mode-3CB371) | Random movement, looking, jumping, item swinging — looks human-ish |
 | ![auto](https://img.shields.io/badge/-Auto%20toggles-FF8C00) | Auto-jump, auto-shift (sneak), auto-eat when hungry |
 | ![onjoin](https://img.shields.io/badge/-On--join%20actions-4169E1) | Auto-run commands and chat on spawn |
-| ![discord](https://img.shields.io/badge/-Discord%20bridge-5865F2) | Bidirectional chat relay between MC and Discord |
-| ![inventory](https://img.shields.io/badge/-Inventory%20viewer-6B8E23) | See held item, armor, hotbar, full inventory |
 | ![reconnect](https://img.shields.io/badge/-Reconnect-9370DB) | Reconnect all saved bots with staggered delay |
 | ![config](https://img.shields.io/badge/-Config%20persistence-708090) | Everything saved to `config.json` |
 
