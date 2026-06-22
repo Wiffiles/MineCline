@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.8'
+const VERSION = '2.1.7'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -1213,6 +1213,7 @@ function showLogo() {
     process.stdin.resume()
     process.stdin.on('keypress', onKeypress)
     redrawPrompt()
+    setTimeout(checkAutoUpdate, 1000)
   }
 }
 
