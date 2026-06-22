@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.1.7'
+const VERSION = '2.1.9'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -53,7 +53,8 @@ let appConfig = { ...DEFAULT_CONFIG }
 let commandHistory = [], alertLog = [], playerCountHistory = {}, serverCounts = {}
 let botGroups = {}, savedCommands = [], savedScripts = {}
 
-function stripAnsi(s) { return s.replace(/\x1b\[[0-9;]*m/g, '') } // kill the escape codes
+function stripAnsi(s) { return s.replace(/\x1b\[[0-9;]*m/g, '') }
+function padAnsi(str, len) { const b = stripAnsi(str); return str + ' '.repeat(Math.max(0, len - b.length)) }
 
 function writeLogFile(botName, time, text) {
   try {
@@ -346,6 +347,9 @@ function formatLog(entry) {
 }
 
 function getPrompt() {
+  const total = Object.keys(bots).length
+  const connected = Object.values(bots).filter(b => b.connected).length
+  const counts = total > 0 ? `${C.dim}[${connected}/${total}]${C.reset} ` : ''
   let ctx
   if (selMode === 'multi' && activeBots.size > 0) {
     const names = [...activeBots]
@@ -355,7 +359,7 @@ function getPrompt() {
   } else {
     ctx = `${C.dim}global${C.reset}`
   }
-  return `${ctx} > `
+  return `${counts}${ctx} > `
 }
 
 function redrawPrompt() {
@@ -560,7 +564,16 @@ function execCmd(raw) {
     if (names.length === 0) { logInfo('', 'No bots configured'); return }
     for (const n of names) {
       const b = bots[n]
-      logRaw('', `${C.bold}${n}${C.reset} - ${b.connected ? C.g + 'O' : C.r + 'o'}${C.reset} ${b.host}:${b.port} ${C.dim}AFK:${b.afkEnabled ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Eat:${b.autoEat ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Jump:${b.autoJump ? C.g + 'ON' : 'OFF'}${C.reset} ${C.dim}Shift:${b.autoShift ? C.g + 'ON' : 'OFF'}${C.reset}`)
+      const status = b.connected ? `${C.g}●${C.reset}` : `${C.r}○${C.reset}`
+      const hp = b.connected ? `${padAnsi(b.health ?? '-', 2)}/${padAnsi(b.food ?? '-', 2)}` : `${C.dim} -/- ${C.reset}`
+      const toggles = []
+      if (b.afkEnabled) toggles.push(`${C.g}A${C.reset}`)
+      if (b.autoJump) toggles.push(`${C.y}J${C.reset}`)
+      if (b.autoEat) toggles.push(`${C.c}E${C.reset}`)
+      if (b.autoShift) toggles.push(`${C.b}S${C.reset}`)
+      if (b.resourcePack === 'accept') toggles.push(`${C.m}R${C.reset}`)
+      const togStr = toggles.length ? toggles.join(' ') : `${C.dim}-${C.reset}`
+      logRaw('', ` ${C.bold}${n}${C.reset}  ${status}  ${hp}  ${C.dim}${b.host}:${b.port}${C.reset}  ${togStr}`)
     }
     return
   }
@@ -975,6 +988,23 @@ function onKeypress(str, key) {
       if (matches.length === 1) { input = matches[0] + ' '; cursor = input.length; redrawPrompt() }
       else if (matches.length > 1) { logInfo('', C.gry + matches.join('  ') + C.reset) }
     } else if (parts.length >= 2) {
+      const subCmds = {
+        group:   ['list','create','delete','rename','add','remove'],
+        config:  ['set'],
+        onjoin:  ['add','list','remove'],
+        script:  ['list','create','delete','addstep','run'],
+        savecmd: ['list','add','remove','run'],
+        mcpwd:   ['password'],
+      }
+      const subs = subCmds[parts[0]]
+      if (subs && parts.length === 2) {
+        const current = parts[1]
+        const matches = subs.filter(s => s.startsWith(current))
+        if (matches.length === 1) {
+          parts[1] = matches[0]; input = parts.join(' ') + ' '; cursor = input.length; redrawPrompt()
+        } else if (matches.length > 1) { logInfo('', C.gry + matches.join('  ') + C.reset) }
+        return
+      }
       const botCmds = ['select', 'control', 'disconnect', 'config', 'onjoin', 'afk', 'jump', 'eat', 'reconnect', 'respack', 'inv', 'players', 'group']
       if (botCmds.includes(parts[0])) {
         const lastPart = parts[parts.length - 1]
@@ -1103,15 +1133,23 @@ function checkForceUpdate() {
 
 function checkAutoUpdate() {
   if (!appConfig.autoUpdate && !exitFlag) return
+  logInfo('', `${C.dim}Checking for updates...${C.reset}`)
   const url = `${REPO_BASE}/minecline.js`
-  https.get(url, (res) => {
+  let timedOut = false
+  const timer = setTimeout(() => { timedOut = true; req.destroy(); logWarn('', 'Update check timed out') }, 10000)
+  const req = https.get(url, (res) => {
     let data = ''
     res.on('data', (chunk) => { data += chunk })
     res.on('end', async () => {
+      clearTimeout(timer)
+      if (timedOut) return
       const match = data.match(/const VERSION = '([^']+)'/)
-      if (!match) return
+      if (!match) { logWarn('', 'Could not check version (bad response)'); return }
       const remoteVer = match[1]
-      if (remoteVer === VERSION) return
+      if (remoteVer === VERSION) {
+        logInfo('', `${C.dim}Already up to date (v${VERSION})${C.reset}`)
+        return
+      }
 
       setTimeout(async () => {
         const forced = await checkForceUpdate()
@@ -1125,7 +1163,8 @@ function checkAutoUpdate() {
         }
       }, 500)
     })
-  }).on('error', () => {})
+  })
+  req.on('error', (e) => { clearTimeout(timer); if (!timedOut) logWarn('', `Update check failed: ${e.message}`) })
 }
 
 //  lifecycle / init
