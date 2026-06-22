@@ -18,7 +18,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.2.0'
+const VERSION = '2.2.1'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -54,7 +54,7 @@ let commandHistory = [], alertLog = [], playerCountHistory = {}, serverCounts = 
 let botGroups = {}, savedCommands = [], savedScripts = {}
 
 function stripAnsi(s) { return s.replace(/\x1b\[[0-9;]*m/g, '') }
-function padAnsi(str, len) { const b = stripAnsi(str); return str + ' '.repeat(Math.max(0, len - b.length)) }
+function padAnsi(str, len) { const s = String(str); const b = stripAnsi(s); return s + ' '.repeat(Math.max(0, len - b.length)) }
 
 function writeLogFile(botName, time, text) {
   try {
@@ -449,14 +449,14 @@ function showConfig(cfg) {
 
 function printHelp() {
   logRaw('', `${C.bold}-- ${C.c}MineCline v${VERSION}${C.reset} Commands --${C.reset}`)
-  logRaw('', `  ${C.g}connect${C.reset} <name,names...> <host> [port] - Connect bot(s) (8s delay)`)
+  logRaw('', `  ${C.g}connect${C.reset} <name,names...> <host> [port] - Connect bot(s) (5s delay)`)
   logRaw('', `  ${C.g}disconnect${C.reset} [name | all]          - Disconnect bot(s)`)
   logRaw('', `  ${C.g}select${C.reset} <name>                  - Select single bot`)
   logRaw('', `  ${C.g}control${C.reset} <name1,name2|all>        - Multi-select bots`)
   logRaw('', `  ${C.g}global${C.reset}                         - Clear selection`)
   logRaw('', `  ${C.g}bots${C.reset}                           - List all bots`)
   logRaw('', `  ${C.y}Toggles:${C.reset} ${C.g}afk${C.reset}, ${C.g}jump${C.reset}, ${C.g}shift${C.reset}, ${C.g}eat${C.reset}, ${C.g}respack${C.reset}`)
-  logRaw('', `  ${C.g}reconnect${C.reset} - Reconnect selected bot(s) (8s delay)`)
+  logRaw('', `  ${C.g}reconnect${C.reset} - Reconnect selected bot(s) (5s delay)`)
   logRaw('', `  ${C.g}chat/msg${C.reset} <text>                - Send chat`)
   logRaw('', `  ${C.g}/<cmd>${C.reset}                         - Server command`)
   logRaw('', `  ${C.g}inv${C.reset} [name]                     - Show inventory`)
@@ -496,7 +496,7 @@ function execCmd(raw) {
   if (cmd === 'help') {
     if (args[0]) {
       const details = {
-        connect:    'connect <name,names...> <host> [port]\n  Connect one or more bots (comma-separated names) to a server. 8s delay between each.',
+        connect:    'connect <name,names...> <host> [port]\n  Connect one or more bots (comma-separated names) to a server. 5s delay between each.',
         disconnect: 'disconnect [name | all]\n  Disconnect a bot, the selected bot, or all bots.',
         select:     'select <name>\n  Select a single bot as the active target for commands.',
         control:    'control <name1,name2|all|global>\n  Multi-select bots. "all" selects every bot. "global" clears.',
@@ -507,7 +507,7 @@ function execCmd(raw) {
         shift:      'shift [name]\n  Toggle auto-shift (sneak).',
         eat:        'eat [name]\n  Toggle auto-eat when hungry.',
         respack:    'respack [name]\n  Toggle resource-pack auto-accept on/off.',
-        reconnect:  'reconnect\n  Reconnect selected bot(s) with 8s delay between each.',
+        reconnect:  'reconnect\n  Reconnect selected bot(s) with 5s delay between each.',
         chat:       'chat/msg <text>\n  Send a chat message as the selected bot(s).',
         inv:        'inv [name]\n  Show a bot\'s inventory (held item, armor, hotbar).',
 
@@ -540,11 +540,11 @@ function execCmd(raw) {
     const port = args[2] || '25565'
     const names = rawNames.split(',').map(s => s.trim()).filter(Boolean)
     if (names.length === 0) { logErr('', 'No bot names'); return }
-    logInfo('', `Connecting ${names.length} bot(s) with 8s delay...`)
+    logInfo('', `Connecting ${names.length} bot(s) with 5s delay...`)
     names.forEach((name, i) => setTimeout(() => {
       if (bots[name] && bots[name].connected) { logWarn(name, 'Already connected'); return }
       createBot(name, host, port)
-    }, i * 8000))
+    }, i * 5000))
     activeBot = names[0]; selMode = 'single'; activeBots.clear()
     return
   }
@@ -672,8 +672,8 @@ function execCmd(raw) {
     const targets = getTargets(null)
     if (targets.length === 0) return
     const names = targets.map(t => t.name)
-    logInfo('', `Reconnecting ${names.length} bot(s) with 8s delay...`)
-    names.forEach((name, i) => setTimeout(() => createBot(name, bots[name].host, bots[name].port), i * 8000))
+    logInfo('', `Reconnecting ${names.length} bot(s) with 5s delay...`)
+    names.forEach((name, i) => setTimeout(() => createBot(name, bots[name].host, bots[name].port), i * 5000))
     return
   }
 
