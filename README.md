@@ -15,7 +15,7 @@ Spin up a small army of [mineflayer](https://github.com/PrismarineJS/mineflayer)
 <img src="https://img.shields.io/badge/mineflayer-4.x-2EB67D?style=flat-square&labelColor=1a1a1a" alt="mineflayer">
 <img src="https://img.shields.io/badge/license-Unlicense-2EB67D?style=flat-square&labelColor=1a1a1a" alt="License">
 
-[Features](#-features) · [Quick Start](#-quick-start) · [Commands](#-commands) · [Config](#%EF%B8%8F-config) · [How it behaves](#-how-it-behaves)
+[Features](#features) · [Quick Start](#quick-start) · [Commands](#commands) · [Config](#config-1) · [How it behaves](#how-it-behaves)
 
 </div>
 
@@ -36,25 +36,25 @@ Spin up a small army of [mineflayer](https://github.com/PrismarineJS/mineflayer)
 
 <br>
 
-## ✨ Features
+## Features
 
 |  |  |
 |:---:|---|
-| 🤖 **Multi-bot control** | Run several bots at once. Target one with `select`, several with `control`, or everything with `global` |
-| 🚶 **AFK mode** | Randomized walking, looking, jumping, and item-swinging so a parked bot doesn't look frozen |
-| ⚙️ **Auto toggles** | Auto-jump, auto-shift (sneak), auto-eat when hunger drops, resource-pack auto-accept |
-| 🔁 **Reconnect, two ways** | Reconnect on demand with `reconnect`, or turn on `autoReconnect` per bot for automatic retries with backoff after a drop |
-| 🚪 **On-join actions** | Queue chat lines and `/commands` to fire the instant a bot spawns — useful for auto-`/login` flows, claiming a kit, etc. |
-| 🔑 **Auto-login** | Set one password with `mcpwd` and every bot will `/register` + `/login` itself on spawn |
-| 🗂️ **Groups, saved commands & scripts** | Organize bots into named groups, save commands you run often, or script multi-step sequences with delays between steps |
-| 💾 **Config persistence** | Bots, groups, scripts, and settings are all debounced-saved to `config.json` automatically |
-| 📜 **Persistent logs** | Every line that scrolls past is also mirrored to `MineCline.logs.txt`, stripped of color codes |
-| ⌨️ **A CLI that feels like a shell** | Tab-completion for commands, bot names, and subcommands, plus arrow-key command history |
-| 🔄 **Self-updating** | `update` checks the upstream repo for a newer version and offers to install it in place |
+| ![multi](https://img.shields.io/badge/-MULTI--BOT-2EB67D?style=flat-square&labelColor=1a1a1a) | Run several bots at once. Target one with `select`, several with `control`, or everything with `global` |
+| ![afk](https://img.shields.io/badge/-AFK%20MODE-2EB67D?style=flat-square&labelColor=1a1a1a) | Randomized walking, looking, jumping, and item-swinging so a parked bot doesn't look frozen |
+| ![auto](https://img.shields.io/badge/-AUTO%20TOGGLES-2EB67D?style=flat-square&labelColor=1a1a1a) | Auto-jump, auto-shift (sneak), auto-eat when hunger drops, resource-pack auto-accept |
+| ![reconnect](https://img.shields.io/badge/-RECONNECT-2EB67D?style=flat-square&labelColor=1a1a1a) | Reconnect on demand with `reconnect`, or turn on `autoReconnect` per bot for automatic retries with backoff after a drop |
+| ![onjoin](https://img.shields.io/badge/-ON--JOIN%20ACTIONS-2EB67D?style=flat-square&labelColor=1a1a1a) | Queue chat lines and `/commands` to fire the instant a bot spawns — useful for auto-`/login` flows, claiming a kit, etc. |
+| ![login](https://img.shields.io/badge/-AUTO--LOGIN-2EB67D?style=flat-square&labelColor=1a1a1a) | Set one password with `mcpwd` and every bot will `/register` + `/login` itself on spawn |
+| ![groups](https://img.shields.io/badge/-GROUPS%20%26%20SCRIPTS-2EB67D?style=flat-square&labelColor=1a1a1a) | Organize bots into named groups, save commands you run often, or script multi-step sequences with delays between steps |
+| ![config](https://img.shields.io/badge/-CONFIG%20PERSISTENCE-2EB67D?style=flat-square&labelColor=1a1a1a) | Bots, groups, scripts, and settings are all debounced-saved to `config.json` automatically |
+| ![logs](https://img.shields.io/badge/-PERSISTENT%20LOGS-2EB67D?style=flat-square&labelColor=1a1a1a) | Every line that scrolls past is also mirrored to `MineCline.logs.txt`, stripped of color codes |
+| ![shell](https://img.shields.io/badge/-SHELL--LIKE%20CLI-2EB67D?style=flat-square&labelColor=1a1a1a) | Tab-completion for commands, bot names, and subcommands, plus arrow-key command history |
+| ![update](https://img.shields.io/badge/-SELF--UPDATING-2EB67D?style=flat-square&labelColor=1a1a1a) | `update` checks the upstream repo for a newer version and offers to install it in place |
 
 <br>
 
-## 🚀 Quick Start
+## Quick Start
 
 ```bash
 git clone https://github.com/Wiffiles/MineCline
@@ -73,7 +73,7 @@ connect Joel play.example.com
 
 <br>
 
-## 📖 Commands
+## Commands
 
 ### Connection
 
@@ -145,7 +145,7 @@ connect Joel play.example.com
 
 <br>
 
-## ⚙️ Config
+## Config
 
 Everything is saved automatically to `config.json` next to the script. Per-bot keys:
 
@@ -172,7 +172,7 @@ config Joel set host play.otherserver.com
 
 <br>
 
-## 🔍 How it behaves
+## How it behaves
 
 A few things worth knowing going in, since they're not obvious from the command list alone:
 
@@ -182,7 +182,7 @@ A few things worth knowing going in, since they're not obvious from the command 
 
 <br>
 
-## 📦 Dependencies
+## Dependencies
 
 - [mineflayer](https://github.com/PrismarineJS/mineflayer) — Minecraft bot library
 
@@ -193,5 +193,5 @@ Everything else (`fs`, `path`, `readline`, `https`) is a Node.js built-in — no
 ---
 
 <div align="center">
-<sub>Built with ☕ and <a href="https://github.com/PrismarineJS/mineflayer">mineflayer</a></sub>
+<sub>Built with <a href="https://github.com/PrismarineJS/mineflayer">mineflayer</a></sub>
 </div>
