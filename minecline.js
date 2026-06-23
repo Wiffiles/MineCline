@@ -4,7 +4,6 @@ const path = require('path')
 const readline = require('readline')
 const https = require('https')
 
-//  suppress noisy minecraft-protocol partial-read warnings
 const _stderrWrite = process.stderr.write.bind(process.stderr)
 const _stdoutWrite = process.stdout.write.bind(process.stdout)
 const _consoleWarn = console.warn
@@ -18,7 +17,7 @@ process.stdout.write = (buf, enc, cb) => { if (_isJunk(buf)) return true; return
 console.warn = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleWarn(...args) }
 console.error = (...args) => { if (args.some(a => _isJunk(a))) return; _consoleError(...args) }
 
-const VERSION = '2.2.3'
+const VERSION = '2.2.4'
 const REPO_BASE = 'https://raw.githubusercontent.com/Wiffiles/MineCline/main'
 const CONFIG_PATH = path.join(__dirname, 'config.json')
 const LOG_PATH = path.join(__dirname, 'MineCline.logs.txt')
@@ -32,6 +31,36 @@ const C = {
   b: '\x1b[34m', m: '\x1b[35m', c: '\x1b[36m', w: '\x1b[37m',
   gry: '\x1b[90m', bgR: '\x1b[41m', bgG: '\x1b[42m', bgY: '\x1b[43m',
   bgB: '\x1b[44m', bgM: '\x1b[45m',
+}
+
+function rgb(r, g, b) { return `\x1b[38;2;${r};${g};${b}m` }
+
+function gradientText(str, c1, c2) {
+  const plain = stripAnsi(str)
+  const len = plain.length
+  if (len === 0) return ''
+  let out = ''
+  for (let i = 0; i < len; i++) {
+    const t = len <= 1 ? 0 : i / (len - 1)
+    const r = Math.round(c1[0] + (c2[0] - c1[0]) * t)
+    const g = Math.round(c1[1] + (c2[1] - c1[1]) * t)
+    const b = Math.round(c1[2] + (c2[2] - c1[2]) * t)
+    out += rgb(r, g, b) + plain[i]
+  }
+  return out + C.reset
+}
+
+const BLOCKS = [' ', '▏', '▎', '▍', '▌', '▋', '▊', '▉', '█']
+
+function smoothBar(pct, width, c1, c2, trackChar) {
+  const clamped = Math.max(0, Math.min(100, pct))
+  const filled = (clamped / 100) * width
+  const full = Math.floor(filled)
+  const partial = filled - full
+  const partialChar = full < width ? BLOCKS[Math.round(partial * 8)] : ''
+  const filledStr = '█'.repeat(full) + partialChar
+  const track = (trackChar || '·').repeat(Math.max(0, width - stripAnsi(filledStr).length))
+  return gradientText(filledStr, c1, c2) + C.dim + track + C.reset
 }
 
 const DEFAULT_CONFIG = {
@@ -76,8 +105,7 @@ function loadConfig() {
       if (data.savedScripts) savedScripts = data.savedScripts
       if (data && data.bots) {
         for (const [name, cfg] of Object.entries(data.bots)) {
-          const { autoReconnect: _, ...rest } = cfg
-          if (!bots[name]) bots[name] = { ...DEFAULT_BOT_CONFIG, ...rest, name, connected: false, joined: false }
+          if (!bots[name]) bots[name] = { ...DEFAULT_BOT_CONFIG, ...cfg, name, connected: false, joined: false }
         }
       }
     }
@@ -89,7 +117,7 @@ function saveConfig() {
   for (const [name, b] of Object.entries(bots)) {
     data.bots[name] = {
       host: b.host, port: b.port,
-      autoAfk: !!b.autoAfk, autoJump: !!b.autoJump, autoShift: !!b.autoShift, autoEat: !!b.autoEat,
+      autoAfk: !!b.autoAfk, autoJump: !!b.autoJump, autoShift: !!b.autoShift, autoEat: !!b.autoEat, autoReconnect: !!b.autoReconnect,
       resourcePack: b.resourcePack || 'accept',
       onJoin: { commands: [...(b.onJoin?.commands || [])], chat: [...(b.onJoin?.chat || [])] },
     }
@@ -104,9 +132,14 @@ function scheduleSave() {
 
 function createBot(name, host, port) {
   if (bots[name] && bots[name].connected) { logWarn('', `"${name}" already connected`); return }
+  if (bots[name] && bots[name].connecting) { logWarn('', `"${name}" connection already in progress`); return }
+  if (!host || typeof host !== 'string' || !host.trim()) { logErr(name, 'Invalid host'); return }
+  const portNum = parseInt(port, 10)
+  if (!Number.isInteger(portNum) || portNum < 1 || portNum > 65535) { logErr(name, `Invalid port "${port}"`); return }
+
   const cfg = bots[name] || { ...DEFAULT_BOT_CONFIG }
-  cfg.name = name; cfg.host = host; cfg.port = port
-  cfg.connected = false; cfg.joined = false
+  cfg.name = name; cfg.host = host; cfg.port = portNum
+  cfg.connected = false; cfg.joined = false; cfg.connecting = true
   cfg.health = 0; cfg.food = 0; cfg.x = null; cfg.y = null; cfg.z = null
   cfg.ping = null; cfg.uptime = 0; cfg.dimension = null
   cfg.inventoryCount = 0; cfg.inventoryItems = []; cfg.heldItem = null
@@ -115,14 +148,24 @@ function createBot(name, host, port) {
   cfg.connectedAt = 0; cfg.error = null; cfg.kickedReason = null
   cfg.onJoinExecuted = false; cfg.moveThrottle = 0; cfg.autoEatRunning = false
   cfg.resourcePack = cfg.resourcePack || 'accept'
+  cfg.manualDisconnect = false; cfg.reconnectAttempts = 0
+  cfg.endHandled = false
   bots[name] = cfg
 
-  const b = mineflayer.createBot({ host, port: parseInt(port, 10), username: name, version: '1.21.5', timeout: 30000, checkTimeoutInterval: 5000 })
+  let b
+  try {
+    b = mineflayer.createBot({ host, port: portNum, username: name, version: '1.21.5', timeout: 30000, checkTimeoutInterval: 30000 })
+  } catch (e) {
+    cfg.connecting = false
+    logErr(name, `Failed to start connection: ${e.message}`)
+    return
+  }
   cfg.bot = b; cfg.connectedAt = Date.now(); cfg.uptime = 0
-  logInfo(name, `Connecting to ${host}:${port}...`)
+  logInfo(name, `Connecting to ${host}:${portNum}...`)
 
   b.on('login', () => {
-    cfg.connected = true; cfg.error = null; cfg.onJoinExecuted = false
+    cfg.connected = true; cfg.connecting = false; cfg.error = null; cfg.onJoinExecuted = false
+    cfg.reconnectAttempts = 0
     cfg.dimension = b.game?.dimension || 'unknown'; cfg.kickedReason = null
     cfg.health = Math.round(b.health ?? 20); cfg.food = Math.round(b.food ?? 20)
     updateInv(cfg, b); logInfo(name, `Logged in as ${b.username}`)
@@ -139,7 +182,7 @@ function createBot(name, host, port) {
     }
     if (cfg.onJoin && !cfg.onJoinExecuted) {
       cfg.onJoinExecuted = true
-      if (cfg.onJoin.commands) for (const c of cfg.onJoin.commands) { try { b.chat(`/${c}`); logChat(name, `Auto-cmd: /${c}`) } catch {} }
+      if (cfg.onJoin.commands) for (const c of cfg.onJoin.commands) { try { const cmdText = c.startsWith('/') ? c : `/${c}`; b.chat(cmdText); logChat(name, `Auto-cmd: ${cmdText}`) } catch {} }
       if (cfg.onJoin.chat) for (const msg of cfg.onJoin.chat) { try { b.chat(msg); logChat(name, `Auto-chat: ${msg}`) } catch {} }
     }
   })
@@ -151,7 +194,9 @@ function createBot(name, host, port) {
   })
 
   b.on('end', (reason) => {
-    cfg.connected = false; cfg.joined = false; cfg.bot = null
+    if (cfg.endHandled) return // 'end' can theoretically be followed by stray events; only tear down once
+    cfg.endHandled = true
+    cfg.connected = false; cfg.joined = false; cfg.connecting = false; cfg.bot = null
     if (cfg.autoJumpInterval) { clearInterval(cfg.autoJumpInterval); cfg.autoJumpInterval = null }
     if (cfg.playerTrackInterval) { clearInterval(cfg.playerTrackInterval); cfg.playerTrackInterval = null }
     stopAfk(name); logWarn(name, `Disconnected: ${reason}`)
@@ -165,12 +210,41 @@ function createBot(name, host, port) {
       if (idx > -1) serverCounts[srvKey].bots.splice(idx, 1)
       if (serverCounts[srvKey].count === 0) delete serverCounts[srvKey]
     }
+    // auto-reconnect: only if enabled, not manually disconnected/quitting, and bot still exists
+    if (cfg.autoReconnect && !cfg.manualDisconnect && !exitFlag && bots[name]) {
+      cfg.reconnectAttempts = (cfg.reconnectAttempts || 0) + 1
+      const maxAttempts = 8
+      if (cfg.reconnectAttempts > maxAttempts) {
+        logErr(name, `Auto-reconnect gave up after ${maxAttempts} attempts`)
+        return
+      }
+      const delayMs = Math.min(60000, 5000 * Math.pow(2, cfg.reconnectAttempts - 1))
+      logInfo(name, `Auto-reconnecting in ${Math.round(delayMs / 1000)}s (attempt ${cfg.reconnectAttempts}/${maxAttempts})...`)
+      setTimeout(() => {
+        const current = bots[name]
+        if (!current || current.connected || current.connecting || current.manualDisconnect || exitFlag) return
+        createBot(name, current.host, current.port)
+      }, delayMs)
+    }
   })
 
   b.on('error', (err) => {
-    if (bots[name]) cfg.error = err.message; logErr(name, err.message)
+    if (bots[name]) cfg.error = err.message
+    logErr(name, err.message)
     alertLog.push({ t: ts(), bot: name, type: 'error', message: err.message })
     if (alertLog.length > 500) alertLog.splice(0, alertLog.length - 500)
+    // Not every error path in minecraft-protocol guarantees a following 'end' event
+    // (e.g. some packet-parse errors just emit 'error' and the connection may or may
+    // not actually be dead). As a safety net, if we're still marked "connected" after
+    // a grace period with no 'end' firing, force the same cleanup 'end' would have done
+    // so state doesn't get stuck out of sync with reality.
+    setTimeout(() => {
+      if (cfg.endHandled || !bots[name] || bots[name] !== cfg) return
+      if (cfg.connected && !cfg.endHandled) {
+        logWarn(name, 'No clean disconnect after error - forcing cleanup')
+        try { b.end('errorTimeoutCleanup') } catch {}
+      }
+    }, 10000)
   })
   b.on('kicked', (reason) => {
     let msg
@@ -272,6 +346,8 @@ function createBot(name, host, port) {
 function disconnectBot(name) {
   const cfg = bots[name]
   if (!cfg) { logErr('', `No bot "${name}"`); return }
+  cfg.manualDisconnect = true
+  cfg.connecting = false
   stopAfk(name)
   if (cfg.autoJumpInterval) { clearInterval(cfg.autoJumpInterval); cfg.autoJumpInterval = null }
   if (cfg.bot) { try { cfg.bot.end() } catch {} }
@@ -430,7 +506,7 @@ function forTargets(name, fn) {
 }
 
 function setConfig(cfg, key, val) {
-  if (key === 'autoAfk' || key === 'autoJump' || key === 'autoShift' || key === 'autoEat') {
+  if (key === 'autoAfk' || key === 'autoJump' || key === 'autoShift' || key === 'autoEat' || key === 'autoReconnect') {
     cfg[key] = val === 'true' || val === 'on' || val === '1'
   } else if (key === 'resourcePack') {
     if (!['accept', 'deny'].includes(val)) { logErr('', 'Must be accept/deny'); return }
@@ -444,7 +520,7 @@ function setConfig(cfg, key, val) {
 
 function showConfig(cfg) {
   logRaw('', `${C.bold}${cfg.name}${C.reset} - ${cfg.host}:${cfg.port}  ${cfg.connected ? C.g + 'O' : C.r + 'o'}${C.reset}`)
-  logRaw('', `  autoAfk: ${cfg.autoAfk}  autoJump: ${cfg.autoJump}  autoShift: ${cfg.autoShift}  autoEat: ${cfg.autoEat}  respack: ${cfg.resourcePack}`)
+  logRaw('', `  autoAfk: ${cfg.autoAfk}  autoJump: ${cfg.autoJump}  autoShift: ${cfg.autoShift}  autoEat: ${cfg.autoEat}  autoReconnect: ${!!cfg.autoReconnect}  respack: ${cfg.resourcePack}`)
   logRaw('', `  onJoin: [${(cfg.onJoin?.commands || []).join(', ')}] [${(cfg.onJoin?.chat || []).join(', ')}]`)
 }
 
@@ -565,7 +641,7 @@ function execCmd(raw) {
     if (names.length === 0) { logInfo('', 'No bots configured'); return }
     for (const n of names) {
       const b = bots[n]
-      const status = b.connected ? `${C.g}●${C.reset}` : `${C.r}○${C.reset}`
+      const status = b.connected ? `${C.g}●${C.reset}` : (b.connecting ? `${C.y}◐${C.reset}` : `${C.r}○${C.reset}`)
       const hp = b.connected ? `${padAnsi(b.health ?? '-', 2)}/${padAnsi(b.food ?? '-', 2)}` : `${C.dim} -/- ${C.reset}`
       const toggles = []
       if (b.afkEnabled) toggles.push(`${C.g}A${C.reset}`)
@@ -674,7 +750,17 @@ function execCmd(raw) {
     if (targets.length === 0) return
     const names = targets.map(t => t.name)
     logInfo('', `Reconnecting ${names.length} bot(s) with 5s delay...`)
-    names.forEach((name, i) => setTimeout(() => createBot(name, bots[name].host, bots[name].port), i * 5000))
+    names.forEach((name, i) => setTimeout(() => {
+      const cfg = bots[name]
+      if (!cfg) return
+      const host = cfg.host, port = cfg.port
+      if (cfg.connected || cfg.connecting) disconnectBot(name)
+      // disconnectBot sets manualDisconnect=true; clear it since this is an intentional reconnect, not a stop
+      setTimeout(() => {
+        if (bots[name]) bots[name].manualDisconnect = false
+        createBot(name, host, port)
+      }, 300)
+    }, i * 5000))
     return
   }
 
@@ -1035,6 +1121,11 @@ function promptUpdate(currentVer, remoteVer) {
       `${C.c}Would you like us to automatically update to the latest version ${C.bold}${remoteVer}${C.reset}${C.c}?${C.reset}\n` +
       `${C.g}[Y]es${C.reset}  ${C.y}[N]o${C.reset}  ${C.dim}[Never] ask again${C.reset}\n> `, (answer) => {
       const a = answer.trim().toLowerCase()
+      if (a !== 'y' && a !== 'yes' && a !== 'n' && a !== 'no' && a !== 'never') {
+        logWarn('', 'Please answer Y, N, or Never.')
+        ask()
+        return
+      }
       rl.close()
       readline.emitKeypressEvents(process.stdin)
       if (process.stdin.isTTY) process.stdin.setRawMode(true)
@@ -1045,8 +1136,8 @@ function promptUpdate(currentVer, remoteVer) {
         appConfig.autoUpdate = false; scheduleSave()
         logInfo('', 'Auto-update disabled.'); redrawPrompt()
       } else {
-        logWarn('', 'Please answer Y, N, or Never.')
-        ask()
+        // n / no
+        logInfo('', 'Update skipped.'); redrawPrompt()
       }
     })
   }
@@ -1058,35 +1149,39 @@ function doUpdate(remoteVer) {
   let dlDone = false
 
   const startTime = Date.now()
-  const animFrames = ['|', '/', '-', '\\']
+  const MIN_DURATION = 1500 // floor so the bar doesn't just blip past on a fast connection
+  const spinnerFrames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+  const UPD_A = [255, 170, 0]   // amber
+  const UPD_B = [255, 90, 200]  // magenta
   let frame = 0
-  let lastProgress = 0
 
   function drawProgress(pct, status) {
-    const elapsed = Math.min(8000, Date.now() - startTime)
-    const overallPct = Math.min(100, Math.round((pct * 0.5 + (elapsed / 8000) * 0.5) * 100))
-    const w = 30
-    const filled = Math.round(w * overallPct / 100)
-    const bar = `${C.g}${'#'.repeat(filled)}${C.dim}${'.'.repeat(w - filled)}${C.reset}`
-    const spinner = animFrames[frame % animFrames.length]
-    const prefix = overallPct < 100 ? `${C.bold}${C.c}${spinner}${C.reset} ${C.bold}UPDATE${C.reset}` : `${C.g}${C.bold}OK${C.reset} ${C.bold}UPDATE${C.reset}`
-    process.stdout.write(`\r${prefix} ${bar} ${C.bold}${overallPct}%${C.reset} ${C.dim}${status || ''}${C.reset}\x1b[K`)
+    const elapsed = Math.min(MIN_DURATION, Date.now() - startTime)
+    const overallPct = Math.min(100, Math.round((pct * 0.6 + (elapsed / MIN_DURATION) * 0.4) * 100))
+    const bar = smoothBar(overallPct, 28, UPD_A, UPD_B)
+    const spin = overallPct >= 100 ? `${C.g}✓${C.reset}` : `${C.y}${spinnerFrames[frame % spinnerFrames.length]}${C.reset}`
+    const label = `${C.bold}${gradientText('UPDATE', UPD_A, UPD_B)}${C.reset}`
+    const pctStr = String(overallPct).padStart(3, ' ')
+    process.stdout.write(`\r  ${spin} ${label}  ${bar} ${C.dim}${pctStr}%${C.reset}  ${C.gry}${status || ''}${C.reset}\x1b[K`)
     if (overallPct < 100) frame++
   }
 
   const animInterval = setInterval(() => {
     const pct = dlDone ? 1 : (completed / total)
-    drawProgress(pct, dlDone ? 'Finishing...' : `Downloading (${completed}/${total})`)
-    if (dlDone && Date.now() - startTime >= 8000) {
+    drawProgress(pct, dlDone ? 'finishing up...' : `downloading (${completed}/${total})...`)
+    if (dlDone && Date.now() - startTime >= MIN_DURATION) {
       clearInterval(animInterval)
-      const color = hadError ? C.r : C.g
-      const icon = hadError ? 'x' : '+'
-      process.stdout.write(`\r${color}${C.bold}${icon}${C.reset} ${C.bold}UPDATE${C.reset} ${hadError ? `${C.r}completed with errors${C.reset}` : `${C.g}to v${remoteVer}${C.reset}`} ${C.dim}(8.0s)${C.reset}\x1b[K\n`)
-      if (hadError) { redrawPrompt(); return }
+      const elapsedSec = ((Date.now() - startTime) / 1000).toFixed(1)
+      if (hadError) {
+        process.stdout.write(`\r  ${C.r}${C.bold}✗ UPDATE${C.reset} ${C.r}failed${C.reset} ${C.dim}(${elapsedSec}s)${C.reset}\x1b[K\n`)
+        redrawPrompt()
+        return
+      }
+      process.stdout.write(`\r  ${C.g}${C.bold}✓ UPDATE${C.reset} ${gradientText(`v${remoteVer}`, UPD_A, UPD_B)} ${C.dim}(${elapsedSec}s)${C.reset}\x1b[K\n`)
       logInfo('', `${C.g}Updated to v${remoteVer}! Restarting...${C.reset}`)
-      setTimeout(() => process.exit(0), 1500)
+      setTimeout(() => process.exit(0), 1200)
     }
-  }, 80)
+  }, 60)
 
   function dl(url, dest) {
     https.get(url, (res) => {
@@ -1195,46 +1290,63 @@ function init() {
 }
 
 function showLogo() {
-  const logo = [
-    `${C.g}  ██▄  ▄██ ▄▄ ▄▄  ▄▄ ▄▄▄▄▄ ▄█████ ▄▄    ▄▄ ▄▄  ▄▄ ▄▄▄▄▄ ${C.reset}`,
-    `${C.c}  ██ ▀▀ ██ ██ ███▄██ ██▄▄  ██     ██    ██ ███▄██ ██▄▄  ${C.reset}`,
-    `${C.b}  ██    ██ ██ ██ ▀██ ██▄▄▄ ▀█████ ██▄▄▄ ██ ██ ▀██ ██▄▄▄ ${C.reset}`,
+  const logoLines = [
+    '  ██▄  ▄██ ▄▄ ▄▄  ▄▄ ▄▄▄▄▄ ▄█████ ▄▄    ▄▄ ▄▄  ▄▄ ▄▄▄▄▄ ',
+    '  ██ ▀▀ ██ ██ ███▄██ ██▄▄  ██     ██    ██ ███▄██ ██▄▄  ',
+    '  ██    ██ ██ ██ ▀██ ██▄▄▄ ▀█████ ██▄▄▄ ██ ██ ▀██ ██▄▄▄ ',
   ]
+  const GRAD_A = [0, 230, 150]   // mint
+  const GRAD_B = [40, 140, 255]  // azure
+  const logo = logoLines.map(l => gradientText(l, GRAD_A, GRAD_B))
 
-  const bar1 = '█' + '▓'.repeat(10) + '▒'.repeat(4) + '░'
-  const bar2 = '░' + '█' + '▓'.repeat(9) + '▒'.repeat(4)
-  const bar3 = '░' + '▒' + '█' + '▓'.repeat(8) + '▒'.repeat(3)
-  const bar4 = '░' + '▒'.repeat(3) + '▓'.repeat(8) + '█'
-  const bars = [bar1, bar2, bar3, bar4]
-  const msgs = ['  firing up mineflayer...', '  loading your bots...', '  almost there...', '  ready!']
+  const spinnerFrames = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+  const stages = [
+    { label: 'firing up mineflayer', upto: 30 },
+    { label: 'loading your bots', upto: 65 },
+    { label: 'wiring up listeners', upto: 90 },
+    { label: 'ready', upto: 100 },
+  ]
+  const TOTAL_TICKS = 56
+  const tickMs = 45
 
-  let step = 0, frame = 0
+  let tick = 0, revealed = 0
+  const startTime = Date.now()
+
   const loadInterval = setInterval(() => {
     process.stdout.write('\r\x1b[K')
-    if (step < logo.length) {
-      process.stdout.write(`${logo[step]}\n`)
-      step++
-    } else if (step < logo.length + 40) {
-      const idx = Math.min(step - logo.length, msgs.length - 1)
-      const bar = bars[Math.floor((frame / 6) % bars.length)]
-      const p = Math.min(Math.floor((step - logo.length) / 10) * 25, 100)
-      process.stdout.write(`\r${C.dim}  ${bar} ${p}%${C.reset} ${C.c}${msgs[idx]}${C.reset}`)
-      frame++
-      step++
+
+    // Reveal the logo line-by-line first, each line fading in.
+    if (revealed < logo.length) {
+      process.stdout.write(`${logo[revealed]}\n`)
+      revealed++
+      return
+    }
+
+    if (tick <= TOTAL_TICKS) {
+      const pct = Math.min(100, Math.round((tick / TOTAL_TICKS) * 100))
+      const stage = stages.find(s => pct <= s.upto) || stages[stages.length - 1]
+      const spin = pct >= 100 ? '✓' : spinnerFrames[tick % spinnerFrames.length]
+      const spinColor = pct >= 100 ? C.g : C.c
+      const bar = smoothBar(pct, 28, GRAD_A, GRAD_B)
+      const pctStr = String(pct).padStart(3, ' ')
+      process.stdout.write(`  ${spinColor}${spin}${C.reset} ${bar} ${C.dim}${pctStr}%${C.reset}  ${C.gry}${stage.label}...${C.reset}`)
+      tick++
     } else {
       clearInterval(loadInterval)
       process.stdout.write('\r\x1b[K')
       afterLoad()
     }
-  }, 80)
+  }, tickMs)
 
   function afterLoad() {
     const w = process.stdout.columns || 80
-    const title = `${C.bold} MineCline ${VERSION} ${C.reset}`
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(1)
+    const title = `${C.bold} MineCline ${VERSION} ${C.reset}${C.dim}(${elapsed}s)${C.reset}`
     const titleBare = stripAnsi(title)
     const dash = Math.max(0, w - titleBare.length - 2)
     const left = Math.floor(dash / 2); const right = dash - left
-    process.stdout.write(` ${'='.repeat(Math.max(0, left - 1))}${title}${'='.repeat(Math.max(0, right - 1))} \n`)
+    const lineColor = C.dim
+    process.stdout.write(`${lineColor} ${'─'.repeat(Math.max(0, left - 1))}${C.reset}${title}${lineColor}${'─'.repeat(Math.max(0, right - 1))} ${C.reset}\n`)
     logInfo('', `${C.dim}ready - type ${C.c}help${C.dim} for commands${C.reset}`)
 
     if (!appConfig.autoRegister) {
