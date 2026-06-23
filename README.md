@@ -1,27 +1,38 @@
-<p align="center">
-  <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node">
-  <img src="https://img.shields.io/badge/minecraft-1.21.5-4CAF50?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft">
-  <img src="https://img.shields.io/badge/license-Unlicense-blueviolet?style=for-the-badge" alt="License">
-</p>
+<div align="center">
 
-<h1 align="center">⛏️ MineCline</h1>
+```
+  ██▄  ▄██ ▄▄ ▄▄  ▄▄ ▄▄▄▄▄ ▄█████ ▄▄    ▄▄ ▄▄  ▄▄ ▄▄▄▄▄
+  ██ ▀▀ ██ ██ ███▄██ ██▄▄  ██     ██    ██ ███▄██ ██▄▄
+  ██    ██ ██ ██ ▀██ ██▄▄▄ ▀█████ ██▄▄▄ ██ ██ ▀██ ██▄▄▄
+```
 
-<p align="center">
-  <i>A multi-bot Minecraft AFK manager that lives in your terminal.</i><br>
-  <sub>Spin up a small army of mineflayer bots, drive them from one CLI, and never lose your spot on the server again.</sub>
-</p>
+**A multi-bot Minecraft AFK manager that lives in your terminal.**
 
-<p align="center">
-  <code>connect</code> · <code>afk</code> · <code>multi-bot</code> · <code>CLI</code> · <code>mineflayer</code> · <code>reconnect</code>
-</p>
+Spin up a small army of [mineflayer](https://github.com/PrismarineJS/mineflayer) bots, drive every one of them from a single CLI, and never lose your spot on the server again.
 
-<p align="center">
-  <a href="#-features">Features</a> ·
-  <a href="#-quick-start">Quick Start</a> ·
-  <a href="#-commands">Commands</a> ·
-  <a href="#%EF%B8%8F-config">Config</a> ·
-  <a href="#-dependencies">Dependencies</a>
-</p>
+<img src="https://img.shields.io/badge/node-%3E%3D18-2EB67D?style=flat-square&logo=node.js&logoColor=white&labelColor=1a1a1a" alt="Node">
+<img src="https://img.shields.io/badge/minecraft-1.21.5-2EB67D?style=flat-square&logo=minecraft&logoColor=white&labelColor=1a1a1a" alt="Minecraft">
+<img src="https://img.shields.io/badge/mineflayer-4.x-2EB67D?style=flat-square&labelColor=1a1a1a" alt="mineflayer">
+<img src="https://img.shields.io/badge/license-Unlicense-2EB67D?style=flat-square&labelColor=1a1a1a" alt="License">
+
+[Features](#-features) · [Quick Start](#-quick-start) · [Commands](#-commands) · [Config](#%EF%B8%8F-config) · [How it behaves](#-how-it-behaves)
+
+</div>
+
+<br>
+
+```text
+[0/3] global > connect Joel,Aria,Kit play.example.com
+10:31:59 PM [Joel] >> Connecting to play.example.com:25565...
+10:32:04 PM [Aria] >> Connecting to play.example.com:25565...
+10:32:09 PM [Kit]  >> Connecting to play.example.com:25565...
+10:32:11 PM [Joel] >> Spawned into world
+[3/3] global > afk
+10:32:14 PM [Joel] >> AFK started
+10:32:14 PM [Aria] >> AFK started
+10:32:14 PM [Kit]  >> AFK started
+[3/3] global >
+```
 
 <br>
 
@@ -29,13 +40,17 @@
 
 |  |  |
 |:---:|---|
-| ![multi](https://img.shields.io/badge/-MULTI--BOT-7B68EE?style=flat-square) | Run several bots at once — select one, several, or all at a time |
-| ![afk](https://img.shields.io/badge/-AFK%20MODE-3CB371?style=flat-square) | Random movement, looking, jumping, item-swinging — looks human-ish |
-| ![auto](https://img.shields.io/badge/-AUTO%20TOGGLES-FF8C00?style=flat-square) | Auto-jump, auto-shift (sneak), auto-eat when hungry |
-| ![onjoin](https://img.shields.io/badge/-ON--JOIN%20ACTIONS-4169E1?style=flat-square) | Auto-run commands and chat the moment a bot spawns |
-| ![reconnect](https://img.shields.io/badge/-RECONNECT-9370DB?style=flat-square) | Manual or fully automatic reconnect with backoff after a drop |
-| ![groups](https://img.shields.io/badge/-GROUPS%20%26%20SCRIPTS-20B2AA?style=flat-square) | Organize bots into groups, save commands, script multi-step sequences |
-| ![config](https://img.shields.io/badge/-CONFIG%20PERSISTENCE-708090?style=flat-square) | Everything — bots, groups, scripts, settings — saved to `config.json` |
+| 🤖 **Multi-bot control** | Run several bots at once. Target one with `select`, several with `control`, or everything with `global` |
+| 🚶 **AFK mode** | Randomized walking, looking, jumping, and item-swinging so a parked bot doesn't look frozen |
+| ⚙️ **Auto toggles** | Auto-jump, auto-shift (sneak), auto-eat when hunger drops, resource-pack auto-accept |
+| 🔁 **Reconnect, two ways** | Reconnect on demand with `reconnect`, or turn on `autoReconnect` per bot for automatic retries with backoff after a drop |
+| 🚪 **On-join actions** | Queue chat lines and `/commands` to fire the instant a bot spawns — useful for auto-`/login` flows, claiming a kit, etc. |
+| 🔑 **Auto-login** | Set one password with `mcpwd` and every bot will `/register` + `/login` itself on spawn |
+| 🗂️ **Groups, saved commands & scripts** | Organize bots into named groups, save commands you run often, or script multi-step sequences with delays between steps |
+| 💾 **Config persistence** | Bots, groups, scripts, and settings are all debounced-saved to `config.json` automatically |
+| 📜 **Persistent logs** | Every line that scrolls past is also mirrored to `MineCline.logs.txt`, stripped of color codes |
+| ⌨️ **A CLI that feels like a shell** | Tab-completion for commands, bot names, and subcommands, plus arrow-key command history |
+| 🔄 **Self-updating** | `update` checks the upstream repo for a newer version and offers to install it in place |
 
 <br>
 
@@ -48,13 +63,13 @@ npm install
 node minecline.js
 ```
 
-Then, from inside the CLI:
+First run asks for a Minecraft password (for auto `/register` + `/login`) — enter one or just hit enter to skip. Then, from inside the CLI:
 
 ```text
-connect ItzMeJoel play.example.com
+connect Joel play.example.com
 ```
 
-That's it — `ItzMeJoel` connects, and `help` lists everything else you can do from here.
+`Joel` connects, and `help` lists everything else you can do from here.
 
 <br>
 
@@ -66,7 +81,7 @@ That's it — `ItzMeJoel` connects, and `help` lists everything else you can do 
 |---|---|
 | `connect <name,names...> <host> [port]` | Connect bot(s) — 5s stagger between each |
 | `disconnect [name \| all]` | Disconnect one bot, or all of them |
-| `reconnect` | Reconnect the selected bot(s), 5s stagger |
+| `reconnect` | Disconnect and reconnect the selected bot(s), 5s stagger |
 
 ### Selection
 
@@ -75,7 +90,7 @@ That's it — `ItzMeJoel` connects, and `help` lists everything else you can do 
 | `select <name>` | Target a single bot |
 | `control <name1,name2 \| all>` | Multi-select bots |
 | `global` | Clear selection, target everything |
-| `bots` | List all bots with live status |
+| `bots` | List all bots with live status (●&nbsp;connected · ◐&nbsp;connecting · ○&nbsp;offline) |
 
 ### Toggles
 
@@ -126,6 +141,8 @@ That's it — `ItzMeJoel` connects, and `help` lists everything else you can do 
 | `save` | Force-save config to disk |
 | `quit` / `exit` | Disconnect everything and shut down |
 
+> **Tip:** press <kbd>Tab</kbd> to autocomplete commands, subcommands, and bot names, and <kbd>↑</kbd> / <kbd>↓</kbd> to walk back through command history.
+
 <br>
 
 ## ⚙️ Config
@@ -148,10 +165,20 @@ Everything is saved automatically to `config.json` next to the script. Per-bot k
 Change any of these live from the CLI instead of hand-editing the file:
 
 ```text
-config ItzMeJoel set autoEat true
-config ItzMeJoel set autoReconnect on
-config ItzMeJoel set host play.otherserver.com
+config Joel set autoEat true
+config Joel set autoReconnect on
+config Joel set host play.otherserver.com
 ```
+
+<br>
+
+## 🔍 How it behaves
+
+A few things worth knowing going in, since they're not obvious from the command list alone:
+
+- **`autoReconnect` only retries unexpected drops.** A manual `disconnect` or `quit` is never followed by an automatic reconnect. When it does retry, the delay backs off (5s → 10s → 20s …, capped at 60s) and gives up after 8 attempts.
+- **`mcpwd` stores the password in `config.json` in plain text.** It's read off disk on every spawn to send `/register` and `/login` automatically. Treat that file accordingly — don't commit it, and don't share it.
+- **`update` pulls and runs code from the upstream GitHub repo.** Running `update` (or having `autoUpdate` left on) replaces `minecline.js` on disk with whatever the configured repo currently serves, then restarts. A `.bak` of the previous version is kept alongside it. Know who controls that repo before pointing this at one you don't own.
 
 <br>
 
@@ -159,10 +186,12 @@ config ItzMeJoel set host play.otherserver.com
 
 - [mineflayer](https://github.com/PrismarineJS/mineflayer) — Minecraft bot library
 
+Everything else (`fs`, `path`, `readline`, `https`) is a Node.js built-in — no other runtime dependencies.
+
 <br>
 
 ---
 
-<p align="center">
-  <sub>Built with ☕ and <a href="https://github.com/PrismarineJS/mineflayer">mineflayer</a></sub>
-</p>
+<div align="center">
+<sub>Built with ☕ and <a href="https://github.com/PrismarineJS/mineflayer">mineflayer</a></sub>
+</div>
