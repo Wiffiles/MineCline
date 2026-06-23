@@ -1,54 +1,62 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/node-%3E%3D18-339933?logo=node.js&logoColor=white" alt="Node">
-  <img src="https://img.shields.io/badge/minecraft-1.20-4CAF50" alt="Minecraft">
-  <img src="https://img.shields.io/badge/license-ISC-blue" alt="License">
+  <img src="https://img.shields.io/badge/node-%3E%3D18-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node">
+  <img src="https://img.shields.io/badge/minecraft-1.21.5-4CAF50?style=for-the-badge&logo=minecraft&logoColor=white" alt="Minecraft">
+  <img src="https://img.shields.io/badge/license-Unlicense-blueviolet?style=for-the-badge" alt="License">
 </p>
 
-<h1 align="center">⛏ MineCline</h1>
+<h1 align="center">⛏️ MineCline</h1>
 
 <p align="center">
-  <i>Multi-bot Minecraft AFK manager — terminal-powered bot army</i>
+  <i>A multi-bot Minecraft AFK manager that lives in your terminal.</i><br>
+  <sub>Spin up a small army of mineflayer bots, drive them from one CLI, and never lose your spot on the server again.</sub>
 </p>
 
 <p align="center">
-  <code>connect</code> •
-  <code>afk</code> •
-  <code>afkbot</code> •
-  <code>CLI</code> •
-  <code>mineflayer</code> •
-  <code>reconnect</code>
+  <code>connect</code> · <code>afk</code> · <code>multi-bot</code> · <code>CLI</code> · <code>mineflayer</code> · <code>reconnect</code>
 </p>
 
----
+<p align="center">
+  <a href="#-features">Features</a> ·
+  <a href="#-quick-start">Quick Start</a> ·
+  <a href="#-commands">Commands</a> ·
+  <a href="#%EF%B8%8F-config">Config</a> ·
+  <a href="#-dependencies">Dependencies</a>
+</p>
+
+<br>
 
 ## ✨ Features
 
-| | |
-|---|---|
-| ![multi](https://img.shields.io/badge/-Multi--bot-7B68EE) | Run several bots at once, select individually or in groups |
-| ![afk](https://img.shields.io/badge/-AFK%20mode-3CB371) | Random movement, looking, jumping, item swinging — looks human-ish |
-| ![auto](https://img.shields.io/badge/-Auto%20toggles-FF8C00) | Auto-jump, auto-shift (sneak), auto-eat when hungry |
-| ![onjoin](https://img.shields.io/badge/-On--join%20actions-4169E1) | Auto-run commands and chat on spawn |
-| ![reconnect](https://img.shields.io/badge/-Reconnect-9370DB) | Reconnect all saved bots with staggered delay |
-| ![config](https://img.shields.io/badge/-Config%20persistence-708090) | Everything saved to `config.json` |
+|  |  |
+|:---:|---|
+| ![multi](https://img.shields.io/badge/-MULTI--BOT-7B68EE?style=flat-square) | Run several bots at once — select one, several, or all at a time |
+| ![afk](https://img.shields.io/badge/-AFK%20MODE-3CB371?style=flat-square) | Random movement, looking, jumping, item-swinging — looks human-ish |
+| ![auto](https://img.shields.io/badge/-AUTO%20TOGGLES-FF8C00?style=flat-square) | Auto-jump, auto-shift (sneak), auto-eat when hungry |
+| ![onjoin](https://img.shields.io/badge/-ON--JOIN%20ACTIONS-4169E1?style=flat-square) | Auto-run commands and chat the moment a bot spawns |
+| ![reconnect](https://img.shields.io/badge/-RECONNECT-9370DB?style=flat-square) | Manual or fully automatic reconnect with backoff after a drop |
+| ![groups](https://img.shields.io/badge/-GROUPS%20%26%20SCRIPTS-20B2AA?style=flat-square) | Organize bots into groups, save commands, script multi-step sequences |
+| ![config](https://img.shields.io/badge/-CONFIG%20PERSISTENCE-708090?style=flat-square) | Everything — bots, groups, scripts, settings — saved to `config.json` |
 
----
+<br>
 
 ## 🚀 Quick Start
 
 ```bash
 git clone https://github.com/Wiffiles/MineCline
-
 cd MineCline
-
 npm install
+node minecline.js
+```
 
-npm start
+Then, from inside the CLI:
 
+```text
 connect ItzMeJoel play.example.com
 ```
 
----
+That's it — `ItzMeJoel` connects, and `help` lists everything else you can do from here.
+
+<br>
 
 ## 📖 Commands
 
@@ -56,62 +64,73 @@ connect ItzMeJoel play.example.com
 
 | Command | Does |
 |---|---|
-| `connect <name,names...> <host> [port]` | Connect bot(s) — 8s stagger between each |
-| `disconnect [name \| all]` | Bye bye |
-| `reconnect` | Reconnect every saved bot |
+| `connect <name,names...> <host> [port]` | Connect bot(s) — 5s stagger between each |
+| `disconnect [name \| all]` | Disconnect one bot, or all of them |
+| `reconnect` | Reconnect the selected bot(s), 5s stagger |
 
 ### Selection
 
 | Command | Does |
 |---|---|
 | `select <name>` | Target a single bot |
-| `control <name1,name2 \| all>` | Multi-select |
-| `global` | Clear selection |
-| `bots` | List all bots with status |
+| `control <name1,name2 \| all>` | Multi-select bots |
+| `global` | Clear selection, target everything |
+| `bots` | List all bots with live status |
 
 ### Toggles
 
 | Command | Does |
 |---|---|
-| `afk` | Toggle AFK mode |
-| `jump` | Toggle auto-jump |
-| `shift` | Toggle auto-shift (sneak) |
-| `eat` | Toggle auto-eat |
-| `respack` | Switch resource pack accept/deny |
+| `afk [name]` | Toggle AFK mode |
+| `jump [name]` | Toggle auto-jump |
+| `shift [name]` | Toggle auto-shift (sneak) |
+| `eat [name]` | Toggle auto-eat |
+| `respack [name]` | Switch resource pack accept/deny |
 
 ### Actions
 
 | Command | Does |
 |---|---|
-| `chat <text>` | Send a message |
+| `chat` / `msg <text>` | Send a chat message |
 | `/<command>` | Run a server command |
-| `inv [name]` | Show inventory |
+| `inv [name]` | Show inventory, held item, and armor |
+| `players [name]` | List players a bot has seen online |
 
 ### Config
 
 | Command | Does |
 |---|---|
 | `config [name]` | View config |
-| `config set <key> <val>` | Change a setting |
+| `config set <key> <val>` | Change a setting on the current selection |
 | `config <name> set <key> <val>` | Change a specific bot's setting |
-| `onjoin <name> add command\|chat <text>` | Add spawn action |
-| `onjoin <name> list` | List spawn actions |
+| `onjoin <name> add command\|chat <text>` | Add a spawn action |
+| `onjoin <name> list` | List a bot's spawn actions |
 | `onjoin <name> remove <idx>` | Remove a spawn action |
+| `mcpwd [password]` | View or set the auto `/register` + `/login` password |
+
+### Organization
+
+| Command | Does |
+|---|---|
+| `group list \| create \| delete \| rename \| add \| remove` | Manage bot groups |
+| `savecmd list \| add \| remove \| run` | Save and re-run frequent commands |
+| `script list \| create \| delete \| addstep \| run` | Multi-step scripts with delays |
 
 ### Utility
 
 | Command | Does |
 |---|---|
-| `help` | Show this |
-| `clear` | Clear the log |
-| `save` | Force save config |
-| `quit` / `exit` | Shut down |
+| `update` | Check for and install updates |
+| `help [command]` | Show command list, or details for one command |
+| `clear` | Clear the on-screen log |
+| `save` | Force-save config to disk |
+| `quit` / `exit` | Disconnect everything and shut down |
 
----
+<br>
 
-## ⚙ Config
+## ⚙️ Config
 
-Saved automatically to `config.json`. Editable keys:
+Everything is saved automatically to `config.json` next to the script. Per-bot keys:
 
 ```json
 {
@@ -121,26 +140,29 @@ Saved automatically to `config.json`. Editable keys:
   "autoJump": false,
   "autoShift": false,
   "autoEat": false,
+  "autoReconnect": false,
   "resourcePack": "accept"
 }
 ```
 
-Set via the CLI:
+Change any of these live from the CLI instead of hand-editing the file:
 
-```bash
+```text
 config ItzMeJoel set autoEat true
+config ItzMeJoel set autoReconnect on
 config ItzMeJoel set host play.otherserver.com
 ```
 
----
+<br>
 
 ## 📦 Dependencies
 
 - [mineflayer](https://github.com/PrismarineJS/mineflayer) — Minecraft bot library
-- [mineflayer-pathfinder](https://github.com/PrismarineJS/mineflayer-pathfinder) — Pathfinding
+
+<br>
 
 ---
 
 <p align="center">
-  <sub>Built with ☕ and mineflayer</sub>
+  <sub>Built with ☕ and <a href="https://github.com/PrismarineJS/mineflayer">mineflayer</a></sub>
 </p>
